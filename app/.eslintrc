@@ -1,0 +1,7 @@
+{
+  "extends": "eslint-config-umi",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  }
+}
