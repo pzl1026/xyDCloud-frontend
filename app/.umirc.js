@@ -45,6 +45,7 @@ export default {
       },
     }],
   ],
+  "sass": {},
   "hash": true,
   "disableCSSModules": true,
 }
