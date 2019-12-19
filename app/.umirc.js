@@ -18,6 +18,9 @@ export default {
               }, {
                   path: '/login',
                   component: '../pages/login'
+              }, {
+                  path: '/cloud',
+                  component: '../pages/cloud'
               }
           ]
       }
@@ -43,4 +46,5 @@ export default {
     }],
   ],
   "hash": true,
+  "disableCSSModules": true,
 }

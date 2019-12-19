@@ -15,24 +15,24 @@ class PhoneLoginContainer extends PureComponent {
 	render() {
 		return (
 			<Fragment>
-                <div className={styles.logininputbody}>
-                    <div className={styles.logininput}>
-                        <span className={styles.logininputlabel}>手机号：</span>
-                        <input type="text" className={styles.logininputtext}/>
+                <div className="login-input-body">
+                    <div className="login-input">
+                        <span className="login-input-label">手机号：</span>
+                        <input type="text" className="login-input-text"/>
                     </div>
                 </div>
-                <div className={styles.logininputbody}>
-                    <div className={styles.logininput} style={{width:'230px'}}>
-                        <span className={styles.logininputlabel}>验证码：</span>
-                        <input type="" className={styles.logininputtext}/>
+                <div className="login-input-body">
+                    <div className="login-input" style={{width:'230px'}}>
+                        <span className="login-input-label">验证码：</span>
+                        <input type="" className="login-input-text"/>
                     </div>
-                    <button className={styles.loginsendcode} >发送验证码</button>
+                    <button className="login-send-code" >发送验证码</button>
                 </div>
-                <button className={styles.loginsubmit}>绑定手机</button>
+                <button className="login-submit">绑定手机</button>
                 
-                <div className={styles.logintip}>
+                <div className="login-tip">
                     <span></span>
-                    <span className={styles.logintiptext}>我已阅读并同意《新阅用户使用手册》</span>
+                    <span className="login-tip-text">我已阅读并同意《新阅用户使用手册》</span>
                 </div>
 			</Fragment>
 		);

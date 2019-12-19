@@ -15,10 +15,10 @@ class WxLoginContainer extends PureComponent {
 	render() {
 		return (
 			<Fragment>
-                <div className={styles.logincode}>
+                <div className="login-code">
                     <img src="" alt=""/>
                 </div>
-                <button className={styles.loginsubmit}>返回</button>
+                <button className="login-submit">返回</button>
             
 			</Fragment>
 		);

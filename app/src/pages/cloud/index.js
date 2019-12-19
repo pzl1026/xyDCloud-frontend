@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import withRouter from 'umi/withRouter';
-import PhoneLogin from './components/PhoneLogin';
-import WxLogin from './components/WxLogin';
 import styles from './index.scss';
 
 function mapStateToProps(state) {
@@ -20,15 +18,8 @@ class UserContainer extends PureComponent {
 
 	render() {
 		return (
-			<div className="login">
-                <div className="login-left">
-                    XINYUE新阅
-                </div> 
-                <div className="login-right">
-                    <span className="login-title">绑定手机</span>
-                    {/* <PhoneLogin /> */}
-                    <WxLogin />
-                </div>
+			<div className={styles.login}>
+            999
 			</div>
 		);
 

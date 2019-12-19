@@ -1,4 +1,4 @@
-.logininput {
+.login-input {
     display: flex;
     padding: 0 20px;
     width: 370px;
@@ -8,14 +8,14 @@
     box-sizing: border-box;
 }
 
-.logininputbody{
+.login-input-body{
     display: flex;
     width: 370px;
     height: 56px;
     margin-top: 37px;
 }
 
-.logininputtext {
+.login-input-text {
     height: 100%;
     border-width: 0;
     outline: none;
@@ -23,14 +23,14 @@
     background: transparent;
     color:rgba(255,255,255,1);
 }
-.logininputlabel {
+.login-input-label {
     display: flex;
     align-items: center;
     font-size:14px;
     line-height: 20px;
     color:rgba(255,255,255,1);
 }
-.loginsendcode{
+.login-send-code{
     flex: 1;
     margin-left: 19px;
     height:56px;
@@ -42,7 +42,7 @@
     color:rgba(255,255,255,1);
 }
 
-.loginsubmit {
+.login-submit {
     width: 370px;
     height:55px;
     background:rgba(64,81,249,1);
@@ -55,11 +55,11 @@
     font-size:16px;
 }
 
-.logintip{
+.login-tip{
     margin-top: 20px;
 }
 
-.logintiptext{
+.login-tip-text{
     color:rgba(255,255,255,1);
     font-size:14px;
 }

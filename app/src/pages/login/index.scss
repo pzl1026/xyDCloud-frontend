@@ -3,7 +3,7 @@
     height: 100vh;
 }
 
-.loginleft{
+.login-left{
     display: flex;
     width: 430px;
     background-color: #4051F9;
@@ -18,7 +18,7 @@
     letter-spacing:1px;
 }
 
-.loginright{
+.login-right{
     display: flex;
     flex-direction:column;
     flex: 1;
@@ -28,7 +28,7 @@
     align-items: center;
 }
 
-.logintitle {
+.login-title {
     font-size:36px;
     font-family:PingFangSC-Medium,PingFang SC;
     font-weight:500;
