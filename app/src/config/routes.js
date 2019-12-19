@@ -1,4 +1,4 @@
-export default [
+const routes = [
     {
         path : '/',
         component : '../layouts/index',
@@ -10,9 +10,10 @@ export default [
                 path: '/a',
                 component: '../pages/a'
             }, {
-                path: '/user',
-                component: '../pages/user/index'
+                path: '/login',
+                component: '../pages/login/index'
             }
         ]
     }
 ];
+export default routes;

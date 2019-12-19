@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import styles from './index.css';
 import { connect } from 'dva';
 import withRouter from 'umi/withRouter';
@@ -12,19 +12,19 @@ function mapStateToProps(state) {
 @withRouter
 @connect(mapStateToProps)
 class BasicLayout extends PureComponent {
-  componentDidMount () {
-      console.log(this.props)
-  }
+    render () {
+        const {history} = this.props;
 
-  render () {
-    return (
-      <div className={styles.normal}>
-        <h1 className={styles.title}>Yay! Welcome to umi!222</h1>
-        {this.props.children}
-      </div>
-    );
-  }
- 
+        return (
+            <Fragment>
+                {history.location.pathname !== '/login' ? 
+                <div className={styles.normal}>
+                {this.props.children}
+                </div> : 
+                <>{this.props.children}</>}
+            </Fragment>
+        );
+    }
 }
 
 export default BasicLayout;

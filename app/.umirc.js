@@ -1,10 +1,27 @@
 
 // ref: https://umijs.org/config/
-import routes from './src/config/routes';
+// import routes from './src/config/routes';
 
 export default {
   treeShaking: true,
-  routes,
+  routes:[
+      {
+          path : '/',
+          component : '../layouts/index',
+          routes : [
+              {
+                  path: '/',
+                  component: '../pages/index'
+              }, {
+                  path: '/a',
+                  component: '../pages/a'
+              }, {
+                  path: '/login',
+                  component: '../pages/login'
+              }
+          ]
+      }
+  ],
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {

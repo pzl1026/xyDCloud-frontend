@@ -1,0 +1,65 @@
+.logininput {
+    display: flex;
+    padding: 0 20px;
+    width: 370px;
+    height: 56px;
+    background:rgba(26,32,46,1);
+    border-radius:6px;
+    box-sizing: border-box;
+}
+
+.logininputbody{
+    display: flex;
+    width: 370px;
+    height: 56px;
+    margin-top: 37px;
+}
+
+.logininputtext {
+    height: 100%;
+    border-width: 0;
+    outline: none;
+    flex: 1;
+    background: transparent;
+    color:rgba(255,255,255,1);
+}
+.logininputlabel {
+    display: flex;
+    align-items: center;
+    font-size:14px;
+    line-height: 20px;
+    color:rgba(255,255,255,1);
+}
+.loginsendcode{
+    flex: 1;
+    margin-left: 19px;
+    height:56px;
+    background:rgba(26,32,46,1);
+    border-radius:6px;
+    border-width: 0;
+    outline: none;
+    cursor: pointer;
+    color:rgba(255,255,255,1);
+}
+
+.loginsubmit {
+    width: 370px;
+    height:55px;
+    background:rgba(64,81,249,1);
+    border-radius:28px;
+    border-width: 0;
+    margin-top: 96px;
+    outline: none;
+    cursor: pointer;
+    color: #fff;
+    font-size:16px;
+}
+
+.logintip{
+    margin-top: 20px;
+}
+
+.logintiptext{
+    color:rgba(255,255,255,1);
+    font-size:14px;
+}
