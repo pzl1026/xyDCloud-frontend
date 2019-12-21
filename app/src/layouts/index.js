@@ -25,7 +25,7 @@ class BasicLayout extends PureComponent {
                                 <div className="side-title">
                                     XINYUE 新阅
                                 </div>
-                                <ul class="side-menu">
+                                <ul className="side-menu">
                                     <li className="active">
                                         <img src="" alt=""/>
                                         <span>云端下载</span>

@@ -1,6 +1,7 @@
 
 // ref: https://umijs.org/config/
 // import routes from './src/config/routes';
+var path = require('path');
 
 export default {
   treeShaking: true,
@@ -21,6 +22,15 @@ export default {
               }, {
                   path: '/cloud',
                   component: '../pages/cloud'
+              }, {
+                path: '/cloudrecord',
+                component: '../pages/cloudRecord'
+              }, {
+                path: '/cloudcreate',
+                component: '../pages/cloudCreate'
+              }, {
+                path: '/usersetting',
+                component: '../pages/usersetting'
               }
           ]
       }
@@ -46,6 +56,19 @@ export default {
     }],
   ],
   "sass": {},
+  "alias": {
+    '@component': path.resolve(__dirname, 'src/components/'),
+    '@CPC': path.resolve(__dirname, 'src/components/pageComponents/'),
+    '@CC':  path.resolve(__dirname, 'src/components/common/'),
+    '@CCP':  path.resolve(__dirname, 'src/components/commonPannel/'),
+    '@assets': path.resolve(__dirname, 'src/assets/'),
+    '@utils': path.resolve(__dirname, 'src/utils/'),
+    '@services': path.resolve(__dirname, 'src/services/'),
+    '@layouts': path.resolve(__dirname, 'src/layouts/'),
+    '@config': path.resolve(__dirname, 'src/config/'),
+    '@APP_NODE': path.resolve(__dirname, 'src/application/node/'),
+    '@APP_BRO': path.resolve(__dirname, 'src/application/browser/')
+},
   "hash": true,
   "disableCSSModules": true,
 }

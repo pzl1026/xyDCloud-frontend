@@ -1,0 +1,45 @@
+.user-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+
+    .user-info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img{
+            display: inline-block;
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background-color: #fff;
+            margin-bottom: 16px;
+        }
+
+        span{
+            color: #fff;
+        }
+    }
+
+    .xy-info{
+        margin-top: 46px;
+        
+        div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center ;
+            background-color: #1A202E;
+            width: 370px;
+            height: 56px;
+            border-radius: 6px;
+            padding:0 20px;
+            box-sizing: border-box;
+            color: #fff;
+            margin-bottom: 35px;
+        }
+    }
+
+}

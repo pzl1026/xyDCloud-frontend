@@ -107,7 +107,7 @@
 
         span{
             color:rgba(255,255,255,0.6);
-            line-height:22px;
+            line-height:30px;
         }
     }
 }
@@ -124,5 +124,34 @@
     &:hover{
         background:rgb(97, 18, 194);
     }
+}
+
+.page-container{
+    margin-top: 52px;
+}
+
+
+.ant-select-dropdown{
+    background-color: #1F283D!important;
+    
+    li{
+        color: #fff;
+
+        &:hover{
+            background-color: #4051F9!important;
+        }
+    }
+
+    .ant-select-dropdown-menu-item-selected{
+        background-color: #4051F9!important;
+    }
+}
+
+.ant-select-selection--single{
+    height:46px!important;
+}
+
+.ant-select-selection__rendered{
+    line-height:44px!important;
 }
 

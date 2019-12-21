@@ -1,0 +1,24 @@
+.project-select{
+    .ant-select-selection{
+        background-color: #1F283D;
+        color: #fff;
+        border: 1px solid #1F283D;
+    }
+}
+
+.folder-select{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1F283D;
+    height: 46px;
+    padding: 0 11px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    cursor: pointer;
+
+    span{
+        color: #fff;
+    }
+}
+
