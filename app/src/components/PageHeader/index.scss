@@ -1,6 +1,7 @@
 .page-header-right{
     display: flex;
     justify-content: flex-end;
+    color: #fff;
 }
 
 .page-header-left{
@@ -9,4 +10,5 @@
     justify-content: flex-start;
     cursor: pointer;
     color: #fff;
+    height: 40px;
 }

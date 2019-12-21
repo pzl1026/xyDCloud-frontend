@@ -7,11 +7,16 @@ export default function(props) {
             <Col span={4}>
                 <div className="page-header-left">
                     <span><Icon type="left" /> &nbsp;&nbsp;{props.backTitle}</span>
+                    {props.leftChildren}
                 </div>
             </Col>
             <Col span={12}>
+               
                 <div className="page-header-right">
-                    <button className="btn1">立即创建</button>
+                    {props.rightChildren}
+                    {props.isStr ?
+                    <span>{props.rightText}</span> :
+                    <button className="btn1">{props.rightText}</button>}  
                 </div>
             </Col>
         </Row>

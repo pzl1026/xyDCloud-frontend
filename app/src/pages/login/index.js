@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import withRouter from 'umi/withRouter';
 import PhoneLogin from './components/PhoneLogin';
 import WxLogin from './components/WxLogin';
-import styles from './index.scss';
+import './index.scss';
 
 function mapStateToProps(state) {
   return {

@@ -1,17 +1,11 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import { Row, Col, Dropdown, Menu, Icon } from 'antd';
+import {Row, Col, Menu, Dropdown, Icon} from 'antd';
 import DownloadHeader from '@component/DownloadHeader';
 import './index.scss';
 
-function mapStateToProps (state) {
-  return {
-    ...state.user
-  };
-}
-
-const header = ['项目名称', '本地目录', '任务状态', '操作'];
+const header = ['设备名称', '本地名称', '状态', '操作'];
 
 const menu = (
     <Menu>
@@ -24,23 +18,23 @@ const menu = (
         <Menu.Item key="1">
             <div className="dl-li-action-menu">
                 <img src="" alt=""/>
-                <span>打开云端网页</span>
+                <span>编辑导入目录</span>
             </div>
         </Menu.Item>
         <Menu.Item key="2">
             <div className="dl-li-action-menu">
                 <img src="" alt=""/>
-                <span>编辑下载任务</span>
-            </div>
-        </Menu.Item>
-        <Menu.Item key="3">
-            <div className="dl-li-action-menu">
-                <img src="" alt=""/>
-                <span>删除下载任务</span>
+                <span>断开设备链接</span>
             </div>
         </Menu.Item>
     </Menu>
 );
+
+function mapStateToProps(state) {
+    return {
+        ...state.user
+    };
+}
 
 function DownlistLi (props) {
     return (
@@ -77,23 +71,27 @@ function DownlistEmpty (props) {
 
 @withRouter
 @connect(mapStateToProps)
-class CloudContainer extends PureComponent {
-  componentDidMount() {
-    console.log(this.props)
-  }
+class CloudCreateContainer extends PureComponent {
+    componentDidMount() {
+        console.log(this.props)
+    }
 
-  render() {
-    return (
-      <Fragment>
-        <button className="btn1">创建下载任务</button>
-        <div className="download-list">
-            <DownloadHeader header={header}></DownloadHeader>
-            <DownlistLi></DownlistLi>
-            <DownlistEmpty></DownlistEmpty>
-        </div>
-      </Fragment>
-    );
-  }
+    handleChange () {
+
+    }
+
+    render() {
+        return (
+            <Fragment>
+                <button className="btn1">添加设备</button>
+                <div className="download-list">
+                    <DownloadHeader header={header}></DownloadHeader>
+                    <DownlistLi></DownlistLi>
+                    <DownlistEmpty></DownlistEmpty>
+                </div>
+            </Fragment>
+        );
+    }
 }
 
-export default CloudContainer;
+export default CloudCreateContainer;

@@ -31,6 +31,15 @@ export default {
               }, {
                 path: '/usersetting',
                 component: '../pages/usersetting'
+              }, {
+                path: '/device',
+                component: '../pages/device'
+              }, {
+                path: '/videoimport',
+                component: '../pages/videoImport'
+              }, {
+                path: '/deviceadd',
+                component: '../pages/deviceAdd'
               }
           ]
       }
