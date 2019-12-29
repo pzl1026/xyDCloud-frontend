@@ -1,3 +1,5 @@
 export default {
-    XY_API: ''
+    XY_API: 'http://wenda.zzcweb.com/api/v1',
+    // XY_API: 'http://uxinyue.com:81'
+    APP_SERECT: '5906fe405553af10'
 };

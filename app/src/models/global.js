@@ -2,7 +2,7 @@ import {post, handleData, get, getTokenLocalstorage} from '@helper/utils';
 import {message} from 'antd';
 
 export default {
-	namespace: 'user',
+	namespace: 'global',
 	state: {
 		xcxShow: false,
 		prModalShow: false,
@@ -26,8 +26,7 @@ export default {
 			const json = yield call(post, '/account/signin', {...param});
 			
 			handleData(json).then((data) => {
-				message.success('登录成功');
-				console.log(data, 'data')
+
 			})
 		},
 
@@ -36,12 +35,10 @@ export default {
 			
 			handleData(json).then((data) => {
 				message.success(data.msg);
+			}, (data) => {
+
 			});
 		},
 	},
-	subscriptions: {
-		setup({ dispatch, history } ) {	
-			
-		}
-	},
+	subscriptions: {},
 };

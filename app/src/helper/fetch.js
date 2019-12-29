@@ -1,5 +1,8 @@
 import fetch from 'dva/fetch';
 
+// const fetch = require("dva").fetch;
+
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -18,9 +21,8 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default async function request(url, options) {
-  const opt = Object.assign({}, options, {credentials : 'include'});
+  const opt = Object.assign({}, options);
   const response = await fetch(url, opt);
- 
   checkStatus(response);
 
   const data = await response.json();

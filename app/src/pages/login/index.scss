@@ -36,5 +36,13 @@
     line-height:50px;
     margin-bottom: 22px;
 }
+input{
+    caret-color: #fff;
+}
+input:-internal-autofill-previewed,
+input:-internal-autofill-selected {
+    -webkit-text-fill-color: #fff;
+    transition: background-color 5000s ease-out 0.5s;
+}
   
   

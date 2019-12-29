@@ -1,8 +1,12 @@
+import {message} from 'antd';
+import md5 from 'js-md5';
 /**
  * Created by bll on 2017/11/13.
  */
 import request from './fetch';
-import { XY_API } from '../config/fetch';
+import fetchConfig from '../config/fetch';
+
+const XY_API = fetchConfig.XY_API;
 
 /**
  * 请求数据序列化
@@ -15,6 +19,46 @@ export function serialize(values){
     serializeStr += `${k}=${values[k]}&`;
   }
   return  serializeStr;
+}
+
+/**
+ * 封装参数
+ * @param {*} data 
+ */
+export function queryData2Md5(params, fields2Md5) {
+  const timestamp = (new Date()).valueOf();
+  let appSerectToken = md5(fetchConfig.APP_SERECT + timestamp);
+  let verify = appSerectToken;
+  
+  for (let k in params) {
+    if (!fields2Md5) {
+      verify += params[k];
+    } else  if (fields2Md5.includes(k)) {
+      verify += params[k];
+    }
+  }
+  console.log(verify, 'verify')
+  return Object.assign({}, params, {
+    timestamp,
+    verify: md5(verify)
+  });
+}
+
+
+/**
+ * 处理请求成功后的数据
+ * @param {*} name 
+ */
+export function handleData (data) {
+  return new Promise((resolve, reject) => {
+    console.log(data, 'ppp')
+    if (data.data.status === 1) {
+      resolve(data.data);
+    } else {
+      message.error(data.data.msg);
+      reject(data.data);
+    }
+  })
 }
 
 /**
@@ -48,10 +92,15 @@ export function getQuery2(name) {
  * @param {object} [values]   请求参数
  */
 export function post(url, values) {
+  const timestamp = values.timestamp;
+  const md5Ts = md5(fetchConfig.APP_SERECT + timestamp);
+  delete values.timestamp;
   return request(`${XY_API}${url}`, {
     method: 'POST',
     headers:{
-      'Content-Type':'application/x-www-form-urlencoded'
+      'Content-Type':'application/x-www-form-urlencoded',
+      'appSerectToken': md5Ts,
+      'timestamp': timestamp,
     },
     body: serialize(values)
   });
@@ -337,5 +386,13 @@ export function sortBy(name,minor){
 //判断是否为IE
 export function isIE() {
 	return (!!window.ActiveXObject || "ActiveXObject" in window) ? true : false;
+}
+
+
+/**
+ * 发送验证码方法
+ */
+export function sendSMS () {
+
 }
 

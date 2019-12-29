@@ -71,7 +71,7 @@ export default {
     '@CC':  path.resolve(__dirname, 'src/components/common/'),
     '@CCP':  path.resolve(__dirname, 'src/components/commonPannel/'),
     '@assets': path.resolve(__dirname, 'src/assets/'),
-    '@utils': path.resolve(__dirname, 'src/utils/'),
+    '@helper': path.resolve(__dirname, 'src/helper/'),
     '@services': path.resolve(__dirname, 'src/services/'),
     '@layouts': path.resolve(__dirname, 'src/layouts/'),
     '@config': path.resolve(__dirname, 'src/config/'),
