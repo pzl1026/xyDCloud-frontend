@@ -1,6 +1,6 @@
-import fetch from 'dva/fetch';
+// import fetch from 'dva/fetch';
 
-// const fetch = require("dva").fetch;
+const fetch = require("dva").fetch;
 
 
 function checkStatus(response) {
