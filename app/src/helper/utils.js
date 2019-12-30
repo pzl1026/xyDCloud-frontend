@@ -25,7 +25,7 @@ export function serialize(values){
  * 封装参数
  * @param {*} data 
  */
-export function queryData2Md5(params, fields2Md5) {
+export function queryData2Md5(params, fields2Md5, deleteVerify) {
   const timestamp = (new Date()).valueOf();
   let appSerectToken = md5(fetchConfig.APP_SERECT + timestamp);
   let verify = appSerectToken;
@@ -38,10 +38,15 @@ export function queryData2Md5(params, fields2Md5) {
     }
   }
   console.log(verify, 'verify')
-  return Object.assign({}, params, {
+  let o = {
     timestamp,
     verify: md5(verify)
-  });
+  };
+
+  if (deleteVerify) {
+    delete o.verify;
+  }
+  return Object.assign({}, params, o);
 }
 
 
@@ -51,7 +56,6 @@ export function queryData2Md5(params, fields2Md5) {
  */
 export function handleData (data) {
   return new Promise((resolve, reject) => {
-    console.log(data, 'ppp')
     if (data.data.status === 1) {
       resolve(data.data);
     } else {

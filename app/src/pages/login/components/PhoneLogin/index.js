@@ -31,7 +31,6 @@ class PhoneLoginContainer extends PureComponent {
     }
 
     componentDidMount() {
-        console.log(this.loginForm, 'this.loginForm')
     }
 
     setSendBtn () {
@@ -57,7 +56,6 @@ class PhoneLoginContainer extends PureComponent {
     sendCode = () => {
         if (this.sendDisable) return;
         new Promise ((resolve, reject) => {
-            console.log(this.state.phone, 'this.state.phones')
             if (EXP_PHONE.test(this.state.phone)) {
                 resolve();
             } else {
@@ -79,6 +77,10 @@ class PhoneLoginContainer extends PureComponent {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        if (!EXP_PHONE.test(this.state.phone)) {
+            message.warning('手机号码格式不正确');
+            return;
+        }
         let params = {
             phone: this.state.phone,
             sms_code: this.state.sms_code

@@ -1,9 +1,13 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
+// import { routerRedux } from 'dva/router';
+// import {ipcRenderer} from 'electron';
 import PhoneLogin from './components/PhoneLogin';
 import WxLogin from './components/WxLogin';
 import './index.scss';
+
+
 
 function mapStateToProps(state) {
     return {
@@ -19,7 +23,15 @@ class UserContainer extends PureComponent {
     }
 
     componentDidMount() {
-        console.log(this.props)
+        // this.props.dispatch(routerRedux.push({     pathname: '/file',     query:
+        // window.urlQuery }));
+        // const { ipcRenderer } = window.require('electron')
+        // // console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+
+        // ipcRenderer.on('asynchronous-reply', (event, arg) => {
+        //     console.log(arg) // prints "pong"
+        // })
+        // ipcRenderer.send('asynchronous-message', 'ping')
     }
 
     render() {
