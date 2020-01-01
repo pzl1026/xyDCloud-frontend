@@ -59,8 +59,6 @@ export async function getProjectsVideos (loginId, handleProjects, handleProjects
         loginId,
         videos
     });
-    
-    console.log(videos, 'vvideos')
 }
 
 export function loopFetchProjects (handleProjects, handleProjectsVideos) {
@@ -80,11 +78,10 @@ export function loopFetchProjects (handleProjects, handleProjectsVideos) {
 // 获取项目后，进行本地存储
 export function saveProjects (dispatch, projects) {
     let userInfo = JSON.parse(localStorage.getItem(STORE_FIELD));
-
-	dispatch({
-		type: 'project/saveProjects',
-		payload: projects
-    });
+	// dispatch({
+	// 	type: 'project/saveProjects',
+	// 	payload: projects
+    // });
     ipcRenderer.send('save-projects', {
         userId: userInfo.login_id,
         projects

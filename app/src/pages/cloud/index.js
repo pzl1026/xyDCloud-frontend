@@ -51,7 +51,7 @@ function DownlistLi(props) {
                 .projects
                 .map(item => {
                     return (
-                        <Row className="dl-li">
+                        <Row className="dl-li" key={item.id}>
                             <Col span={6}>
                                 <span>{item.name}</span>
                             </Col>

@@ -2,7 +2,6 @@ import './index.scss';
 import { Row, Col, Icon } from 'antd';
 
 export default function(props) {
-
     return (
         <Row className="page-header" type="flex" justify="space-between">
             <Col span={4}>
@@ -17,7 +16,7 @@ export default function(props) {
                     {props.rightChildren}
                     {props.isStr ?
                     <span>{props.rightText}</span> :
-                    <button className="btn1">{props.rightText}</button>}  
+                    <button className="btn1" onClick={() => props.rightClick()}>{props.rightText}</button>}  
                 </div>
             </Col>
         </Row>

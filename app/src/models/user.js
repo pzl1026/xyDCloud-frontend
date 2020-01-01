@@ -97,6 +97,13 @@ export default {
 				localStorage.setItem(STORE_FIELD, JSON.stringify(arg));
 				handleHasUser(arg);
 			});
+
+			ipcRenderer.on('project-render', (event, projects) => {
+				dispatch({
+					type: 'project/saveProjects',
+					payload: projects
+				});
+			});
 		}
 	},
 };

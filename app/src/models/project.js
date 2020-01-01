@@ -11,7 +11,7 @@ export default {
 	},
 	reducers: {
 		saveProjects(state, { payload: projects}) {
-			console.log(projects, 'projects');
+			console.log(projects, 'projects')
 			return {...state, projects};
 		},
 

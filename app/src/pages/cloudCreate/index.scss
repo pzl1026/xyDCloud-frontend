@@ -11,11 +11,15 @@
     justify-content: space-between;
     align-items: center;
     background-color: #1F283D;
-    height: 46px;
+    min-height: 46px;
     padding: 0 11px;
     box-sizing: border-box;
     border-radius: 4px;
     cursor: pointer;
+
+    .folder-name{
+        padding: 10px 0;
+    }
 
     span{
         color: #fff;

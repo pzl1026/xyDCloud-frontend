@@ -43,3 +43,7 @@
 button{
   outline: none;
 }
+
+.ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled){
+  background-color: #4051F9 !important;
+}
