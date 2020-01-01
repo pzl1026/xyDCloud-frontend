@@ -14,8 +14,16 @@ function mapStateToProps(state) {
 @connect(mapStateToProps)
 class BasicLayout extends PureComponent {
 
+    componentDidMount() {
+        console.log(this.props, 'llllll')
+    }
+
     render() {
         const {history} = this.props;
+
+        if (history.location.pathname === '/') {
+            return <Fragment>{this.props.children}</Fragment>;
+        }
 
         return (
             <Fragment>

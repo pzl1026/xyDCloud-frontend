@@ -21,3 +21,21 @@
 .list code {
   background: #f7f7f7;
 }
+
+.loading-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color:rgba(17,22,34,1);
+}
+
+.loading-body{
+  width: 100px;
+  height: 100px;
+  background: url('../assets/bars.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px;
+}

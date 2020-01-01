@@ -1,29 +1,31 @@
 import {post, handleData, get, getTokenLocalstorage} from '@helper/utils';
 import {message} from 'antd';
-const { ipcRenderer } = window.require('electron')
+import {STORE_FIELD} from '@config/user';
+import { routerRedux } from 'dva/router';
+const { ipcRenderer } = window.require('electron');
 
-
-const loginData = {
-    "status": 1,
-    "msg": "",
-    "data": {
-        "login_id": 18784,
-        "token": "YjkwNTA2YzM5NTU4MjA3NDU2NGZmYWFlZmY1M2I2MGVhYmFiMjZlNDk3OWQxNzY1YzllZTc5MmU3NWU0ZjA5NA==",
-        "phone": "13127808798",
-        "email": "",
-        "company_name": "",
-        "realname": "123456",
-        "avatar": "",
-        "refresh_token": "NmRhMTdhYzIwNmIwOTkwMjYyODZhNjY3OGNlYWYxZTdkMzQ5YTQ0YzhmMWI5YWQwMmQxNmJlZGExYjhkNmVjZg==",
-        "status": 1
-    }
-}
+// const user = {
+//     "status": 1,
+//     "msg": "",
+//     "data": {
+//         "login_id": 18784,
+//         "token": "YjkwNTA2YzM5NTU4MjA3NDU2NGZmYWFlZmY1M2I2MGVhYmFiMjZlNDk3OWQxNzY1YzllZTc5MmU3NWU0ZjA5NA==",
+//         "phone": "13127808798",
+//         "email": "",
+//         "company_name": "",
+//         "realname": "123456",
+//         "avatar": "",
+//         "refresh_token": "NmRhMTdhYzIwNmIwOTkwMjYyODZhNjY3OGNlYWYxZTdkMzQ5YTQ0YzhmMWI5YWQwMmQxNmJlZGExYjhkNmVjZg==",
+//         "status": 1
+//     }
+// }
 
 export default {
 	namespace: 'user',
 	state: {
 		xcxShow: false,
 		prModalShow: false,
+		userInfo: null
 	},
 	reducers: {
 		saveXcxShow(state, { payload: xcxShow}) {
@@ -33,6 +35,10 @@ export default {
 		savePrModalShow(state, { payload: prModalShow}) {
 			return {...state, prModalShow};
 		},
+
+		saveUserInfo(state, { payload: userInfo}) {
+			return {...state, userInfo};
+		},
 	},
 	effects: {
 		*applyApp({ payload: param }, { call, put, select, take }) {
@@ -40,21 +46,13 @@ export default {
 		},
 
 		*login ({ payload: param }, { call, put, select, take }) {
-	
 			const json = yield call(post, '/account/signin', {...param});
-			
-			// handleData(json).then((data) => {
-			// 	message.success('登录成功');
-			// 	console.log(data, 'data')
-			// });
-
-			let data = loginData;
-			// console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
 	
-			ipcRenderer.on('reply-user', (event, arg) => {
-				console.log(arg) // prints "pong"
-			})
-			ipcRenderer.send('save-user', data)
+			handleData(json).then((data) => {
+				message.success('登录成功');
+				console.log(data, 'data')
+				ipcRenderer.send('save-user', data.data)
+			});	
 		},
 
 		*sendCode ({ payload: param }, { call, put, select, take }) {
@@ -67,7 +65,33 @@ export default {
 	},
 	subscriptions: {
 		setup({ dispatch, history } ) {	
-			
+			let handleHasUser = (userInfo) => {
+				dispatch({
+					type: 'saveUserInfo',
+					payload: userInfo
+				});
+				dispatch(routerRedux.push({
+					pathname: '/cloud',
+				}));
+			}
+			let userInfo = localStorage.getItem(STORE_FIELD);
+
+			if (userInfo) {
+				setTimeout(() => {
+					handleHasUser(userInfo);
+				}, 3000);
+			} else{
+				setTimeout(() => {
+					dispatch(routerRedux.push({
+						pathname: '/login',
+					}));
+				});
+			}
+
+			ipcRenderer.on('store-client-user', (event, arg) => {
+				localStorage.setItem(STORE_FIELD, JSON.stringify(arg));
+				handleHasUser(arg);
+			});
 		}
 	},
 };
