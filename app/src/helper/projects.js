@@ -64,7 +64,6 @@ export async function getProjectsVideos (loginId, handleProjects, handleProjects
 export function loopFetchProjects (handleProjects, handleProjectsVideos) {
     let userInfo = JSON.parse(localStorage.getItem(STORE_FIELD));
     getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
-    return;
     loopFetchProjectsTimer = setInterval(() => {
         if (!userInfo){
             clearInterval(loopFetchProjectsTimer);

@@ -114,13 +114,15 @@ class CloudContainer extends PureComponent {
     }
 
     render() {
+        const {projects} = this.props;
         return (
             <Fragment>
                 <button className="btn1" onClick={this.toCloudCreate}>创建下载任务</button>
                 <div className="download-list">
                     <DownloadHeader header={header}></DownloadHeader>
-                    <DownlistLi {...this.props}></DownlistLi>
-                    <DownlistEmpty></DownlistEmpty>
+                    {projects.length > 0 ? 
+                    <DownlistLi {...this.props}></DownlistLi> :
+                    <DownlistEmpty></DownlistEmpty>}
                 </div>
             </Fragment>
         );
