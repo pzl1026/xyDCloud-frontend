@@ -56,10 +56,10 @@ function DownlistLi(props) {
                                 <span>{item.name}</span>
                             </Col>
                             <Col span={6}>
-                                <span>{item.local_path}</span>
+                                <span>{item.localPath || '未设置'}</span>
                             </Col>
                             <Col span={6}>
-                                <span>{item.download_status}</span>
+                                <span>{item.isPause ? '暂停中':'下载中'}</span>
                             </Col>
                             <Col span={6}>
                                 <div className="dl-action">
