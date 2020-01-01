@@ -2,7 +2,7 @@ import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import {Row, Col, Checkbox, Menu, Dropdown, Icon} from 'antd';
-import PageHeader from '@component/PageHeader';
+import PageHeader from '@components/PageHeader';
 import './index.scss';
 
 const menu = (

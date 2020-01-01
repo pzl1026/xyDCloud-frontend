@@ -35,7 +35,7 @@ export async function getProjectsVideos (loginId, handleProjects, handleProjects
     let projects = await getProjects(loginId, handleProjects);
     let projectIds = projects.map(n => n.id);
     let res = await getVideos(loginId, projectIds);
-    const videoFields = ['id', 'file_type', 'name', 'size', 'project_id'];
+    const videoFields = ['id', 'file_type', 'name', 'size', 'project_id', 'ext'];
     handleProjectsVideos && handleProjectsVideos(res);
     let videos = res.map((item, index) => {
         return {

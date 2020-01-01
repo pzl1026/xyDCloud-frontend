@@ -3,7 +3,8 @@ import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import {routerRedux} from 'dva/router';
 import {Row, Col, Dropdown, Menu, Icon} from 'antd';
-import DownloadHeader from '@component/DownloadHeader';
+import IconBlock from '@components/IconBlock';
+import DownloadHeader from '@components/DownloadHeader';
 import './index.scss';
 
 function mapStateToProps(state) {
@@ -63,9 +64,20 @@ function DownlistLi(props) {
                             </Col>
                             <Col span={6}>
                                 <div className="dl-action">
-                                    <img src="" alt=""/>
+                                    {/* <img src="" alt=""/> */}
+                                    {/* <IconBlock iconName="fm-share.svg" direction="left"></IconBlock> */}
+                                    <span className="cloud-li-play">
+                                        {item.isPause ? 
+                                        <IconBlock iconName="play.svg"></IconBlock> : 
+                                        <IconBlock iconName="pause.svg"></IconBlock>}
+                                    </span>
                                     <Dropdown overlay={menu} trigger={['click']} placement="bottomCenter">
-                                        <span><Icon type="ellipsis"/></span>
+                                        <div className="dl-action-btn">
+                                            <span>
+                                                <IconBlock iconName="more.svg"></IconBlock>
+                                                {/* <Icon type="ellipsis"/> */}
+                                            </span>
+                                        </div>
                                     </Dropdown>
                                 </div>
                             </Col>

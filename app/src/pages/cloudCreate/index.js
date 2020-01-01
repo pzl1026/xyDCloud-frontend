@@ -3,7 +3,7 @@ import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import {Row, Col, Select, Icon} from 'antd';
 import {routerRedux} from 'dva/router';
-import PageHeader from '@component/PageHeader';
+import PageHeader from '@components/PageHeader';
 import './index.scss';
 const { ipcRenderer } = window.require('electron');
 

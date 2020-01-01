@@ -2,7 +2,7 @@ import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import { Row, Col } from 'antd';
-import DownloadHeader from '@component/DownloadHeader';
+import DownloadHeader from '@components/DownloadHeader';
 import './index.scss';
 
 function mapStateToProps (state) {

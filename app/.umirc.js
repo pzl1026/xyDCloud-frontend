@@ -66,7 +66,7 @@ export default {
   ],
   "sass": {},
   "alias": {
-    '@component': path.resolve(__dirname, 'src/components/'),
+    '@components': path.resolve(__dirname, 'src/components/'),
     '@CPC': path.resolve(__dirname, 'src/components/pageComponents/'),
     '@CC':  path.resolve(__dirname, 'src/components/common/'),
     '@CCP':  path.resolve(__dirname, 'src/components/commonPannel/'),
