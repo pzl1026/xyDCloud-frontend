@@ -1,14 +1,16 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import { Row, Col, Dropdown, Menu, Icon } from 'antd';
+import {routerRedux} from 'dva/router';
+import {Row, Col, Dropdown, Menu, Icon} from 'antd';
 import DownloadHeader from '@component/DownloadHeader';
 import './index.scss';
 
-function mapStateToProps (state) {
-  return {
-    ...state.user
-  };
+function mapStateToProps(state) {
+    return {
+        ...state.user,
+        ...state.project
+    };
 }
 
 const header = ['项目名称', '本地目录', '任务状态', '操作'];
@@ -42,31 +44,40 @@ const menu = (
     </Menu>
 );
 
-function DownlistLi (props) {
+function DownlistLi(props) {
     return (
-        <Row className="dl-li">
-            <Col span={6}>
-                <span>项目名称</span>
-            </Col>
-            <Col span={6}>
-                <span>本地目录</span>
-            </Col>
-            <Col span={6}>
-                <span>任务状态</span>
-            </Col>
-            <Col span={6}>
-                <div className="dl-action">
-                    <img src="" alt=""/>
-                    <Dropdown overlay={menu} trigger={['click']} placement="bottomCenter">
-                        <span><Icon type="ellipsis" /></span>
-                    </Dropdown>
-                </div>
-            </Col>
-        </Row>
+        <Fragment>
+            {props
+                .projects
+                .map(item => {
+                    return (
+                        <Row className="dl-li">
+                            <Col span={6}>
+                                <span>{item.name}</span>
+                            </Col>
+                            <Col span={6}>
+                                <span>{item.local_path}</span>
+                            </Col>
+                            <Col span={6}>
+                                <span>{item.download_status}</span>
+                            </Col>
+                            <Col span={6}>
+                                <div className="dl-action">
+                                    <img src="" alt=""/>
+                                    <Dropdown overlay={menu} trigger={['click']} placement="bottomCenter">
+                                        <span><Icon type="ellipsis"/></span>
+                                    </Dropdown>
+                                </div>
+                            </Col>
+                        </Row>
+                    )
+                })
+}
+        </Fragment>
     );
 }
 
-function DownlistEmpty (props) {
+function DownlistEmpty(props) {
     return (
         <div className="downlist-empty">
             <img src="" alt=""/>
@@ -78,22 +89,30 @@ function DownlistEmpty (props) {
 @withRouter
 @connect(mapStateToProps)
 class CloudContainer extends PureComponent {
-  componentDidMount() {
-    console.log(this.props)
-  }
+    componentDidMount() {
+        console.log(this.props, ' 9999')
+    }
 
-  render() {
-    return (
-      <Fragment>
-        <button className="btn1">创建下载任务</button>
-        <div className="download-list">
-            <DownloadHeader header={header}></DownloadHeader>
-            <DownlistLi></DownlistLi>
-            <DownlistEmpty></DownlistEmpty>
-        </div>
-      </Fragment>
-    );
-  }
+    toCloudCreate = () => {
+        this
+            .props
+            .dispatch(routerRedux.push({pathname: '/cloudcreate', query: {
+                    // project_id: '99e04597292138fa'
+                }}));
+    }
+
+    render() {
+        return (
+            <Fragment>
+                <button className="btn1" onClick={this.toCloudCreate}>创建下载任务</button>
+                <div className="download-list">
+                    <DownloadHeader header={header}></DownloadHeader>
+                    <DownlistLi {...this.props}></DownlistLi>
+                    <DownlistEmpty></DownlistEmpty>
+                </div>
+            </Fragment>
+        );
+    }
 }
 
 export default CloudContainer;

@@ -37,7 +37,6 @@ export function queryData2Md5(params, fields2Md5, deleteVerify) {
       verify += params[k];
     }
   }
-  console.log(verify, 'verify')
   let o = {
     timestamp,
     verify: md5(verify)

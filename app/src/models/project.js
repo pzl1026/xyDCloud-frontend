@@ -5,12 +5,13 @@ const { ipcRenderer } = window.require('electron');
 export default {
 	namespace: 'project',
 	state: {
-        projects: null,
+        projects: [],
         currentProjects: null,
         projectVideos: null
 	},
 	reducers: {
 		saveProjects(state, { payload: projects}) {
+			console.log(projects, 'projects');
 			return {...state, projects};
 		},
 

@@ -2,6 +2,7 @@ import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import {Row, Col, Select, Icon} from 'antd';
+import {routerRedux} from 'dva/router';
 import PageHeader from '@component/PageHeader';
 import './index.scss';
 
@@ -20,14 +21,20 @@ class CloudCreateContainer extends PureComponent {
         console.log(this.props)
     }
 
-    handleChange () {
+    handleChange  = () => {
 
+    }
+
+    toBack= () => {
+        this
+            .props
+            .dispatch(routerRedux.goBack());
     }
 
     render() {
         return (
             <Fragment>
-                <PageHeader backTitle="创建下载任务"></PageHeader>
+                <PageHeader backTitle="创建下载任务" back={this.toBack}></PageHeader>
                 <Row className="page-container project-select" type="flex" justify="space-between" gutter={16}>
                     <Col span={12}>
                         <Select

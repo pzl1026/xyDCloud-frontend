@@ -2,6 +2,7 @@ import {post, handleData, get, getTokenLocalstorage} from '@helper/utils';
 import {message} from 'antd';
 import {STORE_FIELD} from '@config/user';
 import { routerRedux } from 'dva/router';
+import {getProjectsVideos, saveProjects, loopFetchProjects} from '@helper/projects';
 const { ipcRenderer } = window.require('electron');
 
 // const user = {
@@ -19,6 +20,7 @@ const { ipcRenderer } = window.require('electron');
 //         "status": 1
 //     }
 // }
+
 
 export default {
 	namespace: 'user',
@@ -73,12 +75,15 @@ export default {
 				dispatch(routerRedux.push({
 					pathname: '/cloud',
 				}));
+				loopFetchProjects((projects) => {
+					saveProjects(dispatch, projects)
+				});
 			}
 			let userInfo = localStorage.getItem(STORE_FIELD);
-
+			userInfo && ipcRenderer.send('save-user', JSON.parse(userInfo));
 			if (userInfo) {
 				setTimeout(() => {
-					handleHasUser(userInfo);
+					handleHasUser(JSON.parse(userInfo));
 				}, 3000);
 			} else{
 				setTimeout(() => {
