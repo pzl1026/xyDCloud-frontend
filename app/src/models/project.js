@@ -5,13 +5,13 @@ const { ipcRenderer } = window.require('electron');
 export default {
 	namespace: 'project',
 	state: {
-        projects: [],
+		projects: [],
+		projectsSelect: [],
         currentProjects: null,
         projectVideos: null
 	},
 	reducers: {
 		saveProjects(state, { payload: projects}) {
-			console.log(projects, 'projects')
 			return {...state, projects};
 		},
 
@@ -22,6 +22,10 @@ export default {
 		saveProjectVideos(state, { payload: projectVideos}) {
 			return {...state, projectVideos};
 		},
+
+		saveProjectsSelect(state, { payload: projectsSelect}) {
+			return {...state, projectsSelect};
+		},
 	},
 	effects: {
 		*login ({ payload: param }, { call, put, select, take }) {
@@ -30,7 +34,6 @@ export default {
 
 			handleData(json).then((data) => {
 				message.success('登录成功');
-				console.log(data, 'data')
 				ipcRenderer.send('save-user', data.data)
 			});	
 		},

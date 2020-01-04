@@ -30,10 +30,16 @@ async function getVideos (loginId, projectIds) {
     return Promise.all(videoFetches);
 }
 
-export async function getProjectsVideos (loginId, handleProjects, handleProjectsVideos) {
-    await getProjects(loginId, handleProjects)
+// 获取已设置的项目
+async function getSettingProjects(setedProjects, handleProjects, handleProjectsVideos) {
+    getProjectsVideos(setedProjects, handleProjects, handleProjectsVideos);
+}
+
+export async function getProjectsVideos (setedProjects, handleProjects, handleProjectsVideos) {
+    let userInfo = JSON.parse(localStorage.getItem(STORE_FIELD));
+    let loginId = userInfo.login_id;
     let projects = await getProjects(loginId, handleProjects);
-    let projectIds = projects.map(n => n.id);
+    let projectIds = projects.map(n => n.id).filter(m => setedProjects.find(n => m === n));
     let res = await getVideos(loginId, projectIds);
     const videoFields = ['id', 'file_type', 'name', 'size', 'project_id', 'ext'];
     handleProjectsVideos && handleProjectsVideos(res);
@@ -63,14 +69,17 @@ export async function getProjectsVideos (loginId, handleProjects, handleProjects
 
 export function loopFetchProjects (handleProjects, handleProjectsVideos) {
     let userInfo = JSON.parse(localStorage.getItem(STORE_FIELD));
-    getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
+    // getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
+    ipcRenderer.on('render-setting-projects', (e, setedProjects) => getSettingProjects(setedProjects, handleProjects, handleProjectsVideos));
+    ipcRenderer.send('get-setting-projects');
     loopFetchProjectsTimer = setInterval(() => {
         if (!userInfo){
             clearInterval(loopFetchProjectsTimer);
             loopFetchProjectsTimer = null;
             return;
         }
-        getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
+        // getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
+        ipcRenderer.send('get-setting-projects');
     }, 20000);
 }
 

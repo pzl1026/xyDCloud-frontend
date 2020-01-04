@@ -30,9 +30,7 @@ function DownlistEmpty(props) {
 @connect(mapStateToProps)
 class CloudContainer extends PureComponent {
     componentDidMount() {
-        console.log(this.props, ' 9999')
         ipcRenderer.on('changed-pause-status', (event, projects) => {
-            console.log(projects, 'userStore.projects userStore.projects ')
             this.props.dispatch({
                 type: 'project/saveProjects',
                 payload: projects

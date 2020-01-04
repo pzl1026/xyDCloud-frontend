@@ -4,6 +4,7 @@ import withRouter from 'umi/withRouter';
 import {Row, Col, Select, Icon} from 'antd';
 import {routerRedux} from 'dva/router';
 import PageHeader from '@components/PageHeader';
+import {getProjectsVideos} from '@helper/projects';
 import './index.scss';
 const { ipcRenderer } = window.require('electron');
 
@@ -37,6 +38,7 @@ class CloudCreateContainer extends PureComponent {
                 type: 'project/saveProjects',
                 payload: projects
             });
+            getProjectsVideos([this.state.projectSelectedId]);
             this.toBack();
         });
     }
@@ -70,7 +72,7 @@ class CloudCreateContainer extends PureComponent {
     }
 
     render() {
-        const { projects } = this.props;
+        const { projectsSelect } = this.props;
         const { localPath, projectSelectedId } = this.state;
 
         return (
@@ -91,7 +93,7 @@ class CloudCreateContainer extends PureComponent {
                                 height: 46
                             }}
                             onChange={this.selectProject}>
-                            {projects.map(item => {
+                            {projectsSelect.map(item => {
                                 return (
                                     <Option value={item.id} key={item.id}>{item.name}</Option>
                                 )

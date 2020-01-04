@@ -52,7 +52,6 @@ export default {
 	
 			handleData(json).then((data) => {
 				message.success('登录成功');
-				console.log(data, 'data')
 				ipcRenderer.send('save-user', data.data)
 			});	
 		},
@@ -76,7 +75,11 @@ export default {
 					pathname: '/cloud',
 				}));
 				loopFetchProjects((projects) => {
-					saveProjects(dispatch, projects)
+					saveProjects(dispatch, projects);
+					dispatch({
+						type: 'project/saveProjectsSelect',
+						payload: projects
+					});
 				});
 			}
 			let userInfo = localStorage.getItem(STORE_FIELD);
