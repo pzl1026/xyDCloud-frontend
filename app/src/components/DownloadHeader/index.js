@@ -6,7 +6,7 @@ export default function(props) {
     <Row className="dl-header">
         {props.header.map((item, index) => {
             return (
-                <Col span={props.colSpan[index]} key={index}>
+                <Col span={props.colSpan ? props.colSpan[index] : 6} key={index}>
                     <span>{item}</span>
                 </Col>
             );
