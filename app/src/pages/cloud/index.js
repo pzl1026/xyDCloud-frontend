@@ -56,7 +56,7 @@ class CloudContainer extends PureComponent {
             <Fragment>
                 <button className="btn1" onClick={this.toCloudCreate}>创建下载任务</button>
                 <div className="download-list">
-                    <DownloadHeader header={header}></DownloadHeader>
+                    <DownloadHeader header={header} colSpan={[6, 10, 4, 4]}></DownloadHeader>
                     {projects.length > 0 ? 
                     <DownlistLi {...this.props} changePause={this.changePause}></DownlistLi> :
                     <DownlistEmpty></DownlistEmpty>}

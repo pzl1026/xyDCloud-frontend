@@ -22,10 +22,13 @@ function mapStateToProps(state) {
 class CloudCreateContainer extends PureComponent {
     state = {
         projectSelectedId: undefined,
-        localPath: ''
+        localPath: '',
+        isEdit: false,
     }
 
     componentDidMount() {
+        console.log(this.props, 'ppps')
+        this.setEdit();
         // ipcRenderer.removeListener('fetch-folder-dialog', () => {});
         // ipcRenderer.removeListener('create-project-path', () => {});
         ipcRenderer.on('fetch-folder-dialog', (event, localPath) => {
@@ -41,6 +44,20 @@ class CloudCreateContainer extends PureComponent {
             getProjectsVideos([this.state.projectSelectedId]);
             this.toBack();
         });
+    }
+
+    setEdit = () => {
+        let query = this.props.location.query;
+        if (query.type === 'edit') {
+            let currentProject = this.props.projects.find(m => m.id === query.project_id);
+            if (currentProject) {
+                this.setState({
+                    isEdit: true,
+                    projectSelectedId: query.project_id,
+                    localPath: currentProject.localPath
+                });
+            }
+        }
     }
 
     // componentWillUnmount() {
@@ -73,7 +90,7 @@ class CloudCreateContainer extends PureComponent {
 
     render() {
         const { projectsSelect } = this.props;
-        const { localPath, projectSelectedId } = this.state;
+        const { localPath, projectSelectedId, isEdit } = this.state;
 
         return (
             <Fragment>
@@ -87,7 +104,8 @@ class CloudCreateContainer extends PureComponent {
                     <Col span={12}>
                         <Select
                             placeholder="请选择需要下载的项目"
-                            defaultValue={projectSelectedId}
+                            value={projectSelectedId}
+                            disabled={isEdit}
                             style={{
                                 width: '100%',
                                 height: 46

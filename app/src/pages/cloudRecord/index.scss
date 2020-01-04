@@ -4,7 +4,20 @@
         border-radius:8px;
         text-align: center;
         margin-top: 18px;
-        height: 45px;
+        // height: 45px;
+
+        .dl-li-span{
+            padding: 10px 0;
+            // width: 100%;
+            // text-overflow: ellipsis;
+            // white-space: nowrap;
+            // overflow: hidden;
+            // -webkit-line-clamp: 2;
+            span{
+                line-height: 20px;
+                word-wrap: break-all;
+            }
+        }
 
         span{
             color : #fff;
