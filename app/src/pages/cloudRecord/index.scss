@@ -1,9 +1,17 @@
 .download-list {
+
+    .table-list{
+        max-height: calc(100vh - 21px * 2 - 36px - 30px);
+        margin: 0 -25px;
+        padding:0 25px;
+        padding-top: 18px;
+        overflow: auto;;
+    }
     .dl-li{
         background:rgba(31,40,61,1);
         border-radius:8px;
         text-align: center;
-        margin-top: 18px;
+        margin-bottom: 18px;
         // height: 45px;
 
         .dl-li-span{
@@ -21,7 +29,7 @@
 
         span{
             color : #fff;
-            line-height: 45px;
+            // line-height: 45px;
         }
 
         .dl-action{

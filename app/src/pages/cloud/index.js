@@ -5,6 +5,7 @@ import {routerRedux} from 'dva/router';
 import DownloadHeader from '@components/DownloadHeader';
 import DownlistLi from './components/DownlistLi';
 import './index.scss';
+import { List } from 'antd';
 const { ipcRenderer } = window.require('electron');
 
 
@@ -59,7 +60,9 @@ class CloudContainer extends PureComponent {
                 <div className="download-list">
                     <DownloadHeader header={header} colSpan={[6, 10, 4, 4]}></DownloadHeader>
                     {projects.length > 0 ? 
-                    <DownlistLi {...this.props} changePause={this.changePause}></DownlistLi> :
+                    <div className="table-list">
+                        <DownlistLi {...this.props} changePause={this.changePause}></DownlistLi>
+                    </div>:
                     <DownlistEmpty></DownlistEmpty>}
                 </div>
             </Fragment>
