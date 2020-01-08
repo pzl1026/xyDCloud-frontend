@@ -67,8 +67,8 @@ class BasicLayout extends PureComponent {
     }
 
     render() {
-        const {history} = this.props;
-
+        const {history, userInfo} = this.props;
+        
         if (history.location.pathname === '/') {
             return <Fragment>{this.props.children}</Fragment>;
         }
@@ -84,15 +84,16 @@ class BasicLayout extends PureComponent {
                                 <ul className="side-menu">
                                     <SideMenuBody {...this.props}></SideMenuBody>
                                 </ul>
-                                <div className="side-footer">
-                                    <div className="person-avatar">
-                                        <img src="" alt=""/>
+                                <Link to='usersetting'>
+                                    <div className="side-footer">
+                                        <div className="person-avatar">
+                                            <img src={userInfo.avatar} alt=""/>
+                                        </div>
+                                        <div className="person-name">
+                                            {userInfo.realname}
+                                        </div>
                                     </div>
-
-                                    <div className="person-name">
-                                        999999
-                                    </div>
-                                </div>
+                                </Link>
                             </div>
                             <div className="section">
                                 {this.props.children}

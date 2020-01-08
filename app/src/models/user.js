@@ -83,6 +83,7 @@ export default {
 				});
 			}
 			let userInfo = localStorage.getItem(STORE_FIELD);
+			console.log(userInfo, 'user');
 			userInfo && ipcRenderer.send('save-user', JSON.parse(userInfo));
 			if (userInfo) {
 				setTimeout(() => {
@@ -90,10 +91,14 @@ export default {
 				}, 3000);
 			} else{
 				setTimeout(() => {
+					console.log(33333)
 					dispatch(routerRedux.push({
 						pathname: '/login',
 					}));
-				});
+					setTimeout(() => {
+						console.log(history)
+					}, 1000);
+				}, 1000);
 			}
 
 			ipcRenderer.on('store-client-user', (event, arg) => {

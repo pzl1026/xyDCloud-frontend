@@ -23,6 +23,7 @@ class UserContainer extends PureComponent {
     }
 
     componentDidMount() {
+        console.log(23222222)
         // this.props.dispatch(routerRedux.push({     pathname: '/file',     query:
         // window.urlQuery }));
         // const { ipcRenderer } = window.require('electron')

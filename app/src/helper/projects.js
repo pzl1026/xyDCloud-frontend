@@ -3,7 +3,7 @@ import {STORE_FIELD} from '@config/user';
 import {message} from 'antd';
 const { ipcRenderer } = window.require('electron');
 
-var loopFetchProjectsTimer = null;
+window.loopFetchProjectsTimer = null;
 
 async function getProjects(loginId, handleProjects) {
     return new Promise(async (resolve, reject) => {
@@ -72,10 +72,11 @@ export function loopFetchProjects (handleProjects, handleProjectsVideos) {
     // getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
     ipcRenderer.on('render-setting-projects', (e, setedProjects) => getSettingProjects(setedProjects, handleProjects, handleProjectsVideos));
     ipcRenderer.send('get-setting-projects');
-    loopFetchProjectsTimer = setInterval(() => {
+    window.loopFetchProjectsTimer = setInterval(() => {
+        console.log('loopFetchProjectsTimer')
         if (!userInfo){
-            clearInterval(loopFetchProjectsTimer);
-            loopFetchProjectsTimer = null;
+            clearInterval(window.loopFetchProjectsTimer);
+            window.loopFetchProjectsTimer = null;
             return;
         }
         // getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
