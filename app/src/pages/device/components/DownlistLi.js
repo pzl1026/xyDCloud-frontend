@@ -66,6 +66,7 @@ class DownlistLi extends PureComponent {
 
     render() {
         const {downloadDevices} = this.props;
+        console.log(downloadDevices, 'downloadDevices')
         return (
             <Fragment>
                 {downloadDevices.map((item, index) => {
@@ -73,8 +74,8 @@ class DownlistLi extends PureComponent {
                         <Row className="dl-li" key={index}>
                             <Col span={6}>
                                 <div className="dl-li-span">
-                                    <Tooltip title={item.name}>
-                                        <span>{item.name}</span>
+                                    <Tooltip title={item.product['product-name']}>
+                                        <span>{item.product['product-name']}</span>
                                     </Tooltip>
                                 </div>
                             </Col>

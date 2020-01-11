@@ -1,6 +1,6 @@
 import {post, handleData, get} from '@helper/utils';
 import {message} from 'antd';
-import {deviceData} from '@helper/data';
+import {deviceData, deviceInfo} from '@helper/data';
 const { ipcRenderer } = window.require('electron');
 
 export default {
@@ -56,7 +56,7 @@ export default {
 			console.log(json, 'json');
 			let currentLoginDevice = yield select(state => state.device.currentLoginDevice);
 			console.log(currentLoginDevice, 'currentLoginDevice')
-			let device = {...deviceData, ip: currentLoginDevice};
+			let device = {...deviceInfo, ip: currentLoginDevice};
 			device['media-files'] = [];
 			console.log(device, 'device')
 			ipcRenderer.send('save-device', device);
