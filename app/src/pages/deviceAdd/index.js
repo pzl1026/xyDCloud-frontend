@@ -3,7 +3,9 @@ import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import {Row, Col, Icon} from 'antd';
 import PageHeader from '@components/PageHeader';
+import {groupArr} from '@helper/utils';
 import './index.scss';
+const { ipcRenderer } = window.require('electron');
 
 function PasswordModal(props) {
     return (
@@ -23,7 +25,8 @@ function PasswordModal(props) {
 
 function mapStateToProps(state) {
     return {
-        ...state.user
+        ...state.user,
+        ...state.device
     };
 }
 
@@ -36,7 +39,96 @@ class CloudCreateContainer extends PureComponent {
     }
 
     componentDidMount() {
-        console.log(this.props)
+        console.log(this.props);
+        this.saveDevicesVideos();   //暂时处理
+        ipcRenderer.send('post-ip-address');
+        ipcRenderer.on('get-ip-address', (event, myHost) => {
+            console.log(myHost, 'ip');
+            this.props.dispatch({
+                type: 'device/saveMyHost',
+                payload: myHost
+            });
+            // this.searchDevices();
+        });
+
+        ipcRenderer.on('render-device', (event, devices) => {
+            this.props.dispatch({
+                type: 'device/saveDownloadDevices',
+                payload: devices
+            });
+        });
+    }
+
+    searchDevices = () => { 
+        const {myHost} = this.props;
+        let vlan = myHost.substr(0, myHost.lastIndexOf('.'));
+        let ip = myHost.substr(myHost.lastIndexOf('.'));
+        console.log(vlan, 'vlan');
+        const vlans = new Array(256);
+        for (var i = 1; i < 256; i++) {
+            if (Number(ip) !== i) {
+                vlans[i] = i;
+            }
+        }
+
+        // vlans.forEach(m => {
+        //     this.props.dispatch({
+        //         type: 'device/searchDevice',
+        //         payload: {
+        //             ip: vlan + '.' + m
+        //         }
+        //     });
+        // });
+
+        let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+        const self = this;
+        async function action() {
+            for(var i in vlans) {
+                self.props.dispatch({
+                    type: 'device/searchDevice',
+                    payload: {
+                        ip: vlan + '.' + vlans[i]
+                    }
+                });
+                await sleep(100);
+            }
+        }
+
+        action();
+
+        // let requestNext = 1;
+        // let loopStart = (response) => {
+        //     console.log(2222222)
+        //     return new Promise((resove, reject) => {
+        //         if (response) {
+        //             requestNext++;
+        //             setTimeout(() => {
+        //                 startCheckStatus();
+        //             }, 100);
+        //         }
+        //     }); 
+        // };
+        // let startCheckStatus = () => {
+        //     console.log(requestNext, 'requestNext')
+        //     this.props.dispatch({
+        //         type: 'device/searchDevice',
+        //         payload: {
+        //             ip: vlan + '.' + vlans[requestNext],
+        //             cb: loopStart
+        //         }
+        //     });
+        // }
+
+        // startCheckStatus ();
+    }
+
+    // 登录成功后获取设备视频信息存到本地
+    saveDevicesVideos() {
+        this.props.dispatch({
+                type: 'device/getDeviceVideos',
+                payload: {
+                }
+        });
     }
 
     toggleModal = (passwordShow) => {
@@ -70,6 +162,9 @@ class CloudCreateContainer extends PureComponent {
                             </span>
                         </li>
                     </ul>
+                </div>
+                <div className="device-search">
+                    <button className="btn">搜索设备</button>
                 </div>
                 {this.state.passwordShow ? <PasswordModal toggleModal={this.toggleModal}></PasswordModal> : null}
             </Fragment>

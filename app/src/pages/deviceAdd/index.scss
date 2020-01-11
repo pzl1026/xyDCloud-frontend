@@ -1,6 +1,7 @@
 .device-list{
     width: 100%;
-    padding-left: 40px;
+    padding-left: 0;
+    padding-bottom: 40px;
 
     li{
         display: flex;
@@ -26,6 +27,28 @@
             align-items: center;
             cursor: pointer;
         }
+    }
+}
+
+.device-search{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    position: absolute;
+    left: 0;
+    bottom: 30px;
+    width: 100%;
+    background-color: #111622;
+
+    button{
+        width: 198px;
+        height: 40px;
+        background-color: #4051F9;
+        outline: none;
+        color: #fff;
+        border-radius: 8px;
+        border: 0;;
     }
 }
 

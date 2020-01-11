@@ -129,13 +129,13 @@ export function put(url, values) {
  * @param {string} url        请求链接
  * @param {object} [values]   请求参数
  */
-export function get(url, values) {
-  return request(`${XY_API}${url}?${serialize(values)}`, {
+export function get(url, values, isOriginhttp, cb) {
+  return request(`${isOriginhttp ? 'http://' : XY_API}${url}?${serialize(values)}`, {
     method: 'GET',
     headers:{
       'Content-Type':'application/x-www-form-urlencoded'
     }
-  });
+  }, cb);
 }
 
 /**
@@ -397,5 +397,17 @@ export function isIE() {
  */
 export function sendSMS () {
 
+}
+
+/**
+ *   将数组分组
+ */
+export function groupArr(array, subGroupLength) {
+  let index = 0;
+  let newArray = [];
+  while(index < array.length) {
+      newArray.push(array.slice(index, index += subGroupLength));
+  }
+  return newArray;
 }
 

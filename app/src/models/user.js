@@ -27,7 +27,7 @@ export default {
 	state: {
 		xcxShow: false,
 		prModalShow: false,
-		userInfo: null
+		userInfo: {}
 	},
 	reducers: {
 		saveXcxShow(state, { payload: xcxShow}) {
@@ -39,6 +39,7 @@ export default {
 		},
 
 		saveUserInfo(state, { payload: userInfo}) {
+			console.log(userInfo, 'userInfo')
 			return {...state, userInfo};
 		},
 	},
@@ -86,12 +87,9 @@ export default {
 			console.log(userInfo, 'user');
 			userInfo && ipcRenderer.send('save-user', JSON.parse(userInfo));
 			if (userInfo) {
-				setTimeout(() => {
-					handleHasUser(JSON.parse(userInfo));
-				}, 3000);
+				handleHasUser(JSON.parse(userInfo));
 			} else{
 				setTimeout(() => {
-					console.log(33333)
 					dispatch(routerRedux.push({
 						pathname: '/login',
 					}));

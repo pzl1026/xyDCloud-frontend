@@ -68,6 +68,7 @@ class BasicLayout extends PureComponent {
 
     render() {
         const {history, userInfo} = this.props;
+        console.log(userInfo, 'userInfos')
         
         if (history.location.pathname === '/') {
             return <Fragment>{this.props.children}</Fragment>;
