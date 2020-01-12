@@ -23,7 +23,6 @@ class UserContainer extends PureComponent {
     }
 
     componentDidMount() {
-        console.log(23222222)
         // this.props.dispatch(routerRedux.push({     pathname: '/file',     query:
         // window.urlQuery }));
         // const { ipcRenderer } = window.require('electron')
@@ -33,6 +32,12 @@ class UserContainer extends PureComponent {
         //     console.log(arg) // prints "pong"
         // })
         // ipcRenderer.send('asynchronous-message', 'ping')
+    }
+
+    changeLoginType = (loginType) => {
+        this.setState({
+            loginType 
+        });
     }
 
     render() {
@@ -45,8 +50,8 @@ class UserContainer extends PureComponent {
                 <div className="login-right">
                     <span className="login-title">绑定手机</span>
                     {loginType === 1
-                        ? <PhoneLogin/>
-                        : <WxLogin/>}
+                        ? <PhoneLogin changeLoginType={this.changeLoginType}/>
+                        : <WxLogin changeLoginType={this.changeLoginType}/>}
                 </div>
             </div>
         );

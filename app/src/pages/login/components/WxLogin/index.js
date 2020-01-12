@@ -1,29 +1,28 @@
-import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'dva';
+import React, {PureComponent, Fragment} from 'react';
+import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import styles from './index.scss';
 
 function mapStateToProps(state) {
-  return {
-    ...state.user
-  };
+    return {
+        ...state.user
+    };
 }
 
 @withRouter
 @connect(mapStateToProps)
 class WxLoginContainer extends PureComponent {
-	render() {
-		return (
-			<Fragment>
+    render() {
+        return (
+            <Fragment>
                 <div className="login-code">
                     <img src="" alt=""/>
                 </div>
-                <button className="login-submit">返回</button>
-            
-			</Fragment>
-		);
+                <button className="login-submit" onClick={() => this.props.changeLoginType(1)}>返回</button>
+            </Fragment>
+        );
 
-	}
+    }
 }
 
 export default WxLoginContainer;

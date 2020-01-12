@@ -22,7 +22,7 @@ const header = ['项目名称', '本地目录', '任务状态', '操作'];
 function DownlistEmpty(props) {
     return (
         <div className="downlist-empty">
-            <img src="" alt=""/>
+            <img src={require('../../assets/empty.png')} alt=""/>
             <span>当前无下载任务</span>
         </div>
     );
