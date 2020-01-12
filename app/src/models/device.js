@@ -9,7 +9,8 @@ export default {
         myHost: '',
         devices: [],
 		currentLoginDevice: '192.168.2.208',
-		downloadDevices: []
+		downloadDevices: [],
+		currentDeviceVideos: []
 	},
 	reducers: {
         saveMyHost (state, { payload: myHost}) {
@@ -28,6 +29,11 @@ export default {
 		saveDownloadDevices(state, { payload: downloadDevices}) {
 			console.log(downloadDevices, 'downloadDevice')
             return {...state, downloadDevices}
+		},
+
+		saveCurrentDeviceVideos(state, { payload: currentDeviceVideos}) {
+			console.log(currentDeviceVideos, 'currentDeviceVideos222')
+            return {...state, currentDeviceVideos}
 		},
 	},
 	effects: {
@@ -51,20 +57,50 @@ export default {
             }
 		},
 
-		*getDeviceVideos ({ payload: param }, { call, put, select, take }) {
+		*getDevice ({ payload: param }, { call, put, select, take }) {
 			const json = yield call(post, '/account/signin', {...param});
 			console.log(json, 'json');
 			let currentLoginDevice = yield select(state => state.device.currentLoginDevice);
-			console.log(currentLoginDevice, 'currentLoginDevice')
 			let device = {...deviceInfo, ip: currentLoginDevice};
 			device['media-files'] = [];
 			console.log(device, 'device')
 			ipcRenderer.send('save-device', device);
+		},
+
+		*getDeviceVideos ({ payload: param }, { call, put, select, take }) {
+			// 假设ip为
+			param.ip = '192.168.2.208';
+			const json = yield call(post, '/account/signin', {...param});
+			console.log(json, 'json');
+			let currentDeviceVideos = yield select(state => state.device.currentDeviceVideos);
+	
+			// currentDeviceVideos = [...currentDeviceVideos, ...deviceData['media-files']];
+			console.log(currentDeviceVideos, 'currentDeviceVideos');
+			ipcRenderer.send('save-device-videos', {videos: deviceData['media-files'], ip: param.ip});
 		}
 	},
 	subscriptions: {
 		setup({ dispatch, history } ) {	
-            
+			ipcRenderer.on('get-ip-address', (event, myHost) => {
+				dispatch({
+					type: 'saveMyHost',
+					payload: myHost
+				});
+			});
+	
+			ipcRenderer.on('render-device', (event, devices) => {
+				dispatch({
+					type: 'saveDownloadDevices',
+					payload: devices
+				});
+			});
+
+			ipcRenderer.on('render-device-videos', (event, videos) => {
+				dispatch({
+					type: 'saveCurrentDeviceVideos',
+					payload: videos
+				});
+			});
 		}
 	},
 };

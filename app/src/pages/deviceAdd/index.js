@@ -3,7 +3,8 @@ import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import {Row, Col, Icon} from 'antd';
 import PageHeader from '@components/PageHeader';
-import {groupArr} from '@helper/utils';
+// import {groupArr} from '@helper/utils';
+import {routerRedux} from 'dva/router';
 import './index.scss';
 const { ipcRenderer } = window.require('electron');
 
@@ -42,21 +43,7 @@ class CloudCreateContainer extends PureComponent {
         console.log(this.props);
         this.saveDevicesVideos();   //暂时处理
         ipcRenderer.send('post-ip-address');
-        ipcRenderer.on('get-ip-address', (event, myHost) => {
-            console.log(myHost, 'ip');
-            this.props.dispatch({
-                type: 'device/saveMyHost',
-                payload: myHost
-            });
-            // this.searchDevices();
-        });
-
-        ipcRenderer.on('render-device', (event, devices) => {
-            this.props.dispatch({
-                type: 'device/saveDownloadDevices',
-                payload: devices
-            });
-        });
+    
     }
 
     searchDevices = () => { 
@@ -125,7 +112,7 @@ class CloudCreateContainer extends PureComponent {
     // 登录成功后获取设备视频信息存到本地
     saveDevicesVideos() {
         this.props.dispatch({
-                type: 'device/getDeviceVideos',
+                type: 'device/getDevice',
                 payload: {
                 }
         });
@@ -149,10 +136,19 @@ class CloudCreateContainer extends PureComponent {
 
     }
 
+    toBack= () => {
+        this
+            .props
+            .dispatch(routerRedux.goBack());
+    }
+
     render() {
         return (
             <Fragment>
-                <PageHeader backTitle="添加设备" rightText="提示：请使用计算机连接WLAN：NBOX-638231或NBOX设备当前已连接的WLAN" isStr={true}></PageHeader>
+                <PageHeader backTitle="添加设备" 
+                back={this.toBack}
+                rightText="提示：请使用计算机连接WLAN：NBOX-638231或NBOX设备当前已连接的WLAN" i
+                sStr={true}></PageHeader>
                 <div className="page-container">
                     <ul className="device-list">
                         <li>

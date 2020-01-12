@@ -3,6 +3,7 @@ import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
 import {Row, Col, Checkbox, Menu, Dropdown, Icon} from 'antd';
 import PageHeader from '@components/PageHeader';
+import {routerRedux} from 'dva/router';
 import './index.scss';
 
 const menu = (
@@ -30,11 +31,14 @@ const menu = (
 
 function mapStateToProps(state) {
     return {
-        ...state.user
+        ...state.user,
+        ...state.device
     };
 }
 
-function VideoLi () {
+function VideoLi (props) {
+    const {item} = props;
+    let size = parseFloat(item['size-bytes'] / Math.pow(1024, 2)).toFixed(1);
     return (
         <div className="video-li">
             <div className="video-li-body">
@@ -42,8 +46,8 @@ function VideoLi () {
                     <img src="" alt=""/>
                 </div>
                 <div className="video-li-info">
-                    <span>videoassads</span>
-                    <span>16.9M</span>
+                    <span>{item.name}</span>
+                    <span>{size}M</span>
                     <div className="check"><Checkbox></Checkbox></div>
                 </div>
             </div>
@@ -56,6 +60,16 @@ function VideoLi () {
 class CloudCreateContainer extends PureComponent {
     componentDidMount() {
         console.log(this.props)
+        this.requestVideos();
+    }
+
+    requestVideos = () => {
+        this.props.dispatch({
+            type: 'device/getDeviceVideos',
+            payload: {
+                // ip: ''
+            }
+        });
     }
 
     handleChange () {
@@ -68,35 +82,41 @@ class CloudCreateContainer extends PureComponent {
 
     leftChildren () {
         return (
-            <Dropdown overlay={menu} trigger={['click']}>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;<Icon type="ellipsis" /></span>
-            </Dropdown>
+            <span onClick={e => this.stopPropagation()}>
+                <Dropdown overlay={menu} trigger={['click']}>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;<Icon type="ellipsis" /></span>
+                </Dropdown>
+            </span>
         )
     }
 
+    toBack= () => {
+        this
+            .props
+            .dispatch(routerRedux.goBack());
+    }
+
     render() {
+        const {currentDeviceVideos} = this.props;
         return (
             <Fragment>
-                <PageHeader backTitle="设备视频详情" rightText="立即导入" leftChildren={this.leftChildren()}></PageHeader>
+                <PageHeader backTitle="设备视频详情" rightText="立即导入" leftChildren={this.leftChildren()} back={this.toBack}></PageHeader>
                 <div className="page-container" style={{marginTop: 20}}>
                     <header className="video-import-header"> 
                         <Checkbox onChange={this.onChange}>全选</Checkbox>
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;已选视频：18</span>
                     </header>
-                    <Row type="flex" justify="space-between" style={{marginTop: 20}}>
-                        <Col span={6}>
-                            <VideoLi></VideoLi>
-                        </Col>
-                        <Col span={6}>
-                            <VideoLi></VideoLi>
-                        </Col>
-                        <Col span={6}>
-                            <VideoLi></VideoLi>
-                        </Col>
-                        <Col span={6}>
-                            <VideoLi></VideoLi>
-                        </Col>
-                    </Row>
+                    <div className="videos-list">
+                        <Row type="flex" style={{marginTop: 20}} gutter={[16,16]}>
+                            {currentDeviceVideos.map(item => {
+                                return (
+                                    <Col span={6}>
+                                    <VideoLi {...this.props} item={item}></VideoLi>
+                                </Col>
+                                )
+                            })}
+                        </Row>
+                    </div>
                 </div>
             </Fragment>
         );

@@ -39,6 +39,14 @@ class DownlistLi extends PureComponent {
         this.setState({currentdevice});
     }
 
+    toVideos = (device) => {
+        this
+        .props
+        .dispatch(routerRedux.push({pathname: '/videoimport', query: {
+                ip: device.ip
+            }}));
+    }
+
     menu = () => {
         return (
             <Menu onClick={this.onMenuClick}>
@@ -71,7 +79,7 @@ class DownlistLi extends PureComponent {
             <Fragment>
                 {downloadDevices.map((item, index) => {
                     return (
-                        <Row className="dl-li" key={index}>
+                        <Row className="dl-li" key={index} onClick={() => this.toVideos(item)}>
                             <Col span={6}>
                                 <div className="dl-li-span">
                                     <Tooltip title={item.product['product-name']}>
@@ -92,7 +100,7 @@ class DownlistLi extends PureComponent {
                                         : '下载中'}</span>
                             </Col>
                             <Col span={4}>
-                                <div className="dl-action">
+                                <div className="dl-action" onClick={e => e.stopPropagation()}>
                                     {/* <img src="" alt=""/> */}
                                     {/* <IconBlock iconName="fm-share.svg" direction="left"></IconBlock> */}
                                     <Dropdown overlay={this.menu()} trigger={['click']} placement="bottomCenter">
