@@ -76,6 +76,12 @@ export default {
 	
 			// currentDeviceVideos = [...currentDeviceVideos, ...deviceData['media-files']];
 			console.log(currentDeviceVideos, 'currentDeviceVideos');
+			deviceData['media-files'] = deviceData['media-files'].map(m => {
+				return {
+					...m,
+					downpath: `http://${param.ip}/download/${deviceData.path}/m.name`
+				}
+			})
 			ipcRenderer.send('save-device-videos', {videos: deviceData['media-files'], ip: param.ip});
 		}
 	},
