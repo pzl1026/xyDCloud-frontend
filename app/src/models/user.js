@@ -53,7 +53,7 @@ export default {
 	
 			handleData(json).then((data) => {
 				message.success('登录成功');
-				ipcRenderer.send('save-user', data.data)
+				ipcRenderer.send('save-user', data.data);
 			});	
 		},
 
@@ -102,6 +102,9 @@ export default {
 			ipcRenderer.on('store-client-user', (event, arg) => {
 				localStorage.setItem(STORE_FIELD, JSON.stringify(arg));
 				// handleHasUser(arg);
+				dispatch(routerRedux.push({
+					pathname: '/cloud',
+				}));
 			});
 
 			ipcRenderer.on('project-render', (event, projects) => {
