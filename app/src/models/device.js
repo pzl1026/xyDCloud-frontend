@@ -50,9 +50,10 @@ export default {
 		*searchDevice ({ payload: param }, { call, put, select, take }) {
 			const json = yield call(get, `${param.ip}/usapi`, {method: 'ping'}, 1, param.cb);
             let devices = yield select(state => state.device.devices);
-
+console.log(json, 'jsondevices');
             if (json.data.result === 0) {
-                devices.push(param.ip);
+				devices.push(param.ip);
+				console.log(devices, 'devicesdevicesdevices')
                 yield put({ type: 'saveDevices', payload: devices});
             }
 		},

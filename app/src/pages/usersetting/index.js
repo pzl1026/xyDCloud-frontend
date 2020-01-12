@@ -4,7 +4,7 @@ import withRouter from 'umi/withRouter';
 import { routerRedux } from 'dva/router';
 import { Checkbox } from 'antd';
 import {STORE_FIELD} from '@config/user';
-import {loopFetchProjectsTimer} from '@helper/projects'
+import {loopFetchProjectsTimer} from '@helper/projects';
 
 import './index.scss';
 const { ipcRenderer } = window.require('electron');
@@ -18,8 +18,15 @@ function mapStateToProps(state) {
 @withRouter
 @connect(mapStateToProps)
 class CloudCreateContainer extends PureComponent {
+    state = {
+        startLogin: false
+    }
     componentDidMount() {
-        console.log(this.props)
+        console.log(this.props);
+        let startLogin = localStorage.getItem('start_login');
+        this.setState({
+            startLogin
+        });
         ipcRenderer.on('login-out', (event, arg) => {
             this.props.dispatch(routerRedux.push({
                 pathname: '/login',
@@ -30,6 +37,11 @@ class CloudCreateContainer extends PureComponent {
 
     handleChange () {
 
+    }
+
+    setStart = (e) => {
+        ipcRenderer.send('change-start-login', e.target.checked);
+        localStorage.setItem('start_login', e.target.checked);
     }
 
     handleLoginOut () {
@@ -57,7 +69,7 @@ class CloudCreateContainer extends PureComponent {
                         </div>
                         <div>
                             <span>开机启动</span>
-                            <span><Checkbox defaultChecked disabled /></span>
+                            <span><Checkbox onChange={this.setStart} defaultChecked={this.state.startLogin}/></span>
                         </div>
                     </div>
                     <button className="btn1" style={{width: 370, borderRadius: 28}} onClick={this.handleLoginOut}>退出登录</button>

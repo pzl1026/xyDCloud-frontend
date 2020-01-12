@@ -15,21 +15,25 @@ function mapStateToProps(state) {
 const sideMenu = [
     {
         url: '/cloud',
+        urlTest: ['/cloud', '/cloudCreate'],
         name: '云端下载',
         icon: 'side_cloud.svg',
         iconActive: 'side_cloud_active.svg'
     }, {
         url: '/cloudrecord',
+        urlTest: ['/cloudrecord'],
         name: '下载记录',
         icon: 'side_cloud_record.svg',
         iconActive: 'sice_cloud_record_active.svg'
     }, {
         url: '/device',
+        urlTest: ['/device', '/deviceAdd'],
         name: '设备导入',
         icon: 'side_device.svg',
         iconActive: 'side_device_active.svg'
     }, {
-        url: '/cloud',
+        url: '/deviceRecord',
+        urlTest: ['/deviceRecord'],
         name: '导入记录',
         icon: 'side_device_record.svg',
         iconActive: 'side_device_record_active.svg'
@@ -47,7 +51,7 @@ function SideMenuBody(props) {
                 <Link to={item.url}>
                     <div className="link-span">
                         <IconBlock
-                            iconName={location.pathname === item.url
+                            iconName={item.urlTest.includes(location.pathname)
                             ? item.iconActive
                             : item.icon}></IconBlock>
                         <span>{item.name}</span>

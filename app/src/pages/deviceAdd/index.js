@@ -160,7 +160,7 @@ class CloudCreateContainer extends PureComponent {
                     </ul>
                 </div>
                 <div className="device-search">
-                    <button className="btn">搜索设备</button>
+                    <button className="btn" onClick={this.searchDevices}>搜索设备</button>
                 </div>
                 {this.state.passwordShow ? <PasswordModal toggleModal={this.toggleModal}></PasswordModal> : null}
             </Fragment>

@@ -40,6 +40,9 @@ export default {
               }, {
                 path: '/deviceadd',
                 component: '../pages/deviceAdd'
+              }, {
+                path: '/devicerecord',
+                component: '../pages/deviceRecord'
               }
           ]
       }
