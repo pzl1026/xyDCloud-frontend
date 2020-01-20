@@ -1,4 +1,4 @@
-import {post, handleData, get} from '@helper/utils';
+import {post, handleData, get, get2} from '@helper/utils';
 import {message} from 'antd';
 import {deviceData, deviceInfo} from '@helper/data';
 const { ipcRenderer } = window.require('electron');
@@ -50,8 +50,8 @@ export default {
 		*searchDevice ({ payload: param }, { call, put, select, take }) {
 			const json = yield call(get, `${param.ip}/usapi`, {method: 'ping'}, 1, param.cb);
             let devices = yield select(state => state.device.devices);
-console.log(json, 'jsondevices');
-            if (json.data.result === 0) {
+
+			if (json.data.result === 0) {
 				devices.push(param.ip);
 				console.log(devices, 'devicesdevicesdevices')
                 yield put({ type: 'saveDevices', payload: devices});
@@ -59,13 +59,19 @@ console.log(json, 'jsondevices');
 		},
 
 		*getDevice ({ payload: param }, { call, put, select, take }) {
-			const json = yield call(post, '/account/signin', {...param});
-			console.log(json, 'json');
-			let currentLoginDevice = yield select(state => state.device.currentLoginDevice);
-			let device = {...deviceInfo, ip: currentLoginDevice};
-			device['media-files'] = [];
-			console.log(device, 'device')
-			ipcRenderer.send('save-device', device);
+			let devices = yield select(state => state.device.devices);
+			// const json = yield call(get2, '', {method: 'get-info'}, 0);
+			// if (json.data.result === 0) {
+			// 	let device = {...json.data, ip: param.ip};
+			// 	devices = [...devices, device];
+			// 	yield put({ type: 'saveDevices', payload: devices});
+			// }
+
+			// 模拟数据
+			let device = {...deviceInfo, ip: param.ip};
+			devices = [...devices, device];
+			yield put({ type: 'saveDevices', payload: devices});
+			
 		},
 
 		*getDeviceVideos ({ payload: param }, { call, put, select, take }) {

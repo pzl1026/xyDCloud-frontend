@@ -139,6 +139,21 @@ export function get(url, values, isOriginhttp, cb) {
 }
 
 /**
+ * get请求
+ * @param {string} url        请求链接
+ * @param {object} [values]   请求参数
+ */
+export function get2(url, values, cb) {
+  return request(`usapi${url}?${serialize(values)}`, {
+    method: 'GET',
+    headers:{
+      'Content-Type':'application/x-www-form-urlencoded'
+    }
+  }, cb);
+}
+
+
+/**
  * delete请求
  * @param {string} url        请求链接
  * @param {object} [values]   请求参数

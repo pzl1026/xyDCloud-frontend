@@ -5,6 +5,18 @@ var path = require('path');
 
 export default {
   treeShaking: true,
+  proxy: {
+    '/usapi': {
+      target: 'http://192.168.2.208/usapi',
+      pathRewrite: { '^/usapi': '' },
+      changeOrigin: true
+    },
+    '/api': {
+      target: 'http://wenda.zzcweb.com',
+      pathRewrite: { '^/api': '' },
+      changeOrigin: true
+    }
+  },
   routes:[
       {
           path : '/',
