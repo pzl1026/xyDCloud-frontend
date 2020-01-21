@@ -148,7 +148,8 @@ export function get2(url, values, cb) {
     method: 'GET',
     headers:{
       'Content-Type':'application/x-www-form-urlencoded'
-    }
+    },
+    credentials : 'include'
   }, cb);
 }
 

@@ -74,20 +74,25 @@
     .password-body {
         display: flex;
         width: 476px;
-        height: 224px;
+        // height: 224px;
         background-color: #1F283D;
         border-radius: 8px;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         z-index: 10;
+        padding: 20px 0;
+
+        .btn1{
+            margin-top: 25px;
+        }
 
         .password-title{
             color: #fff;
         }
 
         .password-input{
-            margin: 25px 0;
+            margin-top: 25px;
             width: 357px;
             height: 56px;
             display: flex;

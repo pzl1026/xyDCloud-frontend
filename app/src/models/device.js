@@ -39,12 +39,24 @@ export default {
 	effects: {
 		*loginDevice ({ payload: param }, { call, put, select, take }) {
 	
-			const json = yield call(post, '/account/signin', {...param});
-
-			handleData(json).then((data) => {
-				message.success('登录成功');
-				ipcRenderer.send('save-user', data.data)
-			});	
+			// const json = yield call(post, '/account/signin', {...param});
+			const json = yield call(get2, '', param, 0);
+			if (json.data.result === 0) {
+				let devices = yield select(state => state.device.devices);
+				let downloadDevices = yield select(state => state.device.downloadDevices);
+				let device = devices.find(item => item.product['product-id'] === param.productId);
+				let downloadDevice = downloadDevices.find(item => item.product['product-id'] === param.productId);
+				if (device && !downloadDevice) {
+					// let downloadDevices2 = [...downloadDevices, device];
+					// yield put({ type: 'saveDownloadDevices', payload: downloadDevices2}); 
+					device['media-files'] = [];
+					ipcRenderer.send('save-device', device);
+				}
+			}
+			// handleData(json).then((data) => {
+			// 	message.success('登录成功');
+			// 	ipcRenderer.send('save-user', data.data)
+			// });	
 		},
 
 		*searchDevice ({ payload: param }, { call, put, select, take }) {

@@ -5,6 +5,7 @@ import {Row, Col, Icon} from 'antd';
 import PageHeader from '@components/PageHeader';
 // import {groupArr} from '@helper/utils';
 import {routerRedux} from 'dva/router';
+import md5 from 'js-md5';
 import './index.scss';
 const {ipcRenderer} = window.require('electron');
 
@@ -15,10 +16,14 @@ function PasswordModal(props) {
             <div className="password-body">
                 <span className="password-title">输入设备密码</span>
                 <div className="password-input">
-                    <span>密码：</span>
-                    <input type="password"/>
+                    <span>用户名：</span>
+                    <input type="text" onChange={props.changeId}/>
                 </div>
-                <button className="btn1">确认</button>
+                <div className="password-input">
+                    <span>密码：</span>
+                    <input type="password" onChange={props.changePass}/>
+                </div>
+                <button className="btn1" onClick={props.loginDevice}>确认</button>
             </div>
         </div>
     );
@@ -37,7 +42,34 @@ class CloudCreateContainer extends PureComponent {
     state = {
         passwordShow: false,
         searching: false,
-        productId: ''
+        productId: '',
+        id:'',
+        pass: ''
+    }
+
+    changeId = (e) => {
+        this.setState({
+            id: e.target.value
+        });
+    }
+
+
+    changePass = (e) => {
+        this.setState({
+            pass: e.target.value
+        });
+    }
+
+    loginDevice = () => {
+        this.props.dispatch({
+            type: 'device/loginDevice',
+            payload: {
+                id: this.state.id,
+                pass:md5(this.state.pass),
+                method: 'login',
+                productId: this.state.productId
+            }
+        });
     }
 
     componentDidMount() {
@@ -60,6 +92,7 @@ class CloudCreateContainer extends PureComponent {
         // ipcRenderer.send('post-can-devices');
 
         this.saveDevices(['http://192.168.2.208/']);
+        this.setState({searching: false});
     }
 
     saveDevices(devicesIps) {
@@ -138,7 +171,11 @@ class CloudCreateContainer extends PureComponent {
                         <button className="btn" onClick={this.searchDevices}>重新搜索</button>
                     </div>}
                 {this.state.passwordShow
-                    ? <PasswordModal toggleModal={this.toggleModal}></PasswordModal>
+                    ? <PasswordModal 
+                    toggleModal={this.toggleModal} 
+                    changeId={this.changeId} 
+                    changePass={this.changePass}
+                    loginDevice={this.loginDevice}></PasswordModal>
                     : null}
             </Fragment>
         );
