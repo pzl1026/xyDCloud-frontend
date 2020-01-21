@@ -35,7 +35,7 @@ class DeviceContainer extends PureComponent {
             console.log(devices, 'vdevicesdevices')
             this.props.dispatch({
                 type: 'device/saveDownloadDevices',
-                payload: devices
+                payload: devices || []
             });
         });
     }

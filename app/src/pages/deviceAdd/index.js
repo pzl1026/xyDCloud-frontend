@@ -68,12 +68,12 @@ class CloudCreateContainer extends PureComponent {
                 param: {
                     id: this.state.id,
                     pass:md5(this.state.pass),
-                    method: 'login',
-                    productId: this.state.productId
+                    method: 'login'
                 },
                 cb(){
                     self.props.dispatch(routerRedux.goBack());
-                }
+                },
+                productId: this.state.productId
             }
         });
     }

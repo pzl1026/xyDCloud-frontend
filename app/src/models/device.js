@@ -37,14 +37,14 @@ export default {
 		},
 	},
 	effects: {
-		*loginDevice ({ payload: {param, cb} }, { call, put, select, take }) {
+		*loginDevice ({ payload: {param, cb, productId} }, { call, put, select, take }) {
 			const json = yield call(get2, '', param, 0);
-			
 			if (json.data.result === 0) {
 				let devices = yield select(state => state.device.devices);
 				let downloadDevices = yield select(state => state.device.downloadDevices);
-				let device = devices.find(item => item.product['product-id'] === param.productId);
-				let downloadDevice = downloadDevices.find(item => item.product['product-id'] === param.productId);
+				let device = devices.find(item => item.product['product-id'] === productId);
+				let downloadDevice = downloadDevices.find(item => item.product['product-id'] === productId);
+		
 				if (device && !downloadDevice) {
 					// let downloadDevices2 = [...downloadDevices, device];
 					// yield put({ type: 'saveDownloadDevices', payload: downloadDevices2}); 
