@@ -61,13 +61,19 @@ class CloudCreateContainer extends PureComponent {
     }
 
     loginDevice = () => {
+        const self =this;
         this.props.dispatch({
             type: 'device/loginDevice',
             payload: {
-                id: this.state.id,
-                pass:md5(this.state.pass),
-                method: 'login',
-                productId: this.state.productId
+                param: {
+                    id: this.state.id,
+                    pass:md5(this.state.pass),
+                    method: 'login',
+                    productId: this.state.productId
+                },
+                cb(){
+                    self.props.dispatch(routerRedux.goBack());
+                }
             }
         });
     }
