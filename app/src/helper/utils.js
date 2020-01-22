@@ -143,14 +143,19 @@ export function get(url, values, isOriginhttp, cb) {
  * @param {string} url        请求链接
  * @param {object} [values]   请求参数
  */
-export function get2(url, values, cb) {
-  return request(`usapi${url}?${serialize(values)}`, {
+export function get2(url, values, ip) {
+  let httpUrl = `usapi${url}?${serialize(values)}`;
+
+  if (process.env.NODE_ENV !== 'development') {
+    httpUrl = ip + url;
+  }
+  return request(httpUrl, {
     method: 'GET',
     headers:{
       'Content-Type':'application/x-www-form-urlencoded'
     },
     credentials : 'include'
-  }, cb);
+  });
 }
 
 

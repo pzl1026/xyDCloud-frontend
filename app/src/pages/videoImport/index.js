@@ -38,13 +38,14 @@ function mapStateToProps(state) {
 }
 
 function VideoLi (props) {
+    // http://192.168.2.208/media/disk0/REC_Folder/thumbnail/NBox__3.mov_1578473840.jpg
     const {item} = props;
     let size = parseFloat(item['size-bytes'] / Math.pow(1024, 2)).toFixed(1);
     return (
         <div className="video-li">
             <div className="video-li-body">
                 <div className="video-li-img">
-                    <img src="" alt=""/>
+                    <img src={`${props.ip}media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                 </div>
                 <div className="video-li-info">
                     <span>{item.name}</span>
@@ -70,27 +71,52 @@ function VideoLi (props) {
 class CloudCreateContainer extends PureComponent {
     state = {
         downloadVideos: [],
-        ip: ''
+        ip: '',
+        start: 1, 
     }
     componentDidMount() {
-        console.log(this.props)
         this.setState({
             ip: this.props.history.location.query.ip
+        }, () => {
+            this.requestVideos();
         });
-        this.requestVideos();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.getTimer);
+        this.getTimer = null;
     }
 
     requestVideos = () => {
+        const self = this;
+        let o = {};
+        o['disk-type'] = 1;
+        o.start = this.state.start;
+        o.count = 1000;
         this.props.dispatch({
             type: 'device/getDeviceVideos',
             payload: {
-                // ip: ''
+                param: o,
+                cb: self.changeStart,
+                ip: self.state.ip
             }
         });
     }
 
-    handleChange () {
+    changeStart  = (isNextPage) => {
+        let start = isNextPage ? (this.state.start + 1000) : 1;
 
+        this.setState({
+            start 
+        }, () => {
+            this.getTimer = setTimeout(() => {
+                this.requestVideos();
+            }, isNextPage ? 0 : 5000);
+        });
+    }
+
+    handleChange () {
+        // http://192.168.2.208/media/disk0/REC_Folder/thumbnail/NBox__3.mov_1578473840.jpg
     }
 
     changeDownloadVideosAll = (e) => {
@@ -157,6 +183,7 @@ class CloudCreateContainer extends PureComponent {
                                     <Col span={6}>
                                     <VideoLi 
                                     {...this.props} 
+                                    ip={this.state.ip}
                                     item={item} 
                                     changeDownloadVideos={this.changeDownloadVideos} 
                                     downloadVideos={this.state.downloadVideos}>

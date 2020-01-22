@@ -38,7 +38,7 @@ export default {
 	},
 	effects: {
 		*loginDevice ({ payload: {param, cb, productId} }, { call, put, select, take }) {
-			const json = yield call(get2, '', param, 0);
+			const json = yield call(get2, '', param);
 			if (json.data.result === 0) {
 				let devices = yield select(state => state.device.devices);
 				let downloadDevices = yield select(state => state.device.downloadDevices);
@@ -68,7 +68,7 @@ export default {
 
 		*getDevice ({ payload: param }, { call, put, select, take }) {
 			let devices = yield select(state => state.device.devices);
-			// const json = yield call(get2, '', {method: 'get-info'}, 0);
+			// const json = yield call(get2, '', {method: 'get-info'});
 			// if (json.data.result === 0) {
 			// 	let device = {...json.data, ip: param.ip};
 			// 	devices = [...devices, device];
@@ -82,22 +82,28 @@ export default {
 			
 		},
 
-		*getDeviceVideos ({ payload: param }, { call, put, select, take }) {
+		*getDeviceVideos ({ payload: {param, cb, ip}}, { call, put, select, take }) {
 			// 假设ip为
-			param.ip = '192.168.2.208';
-			const json = yield call(post, '/account/signin', {...param});
+			// param.ip = '192.168.2.208';
+			const json = yield call(get2, '', {...param, method: 'get-media-files'}, ip);
 			console.log(json, 'json');
-			let currentDeviceVideos = yield select(state => state.device.currentDeviceVideos);
+			
+			if (json.data.result === 0) {
+				let currentDeviceVideos = yield select(state => state.device.currentDeviceVideos);
 	
-			// currentDeviceVideos = [...currentDeviceVideos, ...deviceData['media-files']];
-			console.log(currentDeviceVideos, 'currentDeviceVideos');
-			deviceData['media-files'] = deviceData['media-files'].map(m => {
-				return {
-					...m,
-					downpath: `http://${param.ip}/download/${deviceData.path}/m.name`
-				}
-			})
-			ipcRenderer.send('save-device-videos', {videos: deviceData['media-files'], ip: param.ip});
+				// currentDeviceVideos = [...currentDeviceVideos, ...deviceData['media-files']];
+				
+				console.log(currentDeviceVideos, 'currentDeviceVideos');
+				json.data['media-files'] = json.data['media-files'].map(m => {
+					return {
+						...m,
+						downpath: `http://${ip}/download/${deviceData.path}/${m.name}`
+					}
+				})
+				cb(json.data['media-files'].length < 1000 ? false : true);
+				ipcRenderer.send('save-device-videos', {videos: deviceData['media-files'], ip});
+			}
+
 		}
 	},
 	subscriptions: {
