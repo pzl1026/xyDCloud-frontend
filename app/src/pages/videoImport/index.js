@@ -57,7 +57,7 @@ function VideoLi (props) {
                             onChange={(e) => props.changeDownloadVideos(e.target.checked, item.kbps)} 
                             checked={props.downloadVideos.includes(item.kbps)}>
                             </Checkbox> : 
-                            <span style={{fontSize: '12px', color: '#666'}}>下载中</span>
+                            <span style={{fontSize: '12px', color: '#666'}}>{item.isSuccess ? '已下载' : '下载中'}</span>
                         }
                     </div>
                 </div>
