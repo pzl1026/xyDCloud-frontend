@@ -111,7 +111,7 @@ class CloudCreateContainer extends PureComponent {
         }, () => {
             this.getTimer = setTimeout(() => {
                 this.requestVideos();
-            }, isNextPage ? 0 : 5000);
+            }, isNextPage ? 0 : 20000);
         });
     }
 
@@ -132,12 +132,14 @@ class CloudCreateContainer extends PureComponent {
     changeDownloadVideos = (checked, kbps) => {
         let downloadVideos = this.state.downloadVideos;
         if (checked) {
-            downloadVideos.push(kbps);
+            downloadVideos = [...downloadVideos, kbps];
         } else {
             downloadVideos = downloadVideos.filter(m => m.kbps !== kbps);
         }
         this.setState({
             downloadVideos
+        }, () => {
+            console.log(this.state.downloadVideos, 'downloadVideos')
         });
     }
 
@@ -148,7 +150,7 @@ class CloudCreateContainer extends PureComponent {
 
     leftChildren () {
         return (
-            <span onClick={e => this.stopPropagation()}>
+            <span onClick={e => e.stopPropagation()}>
                 <Dropdown overlay={menu} trigger={['click']}>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;<Icon type="ellipsis" /></span>
                 </Dropdown>

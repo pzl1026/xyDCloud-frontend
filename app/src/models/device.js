@@ -97,11 +97,13 @@ export default {
 				json.data['media-files'] = json.data['media-files'].map(m => {
 					return {
 						...m,
-						downpath: `http://${ip}/download/${deviceData.path}/${m.name}`
+						downpath: `${ip}/download/${deviceData.path}/${m.name}`
 					}
 				})
 				cb(json.data['media-files'].length < 1000 ? false : true);
-				ipcRenderer.send('save-device-videos', {videos: deviceData['media-files'], ip});
+				ipcRenderer.send('save-device-videos', {videos: json.data['media-files'], ip});
+			} else {
+				message.warning('请断开设备，重新链接');
 			}
 
 		}

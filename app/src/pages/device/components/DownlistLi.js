@@ -1,5 +1,5 @@
 import React, {PureComponent, Fragment} from 'react';
-import {Row, Col, Dropdown, Menu, Tooltip} from 'antd';
+import {Row, Col, Dropdown, Menu, Tooltip, message} from 'antd';
 import IconBlock from '@components/IconBlock';
 import {routerRedux} from 'dva/router';
 const {ipcRenderer} = window.require('electron');
@@ -40,6 +40,11 @@ class DownlistLi extends PureComponent {
     }
 
     toVideos = (device) => {
+        if (!device.localPath) {
+            message.warning('请先设置设备文件需要下载到的本地文件夹');
+            return;
+        }
+        
         this
         .props
         .dispatch(routerRedux.push({pathname: '/videoimport', query: {
