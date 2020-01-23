@@ -1,0 +1,37 @@
+.video-play-li{
+    width: 157px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 8px;
+
+    img{
+        object-fit: contain;
+        object-position: center;
+        width:100%;
+        height: 100%;
+    }
+}
+
+.video-play-list{
+    width: calc(100vw - 257px - 50px);
+    // margin-top: 30px;
+}
+
+.video-play-body{
+    width: 837px;
+    margin:0 auto;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+}
+
+.video-title{
+    color: #fff;
+    line-height: 30px;
+}
+
+.video-play-list-body{
+    width:837px;
+    margin:0 auto;
+}

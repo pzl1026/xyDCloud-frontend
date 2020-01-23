@@ -2,7 +2,6 @@ import './index.scss';
 import { Row, Col, Icon } from 'antd';
 
 export default function(props) {
-    console.log(props, 'props')
     return (
         <Row className="page-header" type="flex" justify="space-between">
             <Col span={12}>
@@ -12,7 +11,6 @@ export default function(props) {
                 </div>
             </Col>
             <Col span={12}>
-               
                 <div className="page-header-right">
                     {props.rightChildren}
                     {props.isStr ?

@@ -10,7 +10,8 @@ export default {
         devices: [],
 		currentLoginDevice: '192.168.2.208',
 		downloadDevices: [],
-		currentDeviceVideos: []
+		currentDeviceVideos: [],
+		currentVideosPlay: []
 	},
 	reducers: {
         saveMyHost (state, { payload: myHost}) {
@@ -34,6 +35,10 @@ export default {
 		saveCurrentDeviceVideos(state, { payload: currentDeviceVideos}) {
 			console.log(currentDeviceVideos, 'currentDeviceVideos222')
             return {...state, currentDeviceVideos}
+		},
+
+		saveCurrentVideosPlay(state, { payload: currentVideosPlay}) {
+            return {...state, currentVideosPlay}
 		},
 	},
 	effects: {
@@ -95,9 +100,11 @@ export default {
 				
 				console.log(currentDeviceVideos, 'currentDeviceVideos');
 				json.data['media-files'] = json.data['media-files'].map(m => {
+					let ipd = ip.substr(0, ip.length - 1);
 					return {
 						...m,
-						downpath: `${ip}/download/${deviceData.path}/${m.name}`
+						downpath: `${ip}download${json.data.path}/${m.name}`,
+						playpath: `${ipd}:8080/${json.data.path}/${m.name}`,
 					}
 				})
 				cb(json.data['media-files'].length < 1000 ? false : true);

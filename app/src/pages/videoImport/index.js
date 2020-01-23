@@ -44,7 +44,7 @@ function VideoLi (props) {
     return (
         <div className="video-li">
             <div className="video-li-body">
-                <div className="video-li-img">
+                <div className="video-li-img" onClick={() => props.toVideoPlay(item)}>
                     <img src={`${props.ip}media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                 </div>
                 <div className="video-li-info">
@@ -119,6 +119,23 @@ class CloudCreateContainer extends PureComponent {
         // http://192.168.2.208/media/disk0/REC_Folder/thumbnail/NBox__3.mov_1578473840.jpg
     }
 
+    toVideoPlay = (video) => {
+        const videos = JSON.parse(JSON.stringify(this.props.currentDeviceVideos));
+
+        this.props.dispatch({
+            type: 'device/saveCurrentVideosPlay',
+            payload: videos
+        });
+
+        this.props.dispatch(routerRedux.push({
+            pathname: '/devicevideoplay',
+            query: {
+                ip: this.state.ip,
+                kbps: video.kbps
+            }
+        }));
+    }
+
     changeDownloadVideosAll = (e) => {
         let downloadVideos = [];
         if (e.target.checked) {
@@ -187,6 +204,7 @@ class CloudCreateContainer extends PureComponent {
                                     {...this.props} 
                                     ip={this.state.ip}
                                     item={item} 
+                                    toVideoPlay={this.toVideoPlay}
                                     changeDownloadVideos={this.changeDownloadVideos} 
                                     downloadVideos={this.state.downloadVideos}>
                                     </VideoLi>

@@ -27,7 +27,7 @@ const sideMenu = [
         iconActive: 'sice_cloud_record_active.svg'
     }, {
         url: '/device',
-        urlTest: ['/device', '/deviceadd', '/devicevideoplay'],
+        urlTest: ['/device', '/deviceadd', '/videoimport', '/devicevideoplay'],
         name: '设备导入',
         icon: 'side_device.svg',
         iconActive: 'side_device_active.svg'
