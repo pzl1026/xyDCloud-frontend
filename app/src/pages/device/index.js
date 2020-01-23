@@ -44,8 +44,8 @@ class DeviceContainer extends PureComponent {
 
     }
 
-    changePause = () => {
-        
+    changePause = (ip) => {
+        ipcRenderer.send('change-device-pause-status', ip);
     }
 
     toDeviceAdd = () => {

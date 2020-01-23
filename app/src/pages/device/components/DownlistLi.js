@@ -4,7 +4,6 @@ import IconBlock from '@components/IconBlock';
 import {routerRedux} from 'dva/router';
 const {ipcRenderer} = window.require('electron');
 
-
 class DownlistLi extends PureComponent {
     state = {
         currentdevice: null
@@ -108,6 +107,11 @@ class DownlistLi extends PureComponent {
                                 <div className="dl-action" onClick={e => e.stopPropagation()}>
                                     {/* <img src="" alt=""/> */}
                                     {/* <IconBlock iconName="fm-share.svg" direction="left"></IconBlock> */}
+                                    <span className="cloud-li-play" onClick={() => this.props.changePause(item.ip)}>
+                                        {item.isPause
+                                            ? <IconBlock iconName="play.svg"></IconBlock>
+                                            : <IconBlock iconName="pause.svg"></IconBlock>}
+                                    </span>
                                     <Dropdown overlay={this.menu()} trigger={['click']} placement="bottomCenter">
                                         <div className="dl-li-span">
                                             <div className="dl-action-btn" onClick={() => this.setCurrentDevice(item)}>
