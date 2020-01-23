@@ -98,10 +98,10 @@ class CloudCreateContainer extends PureComponent {
 
     searchDevices = () => {
         this.setState({searching: true});
-        ipcRenderer.send('post-can-devices');
+        // ipcRenderer.send('post-can-devices');
 
-        // this.saveDevices(['http://192.168.2.208/']);
-        // this.setState({searching: false});
+        this.saveDevices(['http://192.168.2.208/']);
+        this.setState({searching: false});
     }
 
     saveDevices(devicesIps) {

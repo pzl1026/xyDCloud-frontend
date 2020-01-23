@@ -159,7 +159,8 @@ class CloudRecordContainer extends Component {
    
         // 获取所有的曾经下载过的跟即将下载以及失败的视频
         ipcRenderer.on('get-devices-videos', (event, allVideos) => {
-            console.log(allVideos, 'allvides')
+            console.log(allVideos, 'allvides');
+            if (!allVideos) return;
             this.getAllStatusVideos(allVideos);
         });
     }

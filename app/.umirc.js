@@ -55,6 +55,9 @@ export default {
               }, {
                 path: '/devicerecord',
                 component: '../pages/deviceRecord'
+              }, {
+                path: '/devicevideoplay',
+                component: '../pages/deviceVideoPlay'
               }
           ]
       }
