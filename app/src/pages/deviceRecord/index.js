@@ -175,7 +175,7 @@ class CloudRecordContainer extends Component {
             let successCount = item['media-files'].filter(m => m.isSuccess).length;
             item.downCount = item['media-files'].filter(m => m.needDownload && !m.isSuccess).length;
             let count = item['media-files'].filter(m => m.needDownload).length;
-            item.process = (parseFloat(successCount / count).toFixed(2) * 100) + '%';
+            item.process = count === 0 ? '100%' : (parseFloat(successCount / count).toFixed(2) * 100) + '%';
             return item;
         });
         videosRecords[1].videos = allVideos.map(item => {

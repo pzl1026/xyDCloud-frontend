@@ -85,8 +85,11 @@ class CloudCreateContainer extends PureComponent {
         if (devices.length === 0) {
             this.searchDevices();
         }
-
         ipcRenderer.send('post-ip-address');
+        ipcRenderer.send('post-devices-searching');
+        ipcRenderer.on('get-devices-searching', (event, searching) => {
+            self.setState({searching});
+        });
         ipcRenderer.on('complete-devices-search', (event, devicesIps) => {
             self.setState({searching: false});
             self.saveDevices(devicesIps);
@@ -95,10 +98,10 @@ class CloudCreateContainer extends PureComponent {
 
     searchDevices = () => {
         this.setState({searching: true});
-        // ipcRenderer.send('post-can-devices');
+        ipcRenderer.send('post-can-devices');
 
-        this.saveDevices(['http://192.168.2.208/']);
-        this.setState({searching: false});
+        // this.saveDevices(['http://192.168.2.208/']);
+        // this.setState({searching: false});
     }
 
     saveDevices(devicesIps) {
