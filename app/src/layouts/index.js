@@ -67,14 +67,21 @@ function SideMenuBody(props) {
 class BasicLayout extends PureComponent {
 
     componentDidMount() {
-        // console.log(this.props.history.location.pathname, 'history.location.pathname')
+        // console.log(this.props.s, 'history.location.pathname')
     }
 
     render() {
         const {history, userInfo} = this.props;
-        
-        if (history.location.pathname === '/') {
-            return <Fragment>{this.props.children}</Fragment>;
+        if (
+            process.env.NODE_ENV !== 'development' ?
+            history.location.pathname.indexOf('index.html') > -1 :
+            history.location.pathname === '/'
+        ) {
+            return (
+                <div className="loading-container">
+                    <div className="loading-body"></div>
+                </div>
+            );
         }
 
         return (
