@@ -68,7 +68,7 @@ function VideoLi (props) {
 
 @withRouter
 @connect(mapStateToProps)
-class CloudCreateContainer extends PureComponent {
+class VideoImportContainer extends PureComponent {
     state = {
         downloadVideos: [],
         ip: '',
@@ -204,6 +204,7 @@ class CloudCreateContainer extends PureComponent {
                                 return (
                                     <Col span={6}>
                                     <VideoLi 
+                                    key={item.kbps}
                                     {...this.props} 
                                     ip={this.state.ip}
                                     item={item} 
@@ -222,4 +223,4 @@ class CloudCreateContainer extends PureComponent {
     }
 }
 
-export default CloudCreateContainer;
+export default VideoImportContainer;

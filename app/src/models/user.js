@@ -97,7 +97,7 @@ export default {
 
 			ipcRenderer.on('store-client-user', (event, arg) => {
 				localStorage.setItem(STORE_FIELD, JSON.stringify(arg));
-				// handleHasUser(arg);
+				handleHasUser(arg);
 				dispatch(routerRedux.push({
 					pathname: '/cloud',
 				}));

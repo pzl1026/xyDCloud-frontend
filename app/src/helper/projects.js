@@ -72,6 +72,7 @@ export function loopFetchProjects (handleProjects, handleProjectsVideos) {
     // getProjectsVideos(userInfo.login_id, handleProjects, handleProjectsVideos);
     ipcRenderer.on('render-setting-projects', (e, setedProjects) => getSettingProjects(setedProjects, handleProjects, handleProjectsVideos));
     ipcRenderer.send('get-setting-projects');
+    if (window.loopFetchProjectsTimer) return;
     window.loopFetchProjectsTimer = setInterval(() => {
         if (!userInfo){
             clearInterval(window.loopFetchProjectsTimer);
