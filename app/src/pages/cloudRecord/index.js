@@ -39,7 +39,6 @@ const headerFields = [
 ];
 
 function DownlistLi(props) {
-    console.log(props.videos, 'videosvideos')
     return props.videos.map(item => {
         let lastVal = '';
         switch(props.type) {
@@ -144,8 +143,6 @@ class CloudRecordContainer extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
-
         ipcRenderer.send('post-all-videos');
         this.getVideoTimer = setInterval(() => {
             ipcRenderer.send('post-all-videos');
@@ -170,7 +167,6 @@ class CloudRecordContainer extends Component {
         this.setState({
             videosRecords
         });
-        console.log(videosRecords, 'videosRecords')
     }
 
     callback() {}

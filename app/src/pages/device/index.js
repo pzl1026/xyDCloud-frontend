@@ -31,7 +31,6 @@ class DeviceContainer extends PureComponent {
     componentDidMount() {
         ipcRenderer.send('get-devices');
         ipcRenderer.on('render-device-list', (event, devices) => {
-            console.log(devices, 'vdevicesdevices')
             this.props.dispatch({
                 type: 'device/saveDownloadDevices',
                 payload: devices || []
@@ -53,7 +52,6 @@ class DeviceContainer extends PureComponent {
 
     render() {
         const {downloadDevices} = this.props;
-        console.log(downloadDevices, 'downloadDevices22')
         return (
             <Fragment>
                 <button className="btn1" onClick={this.toDeviceAdd}>添加设备</button>

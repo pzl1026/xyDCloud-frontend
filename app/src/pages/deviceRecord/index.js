@@ -39,7 +39,6 @@ const headerFields = [
 ];
 
 function DownlistLi(props) {
-    console.log(props.videos, 'videosvideos')
     return props.videos.map(item => {
         let lastVal = '';
         let count = 0;
@@ -150,8 +149,6 @@ class CloudRecordContainer extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
-
         ipcRenderer.send('post-devices-videos');
         this.getVideoTimer = setInterval(() => {
             ipcRenderer.send('post-all-videos');
@@ -159,7 +156,6 @@ class CloudRecordContainer extends Component {
    
         // 获取所有的曾经下载过的跟即将下载以及失败的视频
         ipcRenderer.on('get-devices-videos', (event, allVideos) => {
-            console.log(allVideos, 'allvides');
             if (!allVideos) return;
             this.getAllStatusVideos(allVideos);
         });
@@ -190,7 +186,6 @@ class CloudRecordContainer extends Component {
         this.setState({
             videosRecords
         });
-        console.log(videosRecords, 'videosRecords')
     }
 
     callback() {}

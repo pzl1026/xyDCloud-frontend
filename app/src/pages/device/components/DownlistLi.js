@@ -20,7 +20,6 @@ class DownlistLi extends PureComponent {
     onMenuClick = ({key}) => {
         switch (key) {
             case '0':
-                console.log(this.state.currentdevice, 'this.state.currentdevice')
                 ipcRenderer.send('open-device-dir', this.state.currentdevice.localPath);
                 break;
             case '1':
@@ -78,7 +77,6 @@ class DownlistLi extends PureComponent {
 
     render() {
         const {downloadDevices} = this.props;
-        console.log(downloadDevices, 'downloadDevices')
         return (
             <Fragment>
                 {downloadDevices.map((item, index) => {

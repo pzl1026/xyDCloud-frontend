@@ -82,7 +82,6 @@ class CloudCreateContainer extends PureComponent {
 
     componentDidMount() {
         const self = this;
-        console.log(this.props);
         const {devices} = self.props;
         if (devices.length === 0) {
             this.searchDevices();
@@ -93,14 +92,12 @@ class CloudCreateContainer extends PureComponent {
             self.setState({searching});
         });
         ipcRenderer.on('complete-devices-search', (event, devicesIps) => {
-            console.log(devicesIps, 'devicesIps')
             self.setState({searching: false});
             self.saveDevices(devicesIps);
         });
     }
 
     searchDevices = () => {
-        console.log('searchDevices')
         this.setState({searching: true});
         ipcRenderer.send('post-can-devices');
 
@@ -109,7 +106,6 @@ class CloudCreateContainer extends PureComponent {
     }
 
     saveDevices(devicesIps) {
-        console.log(devicesIps, 'devicesIps')
         devicesIps.forEach(item => {
             this
                 .props
@@ -124,13 +120,10 @@ class CloudCreateContainer extends PureComponent {
     }
 
     toggleModal = (passwordShow, productId, item) => {
-        console.log(2322)
         this.setProductId(productId);
         this.setState({
             passwordShow,
             ip: item.ip
-        }, (val) => {
-            console.log(this.state, 'val')
         });
     }
 
@@ -151,7 +144,6 @@ class CloudCreateContainer extends PureComponent {
     render() {
         const {devices} = this.props;
         const {searching} = this.state;
-        console.log(devices, 'devicesrender')
         return (
             <Fragment>
                 <PageHeader

@@ -156,8 +156,6 @@ class CloudCreateContainer extends PureComponent {
         }
         this.setState({
             downloadVideos
-        }, () => {
-            console.log(this.state.downloadVideos, 'downloadVideos')
         });
     }
 

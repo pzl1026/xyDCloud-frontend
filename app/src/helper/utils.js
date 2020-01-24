@@ -144,14 +144,14 @@ export function get(url, values, isOriginhttp, cb) {
  * @param {object} [values]   请求参数
  */
 export function get2(url, values, ip) {
-  console.log(url, ip)
+  // console.log(url, ip)
   // let httpUrl = `usapi${url}?${serialize(values)}`;
 
   // if (process.env.NODE_ENV !== 'development') {
   //   httpUrl = ip + `usapi?${serialize(values)}`;
   // }
   let httpUrl = ip + `usapi?${serialize(values)}`;
-  console.log(httpUrl, 'httpurl')
+  // console.log(httpUrl, 'httpurl')
   return request(httpUrl, {
     method: 'GET',
     headers:{

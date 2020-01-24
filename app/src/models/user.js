@@ -39,7 +39,6 @@ export default {
 		},
 
 		saveUserInfo(state, { payload: userInfo}) {
-			console.log(userInfo, 'userInfo')
 			return {...state, userInfo};
 		},
 	},
@@ -84,7 +83,7 @@ export default {
 				});
 			}
 			let userInfo = localStorage.getItem(STORE_FIELD);
-			console.log(userInfo, 'user');
+
 			userInfo && ipcRenderer.send('save-user', JSON.parse(userInfo));
 			if (userInfo) {
 				handleHasUser(JSON.parse(userInfo));
@@ -93,9 +92,6 @@ export default {
 					dispatch(routerRedux.push({
 						pathname: '/login',
 					}));
-					setTimeout(() => {
-						console.log(history)
-					}, 1000);
 				}, 1000);
 			}
 

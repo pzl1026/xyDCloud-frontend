@@ -27,7 +27,6 @@ class CloudCreateContainer extends PureComponent {
     }
 
     componentDidMount() {
-        console.log(this.props, 'ppps')
         this.setEdit();
         // ipcRenderer.removeListener('fetch-folder-dialog', () => {});
         // ipcRenderer.removeListener('create-project-path', () => {});

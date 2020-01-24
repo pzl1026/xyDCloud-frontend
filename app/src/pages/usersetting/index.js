@@ -21,7 +21,6 @@ class CloudCreateContainer extends PureComponent {
         startLogin: false
     }
     componentDidMount() {
-        console.log(this.props);
         let startLogin = localStorage.getItem('start_login');
         this.setState({
             startLogin
