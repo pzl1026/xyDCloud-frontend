@@ -95,7 +95,7 @@ class CloudCreateContainer extends PureComponent {
                                                     className="video-play-li" 
                                                     style={{border: index === initialSlide ? '2px solid #4051f9' : ''}}
                                                     onClick={() => this.changeVideoPlay(item)}>
-                                                    <img src={`${this.state.ip}media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
+                                                    <img src={`http://${this.state.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                                                     </div>
                                                 </div>
                                             )

@@ -70,7 +70,9 @@ export default {
 			if (json.data.result === 0) {
 				devices.push(param.ip);
                 yield put({ type: 'saveDevices', payload: devices});
-            }
+            } else {
+				message.warning('登录失败，请检查设备是否正常');
+			}
 		},
 
 		*getDevice ({ payload: param }, { call, put, select, take }) {
