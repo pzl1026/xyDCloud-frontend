@@ -45,7 +45,7 @@ function VideoLi (props) {
         <div className="video-li">
             <div className="video-li-body">
                 <div className="video-li-img" onClick={() => props.toVideoPlay(item)}>
-                    <img src={`${props.ip}media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
+                    <img src={`http://${props.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                 </div>
                 <div className="video-li-info">
                     <span>{item.name}</span>
@@ -151,7 +151,8 @@ class CloudCreateContainer extends PureComponent {
         if (checked) {
             downloadVideos = [...downloadVideos, kbps];
         } else {
-            downloadVideos = downloadVideos.filter(m => m.kbps !== kbps);
+
+            downloadVideos = downloadVideos.filter(m => m !== kbps);
         }
         this.setState({
             downloadVideos

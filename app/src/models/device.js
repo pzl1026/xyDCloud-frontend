@@ -45,7 +45,7 @@ export default {
 	},
 	effects: {
 		*loginDevice ({ payload: {param, cb, productId, ip} }, { call, put, select, take }) {
-			const json = yield call(get2, '', param, ip);
+			const json = yield call(get2, '', param, `http://${ip}/`);
 			if (json.data.result === 0) {
 				let devices = yield select(state => state.device.devices);
 				let downloadDevices = yield select(state => state.device.downloadDevices);
@@ -75,28 +75,28 @@ export default {
 
 		*getDevice ({ payload: param }, { call, put, select, take }) {
 			let devices = yield select(state => state.device.devices);
-			// const json = yield call(get2, '', {method: 'get-info'});
-			// if (json.data.result === 0) {
-			// 	let device = {...json.data, ip: param.ip};
-			// 	devices = [...devices, device];
-			// 	yield put({ type: 'saveDevices', payload: devices});
-			// 	yield put({ type: 'saveDeviceStatus', payload: 1});
-			// } else {
-			// 	yield put({ type: 'saveDeviceStatus', payload: 0});
-			// 	message.warning('请断开设备，重新登录链接');
-			// }
+			const json = yield call(get2, '', {method: 'get-info'}, `http://${param.ip}/`);
+			if (json.data.result === 0) {
+				let device = {...json.data, ip: param.ip};
+				devices = [...devices, device];
+				yield put({ type: 'saveDevices', payload: devices});
+				yield put({ type: 'saveDeviceStatus', payload: 1});
+			} else {
+				yield put({ type: 'saveDeviceStatus', payload: 0});
+				message.warning('请断开设备，重新登录链接');
+			}
 
 			// 模拟数据
-			let device = {...deviceInfo, ip: param.ip};
-			devices = [...devices, device];
-			yield put({ type: 'saveDevices', payload: devices});
+			// let device = {...deviceInfo, ip: param.ip};
+			// devices = [...devices, device];
+			// yield put({ type: 'saveDevices', payload: devices});
 			
 		},
 
 		*getDeviceVideos ({ payload: {param, cb, ip}}, { call, put, select, take }) {
 			// 假设ip为
 			// param.ip = '192.168.2.208';
-			const json = yield call(get2, '', {...param, method: 'get-media-files'}, ip);
+			const json = yield call(get2, '', {...param, method: 'get-media-files'}, `http://${ip}/`);
 			
 			if (json.data.result === 0) {
 				// let currentDeviceVideos = yield select(state => state.device.currentDeviceVideos);
@@ -105,11 +105,11 @@ export default {
 				
 				// console.log(currentDeviceVideos, 'currentDeviceVideos');
 				json.data['media-files'] = json.data['media-files'].map(m => {
-					let ipd = ip.substr(0, ip.length - 1);
+					// let ipd = ip.substr(0, ip.length - 1);
 					return {
 						...m,
-						downpath: `${ip}download${json.data.path}/${m.name}`,
-						playpath: `${ipd}:8080/${json.data.path}/${m.name}`,
+						downpath: `http://${ip}/download${json.data.path}/${m.name}`,
+						playpath: `http://${ip}:8080/${json.data.path}/${m.name}`,
 					}
 				})
 				cb(json.data['media-files'].length < 1000 ? false : true);

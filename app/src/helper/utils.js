@@ -145,11 +145,12 @@ export function get(url, values, isOriginhttp, cb) {
  */
 export function get2(url, values, ip) {
   console.log(url, ip)
-  let httpUrl = `usapi${url}?${serialize(values)}`;
+  // let httpUrl = `usapi${url}?${serialize(values)}`;
 
-  if (process.env.NODE_ENV !== 'development') {
-    httpUrl = ip + `usapi?${serialize(values)}`;
-  }
+  // if (process.env.NODE_ENV !== 'development') {
+  //   httpUrl = ip + `usapi?${serialize(values)}`;
+  // }
+  let httpUrl = ip + `usapi?${serialize(values)}`;
   console.log(httpUrl, 'httpurl')
   return request(httpUrl, {
     method: 'GET',
