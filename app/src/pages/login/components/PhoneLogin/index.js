@@ -156,10 +156,10 @@ class PhoneLoginContainer extends PureComponent {
                     }}>绑定手机</button>
                 </form>
 
-                <div className="wx-login">
+                {/* <div className="wx-login">
                     <img src={require('../../../../assets/wx.png')} alt="" onClick={() => this.props.changeLoginType(2)}/>
                     <span>微信登录</span>
-                </div>
+                </div> */}
 
                 <div className="login-tip">
                     <Checkbox onChange={this.changeHandbook}>我已阅读并同意《新阅用户使用手册》</Checkbox>

@@ -92,15 +92,17 @@ export default {
 					dispatch(routerRedux.push({
 						pathname: '/login',
 					}));
-				}, 1000);
+				}, 3000);
 			}
 
 			ipcRenderer.on('store-client-user', (event, arg) => {
 				localStorage.setItem(STORE_FIELD, JSON.stringify(arg));
 				handleHasUser(arg);
-				dispatch(routerRedux.push({
-					pathname: '/cloud',
-				}));
+				setTimeout(() => {
+					dispatch(routerRedux.push({
+						pathname: '/cloud',
+					}));
+				}, 3000);
 			});
 
 			ipcRenderer.on('project-render', (event, projects) => {

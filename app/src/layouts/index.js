@@ -67,6 +67,7 @@ function SideMenuBody(props) {
 class BasicLayout extends PureComponent {
 
     componentDidMount() {
+        // console.log(this.props.history.location.pathname, 'history.location.pathname')
     }
 
     render() {
