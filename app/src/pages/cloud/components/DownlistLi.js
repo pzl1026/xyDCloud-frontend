@@ -53,25 +53,25 @@ class DownlistLi extends PureComponent {
             <Menu onClick={this.onMenuClick}>
                 <Menu.Item key="0">
                     <div className="dl-li-action-menu">
-                        <img src="" alt=""/>
+                        <img src={require('../../../assets/folder-active.png')} alt=""/>
                         <span>打开本地目录</span>
                     </div>
                 </Menu.Item>
                 <Menu.Item key="1">
                     <div className="dl-li-action-menu">
-                        <img src="" alt=""/>
+                        <img src={require('../../../assets/openurl-active.png')} alt=""/>
                         <span>打开云端网页</span>
                     </div>
                 </Menu.Item>
                 <Menu.Item key="2">
                     <div className="dl-li-action-menu">
-                        <img src="" alt=""/>
+                        <img src={require('../../../assets/edit-active.png')} alt=""/>
                         <span>编辑下载任务</span>
                     </div>
                 </Menu.Item>
                 <Menu.Item key="3">
                     <div className="dl-li-action-menu">
-                        <img src="" alt=""/>
+                        <img src={require('../../../assets/delete-active.png')} alt=""/>
                         <span>删除下载任务</span>
                     </div>
                 </Menu.Item>

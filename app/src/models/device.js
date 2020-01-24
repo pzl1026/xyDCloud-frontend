@@ -11,7 +11,8 @@ export default {
 		currentLoginDevice: '192.168.2.208',
 		downloadDevices: [],
 		currentDeviceVideos: [],
-		currentVideosPlay: []
+		currentVideosPlay: [],
+		deviceStatus: 1,  //检查设备是否需要重新登录链接
 	},
 	reducers: {
         saveMyHost (state, { payload: myHost}) {
@@ -19,7 +20,6 @@ export default {
         },
 
         saveDevices (state, { payload: devices}) {
-            console.log(devices, 'devices')
             return {...state, devices}
         },
 
@@ -28,17 +28,19 @@ export default {
 		},
 		
 		saveDownloadDevices(state, { payload: downloadDevices}) {
-			console.log(downloadDevices, 'downloadDevice')
             return {...state, downloadDevices}
 		},
 
 		saveCurrentDeviceVideos(state, { payload: currentDeviceVideos}) {
-			console.log(currentDeviceVideos, 'currentDeviceVideos222')
             return {...state, currentDeviceVideos}
 		},
 
 		saveCurrentVideosPlay(state, { payload: currentVideosPlay}) {
             return {...state, currentVideosPlay}
+		},
+
+		saveDeviceStatus(state, { payload: deviceStatus}) {
+            return {...state, deviceStatus}
 		},
 	},
 	effects: {
@@ -49,12 +51,13 @@ export default {
 				let downloadDevices = yield select(state => state.device.downloadDevices);
 				let device = devices.find(item => item.product['product-id'] === productId);
 				let downloadDevice = downloadDevices.find(item => item.product['product-id'] === productId);
-		
+				yield put({ type: 'saveDeviceStatus', payload: 1});
 				if (device && !downloadDevice) {
 					// let downloadDevices2 = [...downloadDevices, device];
 					// yield put({ type: 'saveDownloadDevices', payload: downloadDevices2}); 
 					device['media-files'] = [];
 					ipcRenderer.send('save-device', device);
+					
 					cb();
 				}
 			}
@@ -66,7 +69,6 @@ export default {
 
 			if (json.data.result === 0) {
 				devices.push(param.ip);
-				console.log(devices, 'devicesdevicesdevices')
                 yield put({ type: 'saveDevices', payload: devices});
             }
 		},
@@ -78,6 +80,10 @@ export default {
 			// 	let device = {...json.data, ip: param.ip};
 			// 	devices = [...devices, device];
 			// 	yield put({ type: 'saveDevices', payload: devices});
+			// 	yield put({ type: 'saveDeviceStatus', payload: 1});
+			// } else {
+			// 	yield put({ type: 'saveDeviceStatus', payload: 0});
+			// 	message.warning('请断开设备，重新登录链接');
 			// }
 
 			// 模拟数据
@@ -91,14 +97,13 @@ export default {
 			// 假设ip为
 			// param.ip = '192.168.2.208';
 			const json = yield call(get2, '', {...param, method: 'get-media-files'}, ip);
-			console.log(json, 'json');
 			
 			if (json.data.result === 0) {
-				let currentDeviceVideos = yield select(state => state.device.currentDeviceVideos);
+				// let currentDeviceVideos = yield select(state => state.device.currentDeviceVideos);
 	
 				// currentDeviceVideos = [...currentDeviceVideos, ...deviceData['media-files']];
 				
-				console.log(currentDeviceVideos, 'currentDeviceVideos');
+				// console.log(currentDeviceVideos, 'currentDeviceVideos');
 				json.data['media-files'] = json.data['media-files'].map(m => {
 					let ipd = ip.substr(0, ip.length - 1);
 					return {
@@ -110,7 +115,9 @@ export default {
 				cb(json.data['media-files'].length < 1000 ? false : true);
 				ipcRenderer.send('save-device-videos', {videos: json.data['media-files'], ip});
 			} else {
-				message.warning('请断开设备，重新链接');
+				ipcRenderer.send('save-device-videos', {videos: [], ip});
+				yield put({ type: 'saveDeviceStatus', payload: 0});
+				message.warning('请断开设备，重新登录链接');
 			}
 
 		}

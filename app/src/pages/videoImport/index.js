@@ -1,7 +1,7 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import {Row, Col, Checkbox, Menu, Dropdown, Icon} from 'antd';
+import {Row, Col, Checkbox, Menu, Dropdown, Icon, message} from 'antd';
 import PageHeader from '@components/PageHeader';
 import {routerRedux} from 'dva/router';
 import './index.scss';
@@ -161,6 +161,10 @@ class CloudCreateContainer extends PureComponent {
     }
 
     setDownload = () => {
+        if(!this.props.deviceStatus) {
+            message.warning('请断开设备，重新登录链接');
+            return;
+        }
         ipcRenderer.send('change-device-videos-download', {videosKbps: this.state.downloadVideos, ip: this.state.ip});
         this.toBack();
     }
@@ -183,12 +187,12 @@ class CloudCreateContainer extends PureComponent {
 
     render() {
         const {currentDeviceVideos} = this.props;
+        // leftChildren={this.leftChildren()} 
         return (
             <Fragment>
                 <PageHeader backTitle="设备视频详情" 
                 rightText="立即导入" 
                 rightClick={this.setDownload}
-                leftChildren={this.leftChildren()} 
                 back={this.toBack}></PageHeader>
                 <div className="page-container" style={{marginTop: 20}}>
                     <header className="video-import-header"> 
