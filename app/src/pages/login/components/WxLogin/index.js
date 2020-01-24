@@ -1,7 +1,7 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import styles from './index.scss';
+import './index.scss';
 
 function mapStateToProps(state) {
     return {

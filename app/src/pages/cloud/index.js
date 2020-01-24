@@ -5,9 +5,7 @@ import {routerRedux} from 'dva/router';
 import DownloadHeader from '@components/DownloadHeader';
 import DownlistLi from './components/DownlistLi';
 import './index.scss';
-import { List } from 'antd';
 const { ipcRenderer } = window.require('electron');
-
 
 function mapStateToProps(state) {
     return {

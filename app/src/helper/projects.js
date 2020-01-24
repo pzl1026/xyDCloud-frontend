@@ -1,4 +1,4 @@
-import {post, handleData, queryData2Md5, get} from '@helper/utils';
+import {post, queryData2Md5} from '@helper/utils';
 import {STORE_FIELD} from '@config/user';
 import {message} from 'antd';
 const { ipcRenderer } = window.require('electron');

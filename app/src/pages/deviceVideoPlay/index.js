@@ -1,13 +1,12 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import {Row, Col, Checkbox, Menu, Dropdown, Icon} from 'antd';
+import {Row, Col} from 'antd';
 import PageHeader from '@components/PageHeader';
 import {routerRedux} from 'dva/router';
 import { Player } from 'video-react';
 import "video-react/dist/video-react.css";
 import './index.scss';
-const { ipcRenderer } = window.require('electron');
 
 function mapStateToProps(state) {
     return {
@@ -38,7 +37,7 @@ class CloudCreateContainer extends PureComponent {
             playPath,
             initialSlide
         });
-        var mySwiper = new window.Swiper('#swiper-container', {
+        new window.Swiper('#swiper-container', {
             autoplay: false,//可选选项，自动滑动
             slidesPerView: 5,
             spaceBetween: 10,
@@ -64,7 +63,7 @@ class CloudCreateContainer extends PureComponent {
 
     render() {
         const {currentVideosPlay} = this.props;
-        const {playVideo,ip, playPath, initialSlide} = this.state;
+        const {playVideo,ip, initialSlide} = this.state;
         return (
             <Fragment>
                 <PageHeader 

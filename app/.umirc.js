@@ -98,4 +98,6 @@ export default {
 },
   "hash": true,
   "disableCSSModules": true,
+  "outputPath": "../../xyDcloud/dist",
+  "publicPath": "./",
 }

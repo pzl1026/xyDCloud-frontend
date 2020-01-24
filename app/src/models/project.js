@@ -1,4 +1,4 @@
-import {post, handleData, get} from '@helper/utils';
+import {post, handleData} from '@helper/utils';
 import {message} from 'antd';
 const { ipcRenderer } = window.require('electron');
 

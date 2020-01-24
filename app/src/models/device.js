@@ -1,6 +1,6 @@
-import {post, handleData, get, get2} from '@helper/utils';
+import {get, get2} from '@helper/utils';
 import {message} from 'antd';
-import {deviceData, deviceInfo} from '@helper/data';
+import {deviceInfo} from '@helper/data';
 const { ipcRenderer } = window.require('electron');
 
 export default {
@@ -44,8 +44,8 @@ export default {
 		},
 	},
 	effects: {
-		*loginDevice ({ payload: {param, cb, productId} }, { call, put, select, take }) {
-			const json = yield call(get2, '', param);
+		*loginDevice ({ payload: {param, cb, productId, ip} }, { call, put, select, take }) {
+			const json = yield call(get2, '', param, ip);
 			if (json.data.result === 0) {
 				let devices = yield select(state => state.device.devices);
 				let downloadDevices = yield select(state => state.device.downloadDevices);

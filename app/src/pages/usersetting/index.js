@@ -4,7 +4,6 @@ import withRouter from 'umi/withRouter';
 import { routerRedux } from 'dva/router';
 import { Checkbox } from 'antd';
 import {STORE_FIELD} from '@config/user';
-import {loopFetchProjectsTimer} from '@helper/projects';
 
 import './index.scss';
 const { ipcRenderer } = window.require('electron');

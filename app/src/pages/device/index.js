@@ -1,7 +1,6 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import {Row, Col, Menu, Dropdown, Icon} from 'antd';
 import DownloadHeader from '@components/DownloadHeader';
 import {routerRedux} from 'dva/router';
 import DownlistLi from './components/DownlistLi';

@@ -1,8 +1,8 @@
-import {post, handleData, get, getTokenLocalstorage} from '@helper/utils';
+import {post, handleData} from '@helper/utils';
 import {message} from 'antd';
 import {STORE_FIELD} from '@config/user';
 import { routerRedux } from 'dva/router';
-import {getProjectsVideos, saveProjects, loopFetchProjects} from '@helper/projects';
+import {saveProjects, loopFetchProjects} from '@helper/projects';
 const { ipcRenderer } = window.require('electron');
 
 // const user = {

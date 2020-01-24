@@ -1,4 +1,4 @@
-import {post, handleData, get, getTokenLocalstorage} from '@helper/utils';
+import {post, handleData} from '@helper/utils';
 import {message} from 'antd';
 
 export default {

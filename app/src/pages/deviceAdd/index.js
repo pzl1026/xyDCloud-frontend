@@ -1,7 +1,7 @@
-import React, {PureComponent, Fragment, Component} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import {Row, Col, Icon} from 'antd';
+import {Icon} from 'antd';
 import PageHeader from '@components/PageHeader';
 // import {groupArr} from '@helper/utils';
 import {routerRedux} from 'dva/router';
@@ -43,6 +43,7 @@ class CloudCreateContainer extends PureComponent {
         passwordShow: false,
         searching: false,
         productId: '',
+        ip: '',
         id:'',
         pass: ''
     }
@@ -73,7 +74,8 @@ class CloudCreateContainer extends PureComponent {
                 cb(){
                     self.props.dispatch(routerRedux.goBack());
                 },
-                productId: this.state.productId
+                productId: this.state.productId,
+                ip: this.state.ip
             }
         });
     }
@@ -118,13 +120,13 @@ class CloudCreateContainer extends PureComponent {
 
     }
 
-    toggleModal = (passwordShow, productId) => {
+    toggleModal = (passwordShow, productId, item) => {
         console.log(2322)
         this.setProductId(productId);
         this.setState({
-            passwordShow
+            passwordShow,
+            ip: item.ip
         }, (val) => {
-
             console.log(this.state, 'val')
         });
     }
@@ -166,7 +168,7 @@ class CloudCreateContainer extends PureComponent {
                                         <span className="device-name">{item.product.sn}</span>
                                         <span
                                             className="device-add"
-                                            onClick={() => this.toggleModal(true, item.product['product-id'])}>
+                                            onClick={() => this.toggleModal(true, item.product['product-id'], item)}>
                                             <Icon type="arrow-right"/>
                                         </span>
                                     </li>
