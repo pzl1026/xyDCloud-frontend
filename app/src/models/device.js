@@ -56,6 +56,7 @@ export default {
 					// let downloadDevices2 = [...downloadDevices, device];
 					// yield put({ type: 'saveDownloadDevices', payload: downloadDevices2}); 
 					device['media-files'] = [];
+					device['ip'] = ip;
 					ipcRenderer.send('save-device', device);
 					
 					cb();
@@ -73,6 +74,12 @@ export default {
             } else {
 				message.warning('登录失败，请检查设备是否正常');
 			}
+		},
+
+		*checkDeviceStatus ({ payload:  {deviceVideo}  }, { call, put, select, take }) {
+			const json = yield call(get2, '', {method: 'get-status'}, `http://${deviceVideo.ip}/`);
+
+			ipcRenderer.send('change-device-status', {statusData: json.data, deviceVideo});
 		},
 
 		*getDevice ({ payload: param }, { call, put, select, take }) {
@@ -144,6 +151,15 @@ export default {
 				dispatch({
 					type: 'saveCurrentDeviceVideos',
 					payload: videos
+				});
+			});
+
+			ipcRenderer.on('check-device-status', (event, deviceVideo) => {
+				dispatch({
+					type: 'checkDeviceStatus',
+					payload: {
+						deviceVideo
+					}
 				});
 			});
 		}

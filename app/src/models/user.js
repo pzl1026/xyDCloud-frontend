@@ -22,6 +22,17 @@ const { ipcRenderer } = window.require('electron');
 // }
 
 
+function checkNetwork() {
+	window.addEventListener("offline", function(e) {
+		ipcRenderer.send('change-line-status', 1);
+	});
+	
+	window.addEventListener("online", function(e) {
+	
+		ipcRenderer.send('change-line-status', 0);
+	});
+}
+
 export default {
 	namespace: 'user',
 	state: {
@@ -111,6 +122,9 @@ export default {
 					payload: projects
 				});
 			});
+
+			//检查网络是否断网
+			checkNetwork();
 		}
 	},
 };
