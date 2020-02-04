@@ -33,8 +33,8 @@ class CloudCreateContainer extends PureComponent {
         });  
     }
 
-    handleChange () {
-
+    openNewVersionUrl = () => {
+        ipcRenderer.send('open-version-url');
     }
 
     setStart = (e) => {
@@ -51,7 +51,7 @@ class CloudCreateContainer extends PureComponent {
     }
 
     render() {
-        const {userInfo} = this.props;
+        const {userInfo, version, newVersion} = this.props;
         if (!userInfo) return null;
         
         return (
@@ -63,8 +63,10 @@ class CloudCreateContainer extends PureComponent {
                     </div>
                     <div className="xy-info">
                         <div>
-                            <span>软件更新（v1.2.1）</span>
-                            <span>暂无</span>
+                            <span>当前版本（{version}）</span>
+                           {newVersion && version !== newVersion ? 
+                           <span>暂无</span>:
+                           <span onClick={this.openNewVersionUrl} style={{color: 'blue', cursor:'pointer'}}>最新版本</span>} 
                         </div>
                         <div>
                             <span>开机启动</span>

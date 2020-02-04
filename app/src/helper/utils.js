@@ -161,6 +161,20 @@ export function get2(url, values, ip) {
   });
 }
 
+/**
+ * get请求
+ * @param {string} url        请求链接
+ * @param {object} [values]   请求参数
+ */
+export function get3(url, values, cb) {
+  return request(`${url}?${serialize(values)}`, {
+    method: 'GET',
+    headers:{
+      'Content-Type':'application/x-www-form-urlencoded'
+    }
+  }, cb);
+}
+
 
 /**
  * delete请求

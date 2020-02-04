@@ -1,4 +1,4 @@
-import {post, handleData} from '@helper/utils';
+import {post, handleData, get3} from '@helper/utils';
 import {message} from 'antd';
 import {STORE_FIELD} from '@config/user';
 import { routerRedux } from 'dva/router';
@@ -38,7 +38,9 @@ export default {
 	state: {
 		xcxShow: false,
 		prModalShow: false,
-		userInfo: {}
+		userInfo: {},
+		version: '',
+		newVersion: ''
 	},
 	reducers: {
 		saveXcxShow(state, { payload: xcxShow}) {
@@ -51,6 +53,14 @@ export default {
 
 		saveUserInfo(state, { payload: userInfo}) {
 			return {...state, userInfo};
+		},
+
+		saveVersion(state, { payload: version}) {
+			return {...state, version};
+		},
+
+		saveNewVersion(state, { payload: newVersion}) {
+			return {...state, newVersion};
 		},
 	},
 	effects: {
@@ -73,6 +83,14 @@ export default {
 			handleData(json).then((data) => {
 				message.success(data.msg);
 			});
+		},
+
+		*getVersion ({ payload: param }, { call, put, select, take }) {
+			const json = yield call(get3, 'https://raw.githubusercontent.com/pzl1026/xyDCloud/master/package.json');
+			console.log(json);
+			if (json.data) {
+				yield put({ type: 'saveNewVersion', payload: json.data.version});
+			}
 		},
 	},
 	subscriptions: {
@@ -125,6 +143,24 @@ export default {
 
 			//检查网络是否断网
 			checkNetwork();
+
+			// 检查版本
+			setInterval(() => {
+				dispatch({
+					type: 'getVersion',
+					payload: {}
+				});
+			}, 10 * 60 * 1000);
+
+			ipcRenderer.on('save-current-version', (event, version) => {
+				dispatch({
+					type: 'saveVersion',
+					payload: version
+				});
+			});
+			setTimeout(() => {
+				ipcRenderer.send('post-current-version');
+			}, 2000);
 		}
 	},
 };

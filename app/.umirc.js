@@ -12,7 +12,8 @@ export default {
       changeOrigin: true
     },
     '/api': {
-      target: 'http://wenda.zzcweb.com',
+      // target: 'http://wenda.zzcweb.com',
+      XY_API: 'http://uxinyue.com:81',
       pathRewrite: { '^/api': '' },
       changeOrigin: true
     }
