@@ -87,7 +87,9 @@ export default {
 			const json = yield call(get2, '', {method: 'get-info'}, `http://${param.ip}/`);
 			if (json.data.result === 0) {
 				let device = {...json.data, ip: param.ip};
-				devices = [...devices, device];
+				if (!devices.find(m => m.ip === param.ip)) {
+					devices = [...devices, device];
+				}
 				yield put({ type: 'saveDevices', payload: devices});
 				yield put({ type: 'saveDeviceStatus', payload: 1});
 			} else {

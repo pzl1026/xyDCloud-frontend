@@ -31,6 +31,13 @@
     }
 }
 
+.device-searching{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 60px - 40px - 21px - 36px);
+}
 .device-search{
     display: flex;
     justify-content: center;

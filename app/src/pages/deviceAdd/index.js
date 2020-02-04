@@ -153,7 +153,7 @@ class CloudCreateContainer extends PureComponent {
                     isStr={true}></PageHeader>
                 <div className="page-container">
                     {searching
-                        ? <div className="loading-container" style={{width: 'auto', height: 'auto'}}>
+                        ? <div className="loading-container device-searching" style={{width: 'auto'}}>
                                 <div className="loading-body"></div>
                             </div>
                         : <ul className="device-list">
