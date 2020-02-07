@@ -57,6 +57,7 @@ function DownlistLi(props) {
                 break;
             default:
         }
+        if (count === 0) return null;
         return (
             <Row className="dl-li" key={item.id}>
                 <Col span={7}>
