@@ -17,7 +17,7 @@ function mapStateToProps(state) {
 
 @withRouter
 @connect(mapStateToProps)
-class CloudCreateContainer extends PureComponent {
+class DeviceVideoPlay extends PureComponent {
     state = {
         downloadVideos: [],
         ip: '',
@@ -113,4 +113,4 @@ class CloudCreateContainer extends PureComponent {
     }
 }
 
-export default CloudCreateContainer;
+export default DeviceVideoPlay;

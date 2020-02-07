@@ -52,7 +52,7 @@ function VideoLi (props) {
                     <span>{size}M</span>
                     <div className="check">
                         {
-                            !item.needDownload ? 
+                            !item.needDownload || item.isFail ? 
                             <Checkbox 
                             onChange={(e) => props.changeDownloadVideos(e.target.checked, item.kbps)} 
                             checked={props.downloadVideos.includes(item.kbps)}>

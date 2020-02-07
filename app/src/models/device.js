@@ -61,6 +61,8 @@ export default {
 					
 					cb();
 				}
+			} else {
+				message.warning('登录失败，请检查设备是否正常或用户密码错误');
 			}
 		},
 
@@ -119,7 +121,7 @@ export default {
 					// let ipd = ip.substr(0, ip.length - 1);
 					return {
 						...m,
-						downpath: `http://${ip}/download${json.data.path}/${m.name}`,
+						downpath: `http://${ip}:8080/download${json.data.path}/${m.name}`,
 						playpath: `http://${ip}:8080/${json.data.path}/${m.name}`,
 					}
 				})
