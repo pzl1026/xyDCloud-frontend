@@ -4,7 +4,7 @@ import withRouter from 'umi/withRouter';
 import {Row, Col} from 'antd';
 import PageHeader from '@components/PageHeader';
 import {routerRedux} from 'dva/router';
-import { Player } from 'video-react';
+import { Player , ControlBar, PlayToggle, ForwardControl  } from 'video-react';
 import "video-react/dist/video-react.css";
 import './index.scss';
 
@@ -24,7 +24,7 @@ class DeviceVideoPlay extends PureComponent {
         start: 1, 
         playVideo: {},
         playPath: '',
-        initialSlide: 1
+        activeSlide: 1
     }
     componentDidMount() {
         let initialSlide = this.props.currentVideosPlay.findIndex(m => m.kbps === this.props.history.location.query.kbps);
@@ -35,7 +35,7 @@ class DeviceVideoPlay extends PureComponent {
             ip: this.props.history.location.query.ip,
             playVideo,
             playPath,
-            initialSlide
+            activeSlide: initialSlide
         });
         new window.Swiper('#swiper-container', {
             autoplay: false,//可选选项，自动滑动
@@ -49,9 +49,10 @@ class DeviceVideoPlay extends PureComponent {
         })
     }
 
-    changeVideoPlay (playVideo) {
+    changeVideoPlay (playVideo, index) {
         this.setState({
-            playVideo
+            playVideo,
+            activeSlide: index
         });
     }
 
@@ -63,7 +64,8 @@ class DeviceVideoPlay extends PureComponent {
 
     render() {
         const {currentVideosPlay} = this.props;
-        const {playVideo,ip, initialSlide} = this.state;
+        const {playVideo,ip, activeSlide} = this.state;
+
         return (
             <Fragment>
                 <PageHeader 
@@ -79,9 +81,16 @@ class DeviceVideoPlay extends PureComponent {
                                 fluid={false}
                                 width={834}
                                 playsInline
-                                poster={`${ip}media/disk0/REC_Folder/thumbnail/${playVideo['thumbnail-name']}.jpg`}
+                                poster={`http://${ip}/media/disk0/REC_Folder/thumbnail/${playVideo['thumbnail-name']}.jpg`}
                                 src={playVideo.playpath}
-                                />
+                                >
+                                <ControlBar autoHide={false} disableDefaultControls={true}>
+                                    {/* <PlayToggle /> */}
+                                    {/* <ForwardControl seconds={5} order={3.1} />
+                                    <ForwardControl seconds={10} order={3.2} />
+                                    <ForwardControl seconds={30} order={3.3} /> */}
+                                </ControlBar>
+                                </Player>
                             </div>
                         </Col>
                         <Col span={24} style={{marginTop: 30}}>
@@ -93,8 +102,8 @@ class DeviceVideoPlay extends PureComponent {
                                                 <div class="swiper-slide">
                                                     <div 
                                                     className="video-play-li" 
-                                                    style={{border: index === initialSlide ? '2px solid #4051f9' : ''}}
-                                                    onClick={() => this.changeVideoPlay(item)}>
+                                                    style={{border: index === activeSlide ? '2px solid #4051f9' : ''}}
+                                                    onClick={() => this.changeVideoPlay(item, index)}>
                                                     <img src={`http://${this.state.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                                                     </div>
                                                 </div>
