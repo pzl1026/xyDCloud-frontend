@@ -50,9 +50,9 @@ class DownlistLi extends PureComponent {
             }}));
     }
 
-    setPath = (e) => {
+    setPath = (e, item) => {
         e.stopPropagation();
-        ipcRenderer.send('open-folder-dialog-device', this.state.currentdevice);
+        ipcRenderer.send('open-folder-dialog-device', item);
     }
 
     menu = () => {
@@ -95,7 +95,7 @@ class DownlistLi extends PureComponent {
                                 </div>
                             </Col>
                             <Col span={10}>
-                                <div className="dl-li-span" onClick={this.setPath}>
+                                <div className="dl-li-span" onClick={e => this.setPath(e, item)}>
                                     <Tooltip title={item.localPath || '未设置'}>
                                         <span>{item.localPath || '未设置'}</span>
                                     </Tooltip>
