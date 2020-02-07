@@ -56,11 +56,13 @@ class DeviceContainer extends PureComponent {
             <Fragment>
                 <button className="btn1" onClick={this.toDeviceAdd}>添加设备</button>
                 <div className="download-list">
-                    <DownloadHeader header={header} colSpan={[6, 10, 4, 4]}></DownloadHeader>
                     {downloadDevices && downloadDevices.length > 0 ? 
+                    <>
+                    <DownloadHeader header={header} colSpan={[6, 10, 4, 4]}></DownloadHeader>
                     <div className="table-list">
                         <DownlistLi {...this.props} changePause={this.changePause}></DownlistLi>
-                    </div>:
+                    </div>
+                    </> :
                     <DownlistEmpty></DownlistEmpty>}
                 </div>
             </Fragment>

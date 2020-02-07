@@ -123,7 +123,7 @@ class CloudCreateContainer extends PureComponent {
         this.setProductId(productId);
         this.setState({
             passwordShow,
-            ip: item.ip
+            ip: item && item.ip
         });
     }
 
@@ -155,15 +155,14 @@ class CloudCreateContainer extends PureComponent {
                     {searching
                         ? <div className="loading-container device-searching" style={{width: 'auto'}}>
                                 <div className="loading-body"></div>
+                                <span style={{color: '#fff'}}>正在搜索设备...</span>
                             </div>
                         : <ul className="device-list">
                             {devices.map(item => {
                                 return (
-                                    <li>
+                                    <li onClick={() => this.toggleModal(true, item.product['product-id'], item)}>
                                         <span className="device-name">{item.product.sn}</span>
-                                        <span
-                                            className="device-add"
-                                            onClick={() => this.toggleModal(true, item.product['product-id'], item)}>
+                                        <span className="device-add">
                                             <Icon type="arrow-right"/>
                                         </span>
                                     </li>

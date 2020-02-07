@@ -35,8 +35,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
     height: calc(100vh - 60px - 40px - 21px - 36px);
+
+    .loading-body{
+        background-image: url('../../assets/oval.svg');
+    }
 }
 .device-search{
     display: flex;
