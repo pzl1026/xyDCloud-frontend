@@ -63,14 +63,13 @@ class DeviceAddContainer extends PureComponent {
 
     loginDevice = () => {
         const self =this;
-        let device =this.props.devices.find(m => m.ip === this.state.ip);
         let o = {
-            method: 'set-softap'
+            method: 'set-app-passwd'
         };
-        o['is-visible'] = 1;
-        o['is-softap'] = 1;
-        o['softap-ssid'] = device.softap['softap-ssid'];
-        o['softap-passwd'] = this.state.pass;
+        let password = md5(this.state.pass);
+        o['is-pass'] = 1;
+        o['pass'] = password;
+        o['new-pass'] = password;
         this.props.dispatch({
             type: 'device/loginDevice',
             payload: {

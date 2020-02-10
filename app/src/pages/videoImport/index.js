@@ -261,9 +261,8 @@ class VideoImportContainer extends PureComponent {
                         <Row type="flex" style={{marginTop: 20}} gutter={[16,16]}>
                             {currentDeviceVideos.map(item => {
                                 return (
-                                    <Col span={6}>
-                                    <VideoLi 
-                                    key={item.kbps + Math.random()}
+                                    <Col span={6} key={item.kbps + Math.random()}>
+                                    <VideoLi
                                     {...this.props} 
                                     ip={this.state.ip}
                                     item={item} 

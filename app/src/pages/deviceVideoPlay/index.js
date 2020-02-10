@@ -75,8 +75,8 @@ class DeviceVideoPlay extends PureComponent {
                 <div className="video-play-list">
                     <Row className="page-container" type="flex" justify="center" gutter={16}>
                         <Col span={24}>
-                            <div class="video-play-body">
-                                <div class="video-title">{playVideo.name}</div>
+                            <div className="video-play-body">
+                                <div className="video-title">{playVideo.name}</div>
                                 <Player
                                 fluid={false}
                                 width={834}
@@ -94,12 +94,12 @@ class DeviceVideoPlay extends PureComponent {
                             </div>
                         </Col>
                         <Col span={24} style={{marginTop: 30}}>
-                            <div class="video-play-list-body">
-                                <div class="swiper-container" id="swiper-container">
-                                    <div class="swiper-wrapper">
+                            <div className="video-play-list-body">
+                                <div className="swiper-container" id="swiper-container">
+                                    <div className="swiper-wrapper">
                                         {currentVideosPlay.map((item, index) => {
                                             return (
-                                                <div class="swiper-slide">
+                                                <div className="swiper-slide">
                                                     <div 
                                                     className="video-play-li" 
                                                     style={{border: index === activeSlide ? '2px solid #4051f9' : ''}}
@@ -110,8 +110,8 @@ class DeviceVideoPlay extends PureComponent {
                                             )
                                         })}
                                     </div>
-                                    <div class="swiper-button-prev"></div>
-                                    <div class="swiper-button-next"></div>
+                                    <div className="swiper-button-prev"></div>
+                                    <div className="swiper-button-next"></div>
                                 </div>
                             </div>
                         </Col>
