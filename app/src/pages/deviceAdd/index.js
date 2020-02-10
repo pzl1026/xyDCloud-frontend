@@ -63,14 +63,18 @@ class DeviceAddContainer extends PureComponent {
 
     loginDevice = () => {
         const self =this;
+        let device =this.props.devices.find(m => m.ip === this.state.ip);
+        let o = {
+            method: 'set-softap'
+        };
+        o['is-visible'] = 1;
+        o['is-softap'] = 1;
+        o['softap-ssid'] = device.softap['softap-ssid'];
+        o['softap-passwd'] = this.state.pass;
         this.props.dispatch({
             type: 'device/loginDevice',
             payload: {
-                param: {
-                    id: this.state.id,
-                    pass:md5(this.state.pass),
-                    method: 'login',
-                },
+                param: o,
                 cb(){
                     self.props.dispatch(routerRedux.push({
                         pathname: '/videoimport',
@@ -168,7 +172,7 @@ class DeviceAddContainer extends PureComponent {
                                     <li 
                                     onClick={() => this.toggleModal(true, item.product['product-id'], item)} 
                                     key={item.product['product-id']}>
-                                        <span className="device-name">{item.product.sn}</span>
+                                        <span className="device-name">{item['name']}</span>
                                         <span className="device-add">
                                             <Icon type="arrow-right"/>
                                         </span>

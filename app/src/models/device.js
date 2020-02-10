@@ -1,6 +1,7 @@
 import {get, get2} from '@helper/utils';
 import {message} from 'antd';
 import {deviceInfo} from '@helper/data';
+import md5 from 'js-md5';
 const { ipcRenderer } = window.require('electron');
 
 export default {
@@ -85,19 +86,24 @@ export default {
 
 		*getDevice ({ payload: param }, { call, put, select, take }) {
 			let devices = yield select(state => state.device.devices);
-			const json = yield call(get2, '', {method: 'get-info'}, `http://${param.ip}/`);
-			if (json.data.result === 0) {
-				let device = {...json.data, ip: param.ip};
-				if (!devices.find(m => m.ip === param.ip)) {
-					devices = [...devices, device];
+			const json1 = yield call(get2, '', {method: 'login', id: 'Admin', pass: md5('Admin')}, `http://${param.ip}/`);
+			if (json1.data.result === 0) {
+				const json = yield call(get2, '', {method: 'get-info'}, `http://${param.ip}/`);
+		
+				if (json.data.result === 0) {
+					const json2 = yield call(get2, '', {method: 'get-settings'}, `http://${param.ip}/`);
+					
+					let device = {...json.data, ...json2.data, ip: param.ip};
+					if (!devices.find(m => m.ip === param.ip)) {
+						devices = [...devices, device];
+					}
+					yield put({ type: 'saveDevices', payload: devices});
+					yield put({ type: 'saveDeviceStatus', payload: 1});
+				} else {
+					yield put({ type: 'saveDeviceStatus', payload: 0});
+					message.warning('请断开设备，重新登录链接');
 				}
-				yield put({ type: 'saveDevices', payload: devices});
-				yield put({ type: 'saveDeviceStatus', payload: 1});
-			} else {
-				yield put({ type: 'saveDeviceStatus', payload: 0});
-				message.warning('请断开设备，重新登录链接');
 			}
-
 			// 模拟数据
 			// let device = {...deviceInfo, ip: param.ip};
 			// devices = [...devices, device];

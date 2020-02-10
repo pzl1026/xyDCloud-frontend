@@ -89,8 +89,8 @@ class DownlistLi extends PureComponent {
                         <Row className="dl-li" key={index} onClick={() => this.toVideos(item)}>
                             <Col span={6}>
                                 <div className="dl-li-span">
-                                    <Tooltip title={item.product['product-name']}>
-                                        <span>{item.product['product-name']}</span>
+                                    <Tooltip title={item['name']}>
+                                        <span>{item['name']}</span>
                                     </Tooltip>
                                 </div>
                             </Col>

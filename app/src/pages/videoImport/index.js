@@ -95,7 +95,8 @@ class VideoImportContainer extends PureComponent {
         ip: '',
         start: 1,
         modalShow: false,
-        localPath: ''
+        localPath: '',
+        currentDevice: {}
     }
 
     componentDidMount() {
@@ -104,6 +105,7 @@ class VideoImportContainer extends PureComponent {
         console.log(currentDevice, 'currentDevice')
         this.setState({
             ip,
+            currentDevice,
             localPath: currentDevice.localPath
         }, () => {
             this.requestVideos();
@@ -246,7 +248,7 @@ class VideoImportContainer extends PureComponent {
         // leftChildren={this.leftChildren()} 
         return (
             <Fragment>
-                <PageHeader backTitle="设备视频详情" 
+                <PageHeader backTitle={`${this.state.currentDevice['name']}设备视频详情`}
                 rightText="立即导入" 
                 rightClick={this.setDownload}
                 back={this.toBack}></PageHeader>
