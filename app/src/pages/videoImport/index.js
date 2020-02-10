@@ -7,6 +7,27 @@ import {routerRedux} from 'dva/router';
 import './index.scss';
 const { ipcRenderer } = window.require('electron');
 
+function DownpathModal(props) {
+    return (
+        <div className="downpath-modal">
+            <div className="downpath-mark" onClick={() => props.toggleModal(false)}></div>
+            <div className="downpath-body">
+                <span className="downpath-title">设置视频下载路径</span>
+                <div className="folder-select" onClick={props.openFolderDialog}>
+                    <div className="folder-name">
+                        {props.localPath ? <span>{props.localPath}</span> : <span style={{color: '#bfbfbf'}}>选择本地文件夹</span>}
+                    </div>
+                    <span><Icon type="folder-open" /></span>
+                </div>
+                <div className="downpath-btn">
+                    <button className="btn1 downpath-cancel" onClick={() => props.toggleModal(false)}>取消</button>
+                    <button className="btn1 downpath-sure" onClick={props.downSure}>确认</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 const menu = (
     <Menu>
         <Menu.Item key="0">
@@ -72,19 +93,54 @@ class VideoImportContainer extends PureComponent {
     state = {
         downloadVideos: [],
         ip: '',
-        start: 1, 
+        start: 1,
+        modalShow: false,
+        localPath: ''
     }
+
     componentDidMount() {
+        let ip = this.props.history.location.query.ip;
+        let currentDevice = this.props.downloadDevices.find(n => n.ip === ip);
+        console.log(currentDevice, 'currentDevice')
         this.setState({
-            ip: this.props.history.location.query.ip
+            ip,
+            localPath: currentDevice.localPath
         }, () => {
             this.requestVideos();
+        });
+        ipcRenderer.on('video-localpath', (e, localPath) => {
+            this.setState({
+                localPath
+            });
+        });
+        ipcRenderer.on('selected-video', (e, localPath) => {
+            this.props.dispatch(routerRedux.push({
+                pathname: '/device'
+            }));
         });
     }
 
     componentWillUnmount() {
         clearInterval(this.getTimer);
         this.getTimer = null;
+    }
+
+    toggleModal = (modalShow) => {
+        this.setState({
+            modalShow
+        });
+    }
+
+    openFolderDialog = () => {
+        ipcRenderer.send('open-folder-dialog-file');
+    }
+
+    downSure = () => {
+        ipcRenderer.send('change-device-videos-download', {
+            videosKbps: this.state.downloadVideos,
+            ip: this.state.ip,
+            localPath: this.state.localPath
+        });
     }
 
     requestVideos = () => {
@@ -164,8 +220,9 @@ class VideoImportContainer extends PureComponent {
             message.warning('请断开设备，重新登录链接');
             return;
         }
-        ipcRenderer.send('change-device-videos-download', {videosKbps: this.state.downloadVideos, ip: this.state.ip});
-        this.toBack();
+        this.toggleModal(true);
+        // ipcRenderer.send('change-device-videos-download', {videosKbps: this.state.downloadVideos, ip: this.state.ip});
+        // this.toBack();
     }
 
     leftChildren () {
@@ -204,7 +261,7 @@ class VideoImportContainer extends PureComponent {
                                 return (
                                     <Col span={6}>
                                     <VideoLi 
-                                    key={item.kbps}
+                                    key={item.kbps + Math.random()}
                                     {...this.props} 
                                     ip={this.state.ip}
                                     item={item} 
@@ -218,6 +275,13 @@ class VideoImportContainer extends PureComponent {
                         </Row>
                     </div>
                 </div>
+                {this.state.modalShow ?
+                    <DownpathModal 
+                    localPath={this.state.localPath}
+                    toggleModal={this.toggleModal}
+                    openFolderDialog={this.openFolderDialog} 
+                    downSure={this.downSure}/>: 
+                null}
             </Fragment>
         );
     }

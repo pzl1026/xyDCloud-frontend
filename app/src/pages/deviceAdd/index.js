@@ -15,10 +15,10 @@ function PasswordModal(props) {
             <div className="password-mark" onClick={() => props.toggleModal(false)}></div>
             <div className="password-body">
                 <span className="password-title">输入设备密码</span>
-                <div className="password-input">
+                {/* <div className="password-input">
                     <span>用户名：</span>
                     <input type="text" onChange={props.changeId}/>
-                </div>
+                </div> */}
                 <div className="password-input">
                     <span>密码：</span>
                     <input type="password" onChange={props.changePass}/>
@@ -38,13 +38,13 @@ function mapStateToProps(state) {
 
 @withRouter
 @connect(mapStateToProps)
-class CloudCreateContainer extends PureComponent {
+class DeviceAddContainer extends PureComponent {
     state = {
         passwordShow: false,
         searching: false,
         productId: '',
         ip: '',
-        id:'',
+        id:'Admin',
         pass: ''
     }
 
@@ -72,10 +72,15 @@ class CloudCreateContainer extends PureComponent {
                     method: 'login',
                 },
                 cb(){
-                    self.props.dispatch(routerRedux.goBack());
+                    self.props.dispatch(routerRedux.push({
+                        pathname: '/videoimport',
+                        query: {
+                            ip: self.state.ip
+                        }
+                    }));
                 },
-                productId: this.state.productId,
-                ip: this.state.ip
+                productId: self.state.productId,
+                ip: self.state.ip
             }
         });
     }
@@ -160,7 +165,9 @@ class CloudCreateContainer extends PureComponent {
                         : <ul className="device-list">
                             {devices.map(item => {
                                 return (
-                                    <li onClick={() => this.toggleModal(true, item.product['product-id'], item)}>
+                                    <li 
+                                    onClick={() => this.toggleModal(true, item.product['product-id'], item)} 
+                                    key={item.product['product-id']}>
                                         <span className="device-name">{item.product.sn}</span>
                                         <span className="device-add">
                                             <Icon type="arrow-right"/>
@@ -187,4 +194,4 @@ class CloudCreateContainer extends PureComponent {
     }
 }
 
-export default CloudCreateContainer;
+export default DeviceAddContainer;

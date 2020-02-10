@@ -58,9 +58,8 @@ export default {
 					device['media-files'] = [];
 					device['ip'] = ip;
 					ipcRenderer.send('save-device', device);
-					
-					cb();
 				}
+				cb();
 			} else {
 				message.warning('登录失败，请检查设备是否正常或用户密码错误');
 			}
