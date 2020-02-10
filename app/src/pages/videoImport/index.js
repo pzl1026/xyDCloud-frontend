@@ -219,7 +219,7 @@ class VideoImportContainer extends PureComponent {
 
     setDownload = () => {
         if(!this.props.deviceStatus) {
-            message.warning('请断开设备，重新登录链接');
+            message.warning('请断开设备，重新搜索');
             return;
         }
         this.toggleModal(true);

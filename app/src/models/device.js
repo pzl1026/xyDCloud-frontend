@@ -101,7 +101,7 @@ export default {
 					yield put({ type: 'saveDeviceStatus', payload: 1});
 				} else {
 					yield put({ type: 'saveDeviceStatus', payload: 0});
-					message.warning('请断开设备，重新登录链接');
+					message.warning('请断开设备，重新搜索');
 				}
 			}
 			// 模拟数据
@@ -135,7 +135,7 @@ export default {
 			} else {
 				ipcRenderer.send('save-device-videos', {videos: [], ip});
 				yield put({ type: 'saveDeviceStatus', payload: 0});
-				message.warning('请断开设备，重新登录链接');
+				message.warning('请断开设备，重新搜索');
 			}
 
 		}
