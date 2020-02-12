@@ -49,7 +49,8 @@ class DownlistLi extends PureComponent {
         this
         .props
         .dispatch(routerRedux.push({pathname: '/videoimport', query: {
-                ip: device.ip
+                ip: device.ip,
+                tid: device.tid
             }}));
     }
 

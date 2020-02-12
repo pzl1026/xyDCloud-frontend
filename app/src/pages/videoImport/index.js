@@ -80,7 +80,7 @@ function VideoLi (props) {
                             checked={props.downloadVideos.includes(item.kbps)}>
                             </Checkbox> : 
                             <span style={{fontSize: '12px', color: '#666'}}>
-                                {item.needDownload ? (item.isSuccess ? '已下载' : '下载中') : ''}
+                                {item.isSuccess ? '已下载' : (item.isFail !== undefined ? '下载中' : '')}
                             </span>
                         }
                     </div>
@@ -106,6 +106,7 @@ class VideoImportContainer extends PureComponent {
     componentDidMount() {
         this.setState({
             ip: this.props.currentDevice.ip,
+            tid: this.props.currentDevice.tid,
         }, () => {
             this.requestVideos();
         });
@@ -267,7 +268,17 @@ class VideoImportContainer extends PureComponent {
 
     render() {
         const {currentDeviceVideos, currentDevice} = this.props;
-        // leftChildren={this.leftChildren()} 
+        let currentDeviceVideos2 = JSON.parse(JSON.stringify(currentDeviceVideos));
+        currentDeviceVideos2 = currentDeviceVideos2.map(m => {
+            let video = currentDevice['media-files'].find(n => n.kbps === m.kbps);
+            if (video) {
+                return {
+                    ...m,
+                    ...video
+                };
+            }
+            return m;
+        });
         return (
             <Fragment>
                 <PageHeader backTitle={`${currentDevice['name']}设备视频详情`}
@@ -282,19 +293,19 @@ class VideoImportContainer extends PureComponent {
                     </header> : null}
                     <div className="videos-list">
                         <Row type="flex" style={{marginTop: 20}} gutter={[16,16]}>
-                            {currentDeviceVideos.map(item => {
+                            {currentDeviceVideos2.map(item => {
                                 return (
                                     <Col span={6} key={item.kbps + Math.random()}>
-                                    <VideoLi
-                                    {...this.props} 
-                                    ip={this.state.ip}
-                                    item={item} 
-                                    action={this.state.action}
-                                    toVideoPlay={this.toVideoPlay}
-                                    changeDownloadVideos={this.changeDownloadVideos} 
-                                    downloadVideos={this.state.downloadVideos}>
-                                    </VideoLi>
-                                </Col>
+                                        <VideoLi
+                                        {...this.props} 
+                                        ip={this.state.ip}
+                                        item={item} 
+                                        action={this.state.action}
+                                        toVideoPlay={this.toVideoPlay}
+                                        changeDownloadVideos={this.changeDownloadVideos} 
+                                        downloadVideos={this.state.downloadVideos}>
+                                        </VideoLi>
+                                    </Col>
                                 )
                             })}
                         </Row>
