@@ -152,6 +152,14 @@
     margin-top: 52px;
 }
 
+.ant-select-tree li .ant-select-tree-node-content-wrapper:hover{
+    background-color: #4051F9!important;
+    color: #fff;
+}
+.ant-select-tree li .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected {
+    background-color: #4051F9!important;
+    color: #fff;
+}
 
 .ant-select-dropdown{
     background-color: #1F283D!important;
@@ -159,9 +167,13 @@
     li{
         color: #fff;
 
-        &:hover{
-            background-color: #4051F9!important;
+        span{
+            color: #fff!important;
         }
+
+        // &:hover{
+        //     background-color: #4051F9!important;
+        // }
     }
 
     .ant-select-dropdown-menu-item-selected{

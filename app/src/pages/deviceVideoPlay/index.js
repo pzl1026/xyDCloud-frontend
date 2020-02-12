@@ -4,7 +4,7 @@ import withRouter from 'umi/withRouter';
 import {Row, Col} from 'antd';
 import PageHeader from '@components/PageHeader';
 import {routerRedux} from 'dva/router';
-import { Player , ControlBar, PlayToggle, ForwardControl  } from 'video-react';
+import { Player , ControlBar, BigPlayButton  } from 'video-react';
 import "video-react/dist/video-react.css";
 import './index.scss';
 
@@ -84,17 +84,15 @@ class DeviceVideoPlay extends PureComponent {
                                 poster={`http://${ip}/media/disk0/REC_Folder/thumbnail/${playVideo['thumbnail-name']}.jpg`}
                                 src={playVideo.playpath}
                                 >
-                                <ControlBar autoHide={false} disableDefaultControls={true}>
-                                    {/* <PlayToggle /> */}
-                                    {/* <ForwardControl seconds={5} order={3.1} />
-                                    <ForwardControl seconds={10} order={3.2} />
-                                    <ForwardControl seconds={30} order={3.3} /> */}
+                                <BigPlayButton position="center" />
+                                <ControlBar autoHide={false} disableDefaultControls={false}>
                                 </ControlBar>
                                 </Player>
                             </div>
                         </Col>
                         <Col span={24} style={{marginTop: 30}}>
                             <div className="video-play-list-body">
+                                <div className="swiper-button-prev" style={{outline: 'none'}}></div>
                                 <div className="swiper-container" id="swiper-container">
                                     <div className="swiper-wrapper">
                                         {currentVideosPlay.map((item, index) => {
@@ -110,9 +108,8 @@ class DeviceVideoPlay extends PureComponent {
                                             )
                                         })}
                                     </div>
-                                    <div className="swiper-button-prev"></div>
-                                    <div className="swiper-button-next"></div>
                                 </div>
+                                <div className="swiper-button-next" style={{outline: 'none'}}></div>
                             </div>
                         </Col>
                     </Row>

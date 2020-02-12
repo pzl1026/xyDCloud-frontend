@@ -1,7 +1,7 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import {Row, Col, Select, Icon} from 'antd';
+import {Row, Col, Select, Icon, TreeSelect} from 'antd';
 import {routerRedux} from 'dva/router';
 import PageHeader from '@components/PageHeader';
 import {getProjectsVideos} from '@helper/projects';
@@ -91,6 +91,38 @@ class CloudCreateContainer extends PureComponent {
         const { projectsSelect } = this.props;
         const { localPath, projectSelectedId, isEdit } = this.state;
 
+        let projectsSelectTreeData = [{
+            title: '我的项目',
+            value: '0',
+            key: '0',
+            disabled: true,
+            children: [],
+        }, {
+            title: '参与项目',
+            value: '1',
+            key: '1',
+            disabled: true,
+            children: [],
+        }];
+        projectsSelectTreeData[0].children = projectsSelect.filter(m => m.type === 'admin')
+                                                .map(m => {
+                                                    return {
+                                                        ...m,
+                                                        title: m.name,
+                                                        key: m.id,
+                                                        value: m.id
+                                                    }
+                                                });
+        projectsSelectTreeData[1].children = projectsSelect.filter(m => m.type !== 'admin')
+                                                .map(m => {
+                                                    return {
+                                                        ...m,
+                                                        title: m.name,
+                                                        key: m.id,
+                                                        value: m.id
+                                                    }
+                                                });
+
         return (
             <Fragment>
                 <PageHeader 
@@ -101,7 +133,7 @@ class CloudCreateContainer extends PureComponent {
                 </PageHeader>
                 <Row className="page-container project-select" type="flex" justify="space-between" gutter={16}>
                     <Col span={12}>
-                        <Select
+                        {/* <Select
                             placeholder="请选择需要下载的项目"
                             value={projectSelectedId}
                             disabled={isEdit}
@@ -115,7 +147,20 @@ class CloudCreateContainer extends PureComponent {
                                     <Option value={item.id} key={item.id}>{item.name}</Option>
                                 )
                             })}
-                        </Select>
+                        </Select> */}
+                        <TreeSelect
+                             style={{
+                                width: '100%',
+                                height: 46
+                            }}
+                            disabled={isEdit}
+                            value={projectSelectedId}
+                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                            treeData={projectsSelectTreeData}
+                            placeholder="请选择需要下载的项目"
+                            treeDefaultExpandAll
+                            onChange={this.selectProject}
+                        />
                     </Col>
                     <Col span={12}>
                         <div className="folder-select" onClick={this.openFolderDialog}>
