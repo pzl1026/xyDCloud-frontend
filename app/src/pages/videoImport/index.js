@@ -201,11 +201,14 @@ class VideoImportContainer extends PureComponent {
 
     changeDownloadVideosAll = (e) => {
         let downloadVideos = [];
+        let downloadVideoItems = [];
         if (e.target.checked) {
             downloadVideos = this.props.currentDeviceVideos.filter(m => !m.needDownload).map(item => item.kbps);
+            downloadVideoItems = this.props.currentDeviceVideos;
         }
         this.setState({
-            downloadVideos
+            downloadVideos,
+            downloadVideoItems
         });
     }
 

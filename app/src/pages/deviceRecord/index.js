@@ -173,7 +173,7 @@ class DeviceRecordContainer extends Component {
                             .map(item => {
                                 let successCount = item['media-files'].filter(m => m.isSuccess).length;
                                 let count = item['media-files'].length;
-                                item.process = count === 0 ? '100%' : (parseFloat(successCount / count).toFixed(2) * 100) + '%';
+                                item.process = count === 0 ? '100%' : (parseInt(successCount / count * 100)) + '%';
                                 return item;
                             });
         // videosRecords[0].videos = allVideos.map(item => {
