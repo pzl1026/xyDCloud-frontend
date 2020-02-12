@@ -38,8 +38,8 @@ class DeviceContainer extends PureComponent {
         });
     }
 
-    changePause = (ip) => {
-        ipcRenderer.send('change-device-pause-status', ip);
+    changePause = (tid) => {
+        ipcRenderer.send('change-device-pause-status', tid);
     }
 
     toDeviceAdd = () => {

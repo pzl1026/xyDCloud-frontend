@@ -114,7 +114,7 @@ class DownlistLi extends PureComponent {
                                 <div className="dl-action" onClick={e => e.stopPropagation()}>
                                     {/* <img src="" alt=""/> */}
                                     {/* <IconBlock iconName="fm-share.svg" direction="left"></IconBlock> */}
-                                    <span className="cloud-li-play" onClick={() => this.props.changePause(item.ip)}>
+                                    <span className="cloud-li-play" onClick={() => this.props.changePause(item.tid)}>
                                         {item.isPause
                                             ? <IconBlock iconName="play.svg"></IconBlock>
                                             : <IconBlock iconName="pause.svg"></IconBlock>}
