@@ -10,6 +10,7 @@ const { ipcRenderer } = window.require('electron');
 function mapStateToProps(state) {
     return {
         ...state.user,
+        ...state.device
     };
 }
 
@@ -41,19 +42,16 @@ const headerFields = [
 function DownlistLi(props) {
     return props.videos.map(item => {
         let lastVal = '';
-        let count = 0;
+        let count = item['media-files'].length;
         switch(props.type) {
             case 1:
                 lastVal = item.process;
-                count = item.downCount;
                 break;
             case 2:
                 lastVal = getLocalTime(item.successTime / 1000);
-                count = item.successCount;
                 break;
             case 3:
                 lastVal = item.failReason;
-                count = item.failCount;
                 break;
             default:
         }
@@ -127,13 +125,13 @@ function TableList(props) {
 
 @withRouter
 @connect(mapStateToProps)
-class CloudRecordContainer extends Component {
+class DeviceRecordContainer extends Component {
     state = {
         typeActive: 1,
         videosRecords: [
             {
                 type: 1,
-                videos: []
+                devices: []
             }, {
                 type: 2,
                 videos: []
@@ -168,22 +166,34 @@ class CloudRecordContainer extends Component {
 
     getAllStatusVideos(allVideos) {
         // console.log(allVideos, 'allVideos')
+        // let devices = this.props.downloadDevices;
         let videosRecords = this.state.videosRecords;
-        videosRecords[0].videos = allVideos.map(item => {
-            let successCount = item['media-files'].filter(m => m.isSuccess).length;
-            item.downCount = item['media-files'].filter(m => m.needDownload && !m.isSuccess).length;
-            let count = item['media-files'].filter(m => m.needDownload).length;
-            item.process = count === 0 ? '100%' : (parseFloat(successCount / count).toFixed(2) * 100) + '%';
-            return item;
-        });
-        videosRecords[1].videos = allVideos.map(item => {
-            item.successCount = item['media-files'].filter(m => m.isSuccess).length;
-            return item;
-        });
-        videosRecords[2].videos = allVideos.map(item => {
-            item.failCount = item['media-files'].filter(m => m.isFail).length;
-            return item;
-        });
+
+        videosRecords[0].videos = allVideos.filter(item => !item.isSuccess && !item.isFail)
+                            .map(item => {
+                                let successCount = item['media-files'].filter(m => m.isSuccess).length;
+                                let count = item['media-files'].length;
+                                item.process = count === 0 ? '100%' : (parseFloat(successCount / count).toFixed(2) * 100) + '%';
+                                return item;
+                            });
+        // videosRecords[0].videos = allVideos.map(item => {
+        //     let successCount = item['media-files'].filter(m => m.isSuccess).length;
+        //     item.downCount = item['media-files'].filter(m => m.needDownload && !m.isSuccess).length;
+        //     let count = item['media-files'].filter(m => m.needDownload).length;
+        //     item.process = count === 0 ? '100%' : (parseFloat(successCount / count).toFixed(2) * 100) + '%';
+        //     return item;
+        // });
+
+        videosRecords[1].videos = allVideos.filter(item => item.isSuccess);
+        // devices[1].videos = allVideos.map(item => {
+        //     item.successCount = item['media-files'].filter(m => m.isSuccess).length;
+        //     return item;
+        // });
+        videosRecords[2].videos = allVideos.filter(item => item.isFail);
+        // videosRecords[2].videos = allVideos.map(item => {
+        //     item.failCount = item['media-files'].filter(m => m.isFail).length;
+        //     return item;
+        // });
         this.setState({
             videosRecords
         });
@@ -211,4 +221,4 @@ class CloudRecordContainer extends Component {
     }
 }
 
-export default CloudRecordContainer;
+export default DeviceRecordContainer;
