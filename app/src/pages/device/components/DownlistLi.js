@@ -38,11 +38,14 @@ class DownlistLi extends PureComponent {
     }
 
     toVideos = (device) => {
-        if (!device.localPath) {
-            message.warning('请先设置设备文件需要下载到的本地文件夹');
-            return;
-        }
-        
+        // if (!device.localPath) {
+        //     message.warning('请先设置设备文件需要下载到的本地文件夹');
+        //     return;
+        // }
+        this.props.dispatch({
+            type: 'device/saveCurrentDevice',
+            payload: device
+        });
         this
         .props
         .dispatch(routerRedux.push({pathname: '/videoimport', query: {
@@ -95,7 +98,7 @@ class DownlistLi extends PureComponent {
                                 </div>
                             </Col>
                             <Col span={10}>
-                                <div className="dl-li-span" onClick={e => this.setPath(e, item)}>
+                                <div className="dl-li-span">
                                     <Tooltip title={item.localPath || '未设置'}>
                                         <span>{item.localPath || '未设置'}</span>
                                     </Tooltip>

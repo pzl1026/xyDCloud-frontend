@@ -38,10 +38,6 @@ class DeviceContainer extends PureComponent {
         });
     }
 
-    handleChange () {
-
-    }
-
     changePause = (ip) => {
         ipcRenderer.send('change-device-pause-status', ip);
     }

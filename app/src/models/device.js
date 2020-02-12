@@ -13,7 +13,8 @@ export default {
 		downloadDevices: [],
 		currentDeviceVideos: [],
 		currentVideosPlay: [],
-		deviceStatus: 1,  //检查设备是否需要重新登录链接
+		deviceStatus: 1,  //检查设备是否需要重新登录链接,
+		currentDevice: {}
 	},
 	reducers: {
         saveMyHost (state, { payload: myHost}) {
@@ -40,6 +41,10 @@ export default {
             return {...state, currentVideosPlay}
 		},
 
+		saveCurrentDevice(state, { payload: currentDevice}) {
+            return {...state, currentDevice}
+		},
+
 		saveDeviceStatus(state, { payload: deviceStatus}) {
             return {...state, deviceStatus}
 		},
@@ -58,7 +63,7 @@ export default {
 					// yield put({ type: 'saveDownloadDevices', payload: downloadDevices2}); 
 					device['media-files'] = [];
 					device['ip'] = ip;
-					ipcRenderer.send('save-device', device);
+					// ipcRenderer.send('save-device', device);
 				}
 				cb();
 			} else {
@@ -99,6 +104,7 @@ export default {
 					}
 					yield put({ type: 'saveDevices', payload: devices});
 					yield put({ type: 'saveDeviceStatus', payload: 1});
+					yield put({ type: 'saveCurrentDevice', payload: device});
 				} else {
 					yield put({ type: 'saveDeviceStatus', payload: 0});
 					message.warning('请断开设备，重新搜索');
@@ -130,10 +136,14 @@ export default {
 						playpath: `http://${ip}:8080/${json.data.path}/${m.name}`,
 					}
 				})
-				cb(json.data['media-files'].length < 1000 ? false : true);
-				ipcRenderer.send('save-device-videos', {videos: json.data['media-files'], ip});
+				// 不做实时更新，暂时屏蔽
+				// cb(json.data['media-files'].length < 1000 ? false : true);
+				// 逻辑更改，不再需要
+				// ipcRenderer.send('save-device-videos', {videos: json.data['media-files'], ip});
+				yield put({ type: 'saveCurrentDeviceVideos', payload: json.data['media-files']});
 			} else {
-				ipcRenderer.send('save-device-videos', {videos: [], ip});
+				// 逻辑更改，不再需要
+				// ipcRenderer.send('save-device-videos', {videos: [], ip});
 				yield put({ type: 'saveDeviceStatus', payload: 0});
 				message.warning('请断开设备，重新搜索');
 			}

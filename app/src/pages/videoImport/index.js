@@ -13,7 +13,7 @@ function DownpathModal(props) {
             <div className="downpath-mark" onClick={() => props.toggleModal(false)}></div>
             <div className="downpath-body">
                 <span className="downpath-title">设置视频下载路径</span>
-                <div className="folder-select" onClick={props.openFolderDialog}>
+                <div className="folder-select2" onClick={props.openFolderDialog}>
                     <div className="folder-name">
                         {props.localPath ? <span>{props.localPath}</span> : <span style={{color: '#bfbfbf'}}>选择本地文件夹</span>}
                     </div>
@@ -72,13 +72,16 @@ function VideoLi (props) {
                     <span>{item.name}</span>
                     <span>{size}M</span>
                     <div className="check">
+                        {/* !item.needDownload || item.isFail */}
                         {
-                            !item.needDownload || item.isFail ? 
+                            props.action ? 
                             <Checkbox 
-                            onChange={(e) => props.changeDownloadVideos(e.target.checked, item.kbps)} 
+                            onChange={(e) => props.changeDownloadVideos(e.target.checked, item.kbps, item)} 
                             checked={props.downloadVideos.includes(item.kbps)}>
                             </Checkbox> : 
-                            <span style={{fontSize: '12px', color: '#666'}}>{item.isSuccess ? '已下载' : '下载中'}</span>
+                            <span style={{fontSize: '12px', color: '#666'}}>
+                                {item.needDownload ? (item.isSuccess ? '已下载' : '下载中') : ''}
+                            </span>
                         }
                     </div>
                 </div>
@@ -92,21 +95,17 @@ function VideoLi (props) {
 class VideoImportContainer extends PureComponent {
     state = {
         downloadVideos: [],
+        downloadVideoItems: [],
         ip: '',
         start: 1,
         modalShow: false,
         localPath: '',
-        currentDevice: {}
+        action: false
     }
 
     componentDidMount() {
-        let ip = this.props.history.location.query.ip;
-        let currentDevice = this.props.downloadDevices.find(n => n.ip === ip);
-        console.log(currentDevice, 'currentDevice')
         this.setState({
-            ip,
-            currentDevice,
-            localPath: currentDevice.localPath
+            ip: this.props.currentDevice.ip,
         }, () => {
             this.requestVideos();
         });
@@ -138,11 +137,21 @@ class VideoImportContainer extends PureComponent {
     }
 
     downSure = () => {
-        ipcRenderer.send('change-device-videos-download', {
-            videosKbps: this.state.downloadVideos,
+        // ipcRenderer.send('change-device-videos-download', {
+        //     videosKbps: this.state.downloadVideos,
+        //     ip: this.state.ip,
+        //     localPath: this.state.localPath
+        // });
+        let o = {
+            ...this.props.currentDevice,
             ip: this.state.ip,
             localPath: this.state.localPath
-        });
+        };
+        o['media-files'] = this.state.downloadVideoItems;
+        ipcRenderer.send('change-device-videos-download', o);
+        this.props.dispatch(routerRedux.push({
+            pathname: '/device'
+        }));
     }
 
     requestVideos = () => {
@@ -173,10 +182,6 @@ class VideoImportContainer extends PureComponent {
         });
     }
 
-    handleChange () {
-        // http://192.168.2.208/media/disk0/REC_Folder/thumbnail/NBox__3.mov_1578473840.jpg
-    }
-
     toVideoPlay = (video) => {
         const videos = JSON.parse(JSON.stringify(this.props.currentDeviceVideos));
 
@@ -204,22 +209,36 @@ class VideoImportContainer extends PureComponent {
         });
     }
 
-    changeDownloadVideos = (checked, kbps) => {
+    changeDownloadVideos = (checked, kbps, item) => {
         let downloadVideos = this.state.downloadVideos;
+        let downloadVideoItems = this.state.downloadVideoItems;
+
         if (checked) {
             downloadVideos = [...downloadVideos, kbps];
+            downloadVideoItems = [...downloadVideoItems, item];
         } else {
-
             downloadVideos = downloadVideos.filter(m => m !== kbps);
+            downloadVideoItems = downloadVideoItems.filter(m => m !== kbps);
         }
         this.setState({
-            downloadVideos
+            downloadVideos,
+            downloadVideoItems
         });
     }
 
     setDownload = () => {
         if(!this.props.deviceStatus) {
             message.warning('请断开设备，重新搜索');
+            return;
+        }
+        if (!this.state.action) {
+            this.setState({
+                action: true
+            });
+            return;
+        }
+        if (this.state.downloadVideos.length === 0) {
+            message.warning('请先选择视频');
             return;
         }
         this.toggleModal(true);
@@ -244,19 +263,20 @@ class VideoImportContainer extends PureComponent {
     }
 
     render() {
-        const {currentDeviceVideos} = this.props;
+        const {currentDeviceVideos, currentDevice} = this.props;
         // leftChildren={this.leftChildren()} 
         return (
             <Fragment>
-                <PageHeader backTitle={`${this.state.currentDevice['name']}设备视频详情`}
-                rightText="立即导入" 
+                <PageHeader backTitle={`${currentDevice['name']}设备视频详情`}
+                rightText={this.state.action ? '立即导入' : '创建导入'} 
                 rightClick={this.setDownload}
                 back={this.toBack}></PageHeader>
                 <div className="page-container" style={{marginTop: 20}}>
+                    {this.state.action ? 
                     <header className="video-import-header"> 
                         <Checkbox onChange={this.changeDownloadVideosAll}>全选</Checkbox>
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;已选视频：{this.state.downloadVideos.length}</span>
-                    </header>
+                    </header> : null}
                     <div className="videos-list">
                         <Row type="flex" style={{marginTop: 20}} gutter={[16,16]}>
                             {currentDeviceVideos.map(item => {
@@ -266,6 +286,7 @@ class VideoImportContainer extends PureComponent {
                                     {...this.props} 
                                     ip={this.state.ip}
                                     item={item} 
+                                    action={this.state.action}
                                     toVideoPlay={this.toVideoPlay}
                                     changeDownloadVideos={this.changeDownloadVideos} 
                                     downloadVideos={this.state.downloadVideos}>

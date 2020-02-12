@@ -47,7 +47,7 @@ class CloudCreateContainer extends PureComponent {
         clearInterval(window.loopFetchProjectsTimer);
         window.loopFetchProjectsTimer = null;
         ipcRenderer.send('clear-loop');
-        ipcRenderer.send('clear-devices');
+        // ipcRenderer.send('clear-devices');
     }
 
     render() {
