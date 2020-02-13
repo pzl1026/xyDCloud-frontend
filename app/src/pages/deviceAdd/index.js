@@ -157,7 +157,7 @@ class DeviceAddContainer extends PureComponent {
                 <PageHeader
                     backTitle="添加设备"
                     back={this.toBack}
-                    rightText="提示：请使用计算机连接WLAN：NBOX-638231或NBOX设备当前已连接的WLAN"
+                    rightText="提示：请使用计算机连接设备当前已连接的WLAN"
                     isStr={true}></PageHeader>
                 <div className="page-container">
                     {searching
