@@ -169,7 +169,7 @@ class DeviceRecordContainer extends Component {
         // let devices = this.props.downloadDevices;
         let videosRecords = this.state.videosRecords;
 
-        videosRecords[0].videos = allVideos.filter(item => !item.isSuccess && !item.isFail)
+        videosRecords[0].videos = allVideos.filter(item => !item.isCompleted)
                             .map(item => {
                                 let successCount = item['media-files'].filter(m => m.isSuccess).length;
                                 let count = item['media-files'].length;
@@ -184,12 +184,12 @@ class DeviceRecordContainer extends Component {
         //     return item;
         // });
 
-        videosRecords[1].videos = allVideos.filter(item => item.isSuccess);
+        videosRecords[1].videos = allVideos.filter(item => item.isSuccess && item.isCompleted);
         // devices[1].videos = allVideos.map(item => {
         //     item.successCount = item['media-files'].filter(m => m.isSuccess).length;
         //     return item;
         // });
-        videosRecords[2].videos = allVideos.filter(item => item.isFail);
+        videosRecords[2].videos = allVideos.filter(item => item.isFail && item.isCompleted);
         // videosRecords[2].videos = allVideos.map(item => {
         //     item.failCount = item['media-files'].filter(m => m.isFail).length;
         //     return item;

@@ -103,6 +103,7 @@ export default {
 				dispatch(routerRedux.push({
 					pathname: '/cloud',
 				}));
+				ipcRenderer.send('device-start-download');
 				loopFetchProjects((projects) => {
 					saveProjects(dispatch, projects);
 					dispatch({
