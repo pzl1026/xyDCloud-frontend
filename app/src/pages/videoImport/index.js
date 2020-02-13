@@ -149,6 +149,7 @@ class VideoImportContainer extends PureComponent {
             localPath: this.state.localPath
         };
         o['media-files'] = this.state.downloadVideoItems;
+        console.log(111)
         ipcRenderer.send('change-device-videos-download', o);
         this.props.dispatch(routerRedux.push({
             pathname: '/device'
@@ -270,12 +271,14 @@ class VideoImportContainer extends PureComponent {
         const {currentDeviceVideos, currentDevice} = this.props;
         let currentDeviceVideos2 = JSON.parse(JSON.stringify(currentDeviceVideos));
         currentDeviceVideos2 = currentDeviceVideos2.map(m => {
-            let video = currentDevice['media-files'].find(n => n.kbps === m.kbps);
-            if (video) {
-                return {
-                    ...m,
-                    ...video
-                };
+            if (currentDevice['media-files']) {
+                let video = currentDevice['media-files'].find(n => n.kbps === m.kbps);
+                if (video) {
+                    return {
+                        ...m,
+                        ...video
+                    };
+                }
             }
             return m;
         });

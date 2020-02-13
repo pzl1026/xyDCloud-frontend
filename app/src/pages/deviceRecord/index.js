@@ -40,7 +40,7 @@ const headerFields = [
 ];
 
 function DownlistLi(props) {
-    return props.videos.map(item => {
+    return props.videos.map((item, index) => {
         let lastVal = '';
         let count = item['media-files'].length;
         switch(props.type) {
@@ -57,9 +57,9 @@ function DownlistLi(props) {
         }
         if (count === 0) return null;
         return (
-            <Row className="dl-li" key={item.id}>
+            <Row className="dl-li" key={index}>
                 <Col span={7}>
-                    <span>{item.product.sn}</span>
+                    <span>{item.name}</span>
                 </Col>
                 <Col span={3}>
                     <span>{count}</span>
@@ -149,11 +149,12 @@ class DeviceRecordContainer extends Component {
 
     componentDidMount() {
         ipcRenderer.send('post-devices-videos');
-        this.getVideoTimer = setInterval(() => {
-            ipcRenderer.send('post-all-videos');
-        }, 1000);
+        // this.getVideoTimer = setInterval(() => {
+        //     console.log(827272)
+        //     ipcRenderer.send('post-all-videos');
+        // }, 1000);
    
-        // 获取所有的曾经下载过的跟即将下载以及失败的视频
+        // // 获取所有的曾经下载过的跟即将下载以及失败的视频
         ipcRenderer.on('get-devices-videos', (event, allVideos) => {
             if (!allVideos) return;
             this.getAllStatusVideos(allVideos);
