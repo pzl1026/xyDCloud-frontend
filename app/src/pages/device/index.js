@@ -35,6 +35,15 @@ class DeviceContainer extends PureComponent {
                 type: 'device/saveDownloadDevices',
                 payload: devices || []
             });
+
+            if (devices.length > 0 && this.props.devices.length === 0) {
+                devices.forEach(item => {
+                    this.props.dispatch({
+                        type: 'device/autoLoginDivice',
+                        payload: item
+                    });
+                });
+            }
         });
     }
 

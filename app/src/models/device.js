@@ -89,6 +89,13 @@ export default {
 			ipcRenderer.send('change-device-status', {statusData: json.data, deviceVideo});
 		},
 
+		*autoLoginDivice ({ payload: device }, { call, put, select, take }) {
+			const json = yield call(get2, '', {method: 'login', id: 'Admin', pass: md5('Admin')}, `http://${device.ip}/`);
+			if (json.data.result !== 0) {
+				message.warning(device.name + '设备已断开，请重新搜索并连接');
+			}
+		},
+
 		*getDevice ({ payload: param }, { call, put, select, take }) {
 			let devices = yield select(state => state.device.devices);
 			const json1 = yield call(get2, '', {method: 'login', id: 'Admin', pass: md5('Admin')}, `http://${param.ip}/`);
