@@ -107,6 +107,7 @@ class VideoImportContainer extends PureComponent {
         this.setState({
             ip: this.props.currentDevice.ip,
             tid: this.props.currentDevice.tid,
+            localPath: this.props.localPath
         }, () => {
             this.requestVideos();
         });
@@ -148,8 +149,11 @@ class VideoImportContainer extends PureComponent {
             ip: this.state.ip,
             localPath: this.state.localPath
         };
+        this.props.dispatch({
+            type: 'device/saveLocalPath',
+            payload: this.state.localPath
+        });
         o['media-files'] = this.state.downloadVideoItems;
-        console.log(111)
         ipcRenderer.send('change-device-videos-download', o);
         this.props.dispatch(routerRedux.push({
             pathname: '/device'

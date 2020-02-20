@@ -100,9 +100,12 @@ export default {
 					type: 'saveUserInfo',
 					payload: userInfo
 				});
-				dispatch(routerRedux.push({
-					pathname: '/cloud',
-				}));
+				setTimeout(() => {
+					dispatch(routerRedux.push({
+						pathname: '/cloud',
+					}));
+				}, 3000);
+			
 				ipcRenderer.send('device-start-download');
 				loopFetchProjects((projects) => {
 					saveProjects(dispatch, projects);
@@ -128,11 +131,12 @@ export default {
 			ipcRenderer.on('store-client-user', (event, arg) => {
 				localStorage.setItem(STORE_FIELD, JSON.stringify(arg));
 				handleHasUser(arg);
-				setTimeout(() => {
-					dispatch(routerRedux.push({
-						pathname: '/cloud',
-					}));
-				}, 3000);
+				// setTimeout(() => {
+				// 	console.log(222222)
+				// 	dispatch(routerRedux.push({
+				// 		pathname: '/cloud',
+				// 	}));
+				// }, 3000);
 			});
 
 			ipcRenderer.on('project-render', (event, projects) => {

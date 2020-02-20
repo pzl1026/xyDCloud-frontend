@@ -14,11 +14,17 @@ export default {
 		currentDeviceVideos: [],
 		currentVideosPlay: [],
 		deviceStatus: 1,  //检查设备是否需要重新登录链接,
-		currentDevice: {}
+		currentDevice: {},
+		localPath: ''
 	},
 	reducers: {
         saveMyHost (state, { payload: myHost}) {
             return {...state, myHost}
+		},
+
+		saveLocalPath (state, { payload: localPath}) {
+			console.log(localPath, 'localPath')
+            return {...state, localPath}
         },
 
         saveDevices (state, { payload: devices}) {
@@ -86,7 +92,13 @@ export default {
 		*checkDeviceStatus ({ payload:  {deviceVideo}  }, { call, put, select, take }) {
 			const json = yield call(get2, '', {method: 'get-status'}, `http://${deviceVideo.ip}/`);
 
-			ipcRenderer.send('change-device-status', {statusData: json.data, deviceVideo});
+			if (json.data.result === -17) {
+				const json2 = yield call(get2, '', {method: 'login', id: 'Admin', pass: md5('Admin')}, `http://${deviceVideo.ip}/`);
+
+				ipcRenderer.send('change-device-status', {statusData: json2.data, deviceVideo});
+			} else {
+				ipcRenderer.send('change-device-status', {statusData: json.data, deviceVideo});
+			}
 		},
 
 		*autoLoginDivice ({ payload: device }, { call, put, select, take }) {
