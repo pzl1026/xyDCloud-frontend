@@ -23,7 +23,6 @@ export default {
 		},
 
 		saveLocalPath (state, { payload: localPath}) {
-			console.log(localPath, 'localPath')
             return {...state, localPath}
         },
 
@@ -57,23 +56,28 @@ export default {
 	},
 	effects: {
 		*loginDevice ({ payload: {param, cb, productId, ip} }, { call, put, select, take }) {
-			const json = yield call(get2, '', param, `http://${ip}/`);
-			if (json.data.result === 0) {
-				let devices = yield select(state => state.device.devices);
-				let downloadDevices = yield select(state => state.device.downloadDevices);
-				let device = devices.find(item => item.product['product-id'] === productId);
-				let downloadDevice = downloadDevices.find(item => item.product['product-id'] === productId);
-				yield put({ type: 'saveDeviceStatus', payload: 1});
-				if (device && !downloadDevice) {
-					// let downloadDevices2 = [...downloadDevices, device];
-					// yield put({ type: 'saveDownloadDevices', payload: downloadDevices2}); 
-					device['media-files'] = [];
-					device['ip'] = ip;
-					// ipcRenderer.send('save-device', device);
-				}
-				cb();
+			const json1 = yield call(get2, '', {method: 'login', id: 'Admin', pass: md5('Admin')}, `http://${ip}/`);
+			if (json1.data.result !== 0) {
+				message.warning('设备已断开，请重新搜索并连接');
 			} else {
-				message.warning('登录失败，请检查设备是否正常或用户密码错误');
+				const json = yield call(get2, '', param, `http://${ip}/`);
+				if (json.data.result === 0) {
+					let devices = yield select(state => state.device.devices);
+					let downloadDevices = yield select(state => state.device.downloadDevices);
+					let device = devices.find(item => item.product['product-id'] === productId);
+					let downloadDevice = downloadDevices.find(item => item.product['product-id'] === productId);
+					yield put({ type: 'saveDeviceStatus', payload: 1});
+					if (device && !downloadDevice) {
+						// let downloadDevices2 = [...downloadDevices, device];
+						// yield put({ type: 'saveDownloadDevices', payload: downloadDevices2}); 
+						device['media-files'] = [];
+						device['ip'] = ip;
+						// ipcRenderer.send('save-device', device);
+					}
+					cb();
+				} else {
+					message.warning('登录失败，请检查设备是否正常或用户密码错误');
+				}
 			}
 		},
 

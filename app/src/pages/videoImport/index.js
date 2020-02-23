@@ -65,7 +65,7 @@ function VideoLi (props) {
     return (
         <div className="video-li">
             <div className="video-li-body">
-                <div className="video-li-img" onClick={() => props.toVideoPlay(1, item)}>
+                <div className="video-li-img" onClick={() => props.pingIp(1, item)}>
                     <img src={`http://${props.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                 </div>
                 <div className="video-li-info">
@@ -123,7 +123,8 @@ class VideoImportContainer extends PureComponent {
                 pathname: '/device'
             }));
         });
-        ipcRenderer.on('ping-pass', (event, isAlive) => {
+        ipcRenderer.on('ping-pass3', (event, isAlive) => {
+            message.destroy();
             if (isAlive) {
                 if (this.state.pingType === 1) {
                     this.toVideoPlay(this.state.video);
@@ -132,7 +133,7 @@ class VideoImportContainer extends PureComponent {
                     this.downSure();
                 }
             } else {
-                message.warning('设备异常,请重新搜索');
+                message.warning('设备异常,请重新搜索链接');
             }
         });
     }
@@ -146,7 +147,7 @@ class VideoImportContainer extends PureComponent {
         this.setState({
             pingType
         });
-        ipcRenderer.send('emit-device-connect', this.state.ip);
+        ipcRenderer.send('emit-device-connect3', this.state.ip);
     }
 
     componentWillUnmount() {
@@ -338,7 +339,7 @@ class VideoImportContainer extends PureComponent {
                                         ip={this.state.ip}
                                         item={item} 
                                         action={this.state.action}
-                                        toVideoPlay={this.pingIp}
+                                        pingIp={this.pingIp}
                                         changeDownloadVideos={this.changeDownloadVideos} 
                                         downloadVideos={this.state.downloadVideos}>
                                         </VideoLi>

@@ -9,6 +9,11 @@ import md5 from 'js-md5';
 import './index.scss';
 const {ipcRenderer} = window.require('electron');
 
+// message.config({
+//     duration: 2,
+//     maxCount: 1,
+// });
+
 function PasswordModal(props) {
     return (
         <div className="password-modal">
@@ -55,7 +60,8 @@ class DeviceAddContainer extends PureComponent {
         productId: '',
         ip: '',
         id:'Admin',
-        pass: ''
+        pass: '',
+        logining: false
     }
 
     changeId = (e) => {
@@ -72,7 +78,7 @@ class DeviceAddContainer extends PureComponent {
     }
 
     pingIp = () => {
-        ipcRenderer.send('emit-device-connect', this.state.ip);
+        ipcRenderer.send('emit-device-connect2', this.state.ip);
     }
 
     loginDevice = () => {
@@ -118,13 +124,20 @@ class DeviceAddContainer extends PureComponent {
             self.setState({searching: false});
             self.saveDevices(devicesIps);
         });
-        ipcRenderer.on('ping-pass', (event, isAlive) => {
+        ipcRenderer.on('ping-pass2', (event, isAlive) => {
+            message.destroy();
             if (isAlive) {
                 self.loginDevice();
             } else {
                 message.warning('设备异常,请重新搜索');
             }
         });
+    }
+
+    componentWillUnmount () {
+        // ipcRenderer.removeListener('get-devices-searching', () => {});
+        // ipcRenderer.removeListener('complete-devices-search', () => {});
+        // ipcRenderer.removeListener('ping-pass2', () => {});
     }
 
     searchDevices = () => {
@@ -179,7 +192,7 @@ class DeviceAddContainer extends PureComponent {
                 <PageHeader
                     backTitle="添加设备"
                     back={this.toBack}
-                    rightText="提示：请确保计算机设备设置与nbox设备在同一wife网络环境下或直连nbox设备热点。"
+                    rightText="提示：请确保计算机设备设置与nbox设备在同一wifi网络环境下或直连nbox设备热点。"
                     isStr={true}></PageHeader>
                 {devices.length > 0 || searching ? 
                 <div className="page-container">
@@ -215,7 +228,7 @@ class DeviceAddContainer extends PureComponent {
                     changePass={this.changePass}
                     pingIp={this.pingIp}></PasswordModal>
                     : null}
-                <DownlistEmpty></DownlistEmpty>
+                {!searching && devices.length === 0 ? <DownlistEmpty></DownlistEmpty> : null}
             </Fragment>
         );
     }

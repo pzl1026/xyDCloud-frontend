@@ -42,16 +42,24 @@ class DownlistLi extends PureComponent {
         //     message.warning('请先设置设备文件需要下载到的本地文件夹');
         //     return;
         // }
-        this.props.dispatch({
-            type: 'device/saveCurrentDevice',
-            payload: device
+        ipcRenderer.send('emit-device-connect5', device.ip);
+        ipcRenderer.on('ping-pass5', (event, isAlive) => {
+            if (isAlive) {
+                this.props.dispatch({
+                    type: 'device/saveCurrentDevice',
+                    payload: device
+                });
+                this
+                .props
+                .dispatch(routerRedux.push({pathname: '/videoimport', query: {
+                        ip: device.ip,
+                        tid: device.tid
+                    }}));
+            } else {
+                message.warning('设备异常,请重新搜索链接');
+            }
         });
-        this
-        .props
-        .dispatch(routerRedux.push({pathname: '/videoimport', query: {
-                ip: device.ip,
-                tid: device.tid
-            }}));
+       
     }
 
     setPath = (e, item) => {

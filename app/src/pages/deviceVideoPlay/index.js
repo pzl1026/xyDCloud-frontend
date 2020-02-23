@@ -50,15 +50,15 @@ class DeviceVideoPlay extends PureComponent {
     }
 
     changeVideoPlay (playVideo, index) {
-        ipcRenderer.send('emit-device-connect', this.state.ip);
-        ipcRenderer.on('ping-pass', (event, isAlive) => {
+        ipcRenderer.send('emit-device-connect4', this.state.ip);
+        ipcRenderer.on('ping-pass4', (event, isAlive) => {
             if (isAlive) {
                 this.setState({
                     playVideo,
                     activeSlide: index
                 });
             } else {
-                message.warning('设备异常,请重新搜索');
+                message.warning('设备异常,请重新搜索链接');
             }
         });
     }
