@@ -65,7 +65,7 @@ function VideoLi (props) {
     return (
         <div className="video-li">
             <div className="video-li-body">
-                <div className="video-li-img" onClick={() => props.pingIp(1, item)}>
+                <div className="video-li-img" onClick={() => props.pingIp(item)}>
                     <img src={`http://${props.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                 </div>
                 <div className="video-li-info">
@@ -126,28 +126,31 @@ class VideoImportContainer extends PureComponent {
         ipcRenderer.on('ping-pass3', (event, isAlive) => {
             message.destroy();
             if (isAlive) {
-                if (this.state.pingType === 1) {
-                    this.toVideoPlay(this.state.video);
-                }
-                if (this.state.pingType === 2) {
-                    this.downSure();
-                }
+                this.toVideoPlay(this.state.video);
+            } else {
+                message.warning('设备异常,请重新搜索链接');
+            }
+        });
+
+        ipcRenderer.on('ping-pass6', (event, isAlive) => {
+            message.destroy();
+            if (isAlive) {
+                this.downSure();
             } else {
                 message.warning('设备异常,请重新搜索链接');
             }
         });
     }
 
-    pingIp = (pingType, video) => {
-        if (pingType === 1) {
-            this.setState({
-                video
-            });
-        }
+    pingIp = (video) => {
         this.setState({
-            pingType
+            video
         });
         ipcRenderer.send('emit-device-connect3', this.state.ip);
+    }
+
+    pingIp2 = () => {
+        ipcRenderer.send('emit-device-connect6', this.state.ip);
     }
 
     componentWillUnmount() {
@@ -354,7 +357,7 @@ class VideoImportContainer extends PureComponent {
                     localPath={this.state.localPath}
                     toggleModal={this.toggleModal}
                     openFolderDialog={this.openFolderDialog} 
-                    downSure={this.pingIp}/>: 
+                    downSure={this.pingIp2}/>: 
                 null}
             </Fragment>
         );

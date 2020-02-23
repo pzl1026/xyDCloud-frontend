@@ -72,7 +72,7 @@ class DeviceVideoPlay extends PureComponent {
     render() {
         const {currentVideosPlay} = this.props;
         const {playVideo,ip, activeSlide} = this.state;
-
+        if (!playVideo) return null;
         return (
             <Fragment>
                 <PageHeader 
