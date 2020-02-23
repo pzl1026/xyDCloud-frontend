@@ -44,6 +44,7 @@ class DownlistLi extends PureComponent {
         // }
         ipcRenderer.send('emit-device-connect5', device.ip);
         ipcRenderer.on('ping-pass5', (event, isAlive) => {
+            message.destroy();
             if (isAlive) {
                 this.props.dispatch({
                     type: 'device/saveCurrentDevice',

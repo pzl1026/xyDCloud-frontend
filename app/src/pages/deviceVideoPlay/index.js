@@ -79,8 +79,8 @@ class DeviceVideoPlay extends PureComponent {
                 backTitle="视频播放" 
                 isStr={1} 
                 back={this.toBack}></PageHeader>
-                <div className="video-play-list">
-                    <Row className="page-container" type="flex" justify="center" gutter={16}>
+                <div className="video-play-list" style={{marginTop: '-26px'}}>
+                    <Row className="page-container" type="flex" justify="center" gutter={16} >
                         <Col span={24}>
                             <div className="video-play-body">
                                 <div className="video-title">{playVideo.name}</div>
@@ -109,7 +109,10 @@ class DeviceVideoPlay extends PureComponent {
                                                     className="video-play-li" 
                                                     style={{border: index === activeSlide ? '2px solid #4051f9' : ''}}
                                                     onClick={() => this.changeVideoPlay(item, index)}>
-                                                    <img src={`http://${this.state.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
+                                                        <img src={`http://${this.state.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
+                                                        <div className="video-cover">
+                                                            {item.name}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )
