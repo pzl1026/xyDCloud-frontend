@@ -40,7 +40,8 @@ export default {
 		prModalShow: false,
 		userInfo: {},
 		version: '',
-		newVersion: ''
+		newVersion: '',
+		versionDownloadUrl: ''
 	},
 	reducers: {
 		saveXcxShow(state, { payload: xcxShow}) {
@@ -61,6 +62,10 @@ export default {
 
 		saveNewVersion(state, { payload: newVersion}) {
 			return {...state, newVersion};
+		},
+
+		saveVersionDownloadUrl(state, { payload: versionDownloadUrl}) {
+			return {...state, versionDownloadUrl};
 		},
 	},
 	effects: {
@@ -90,6 +95,7 @@ export default {
 			console.log(json);
 			if (json.data) {
 				yield put({ type: 'saveNewVersion', payload: json.data.version});
+				yield put({ type: 'saveVersionDownloadUrl', payload: json.data.downloadUrl});
 			}
 		},
 	},
@@ -148,7 +154,7 @@ export default {
 
 			//检查网络是否断网
 			checkNetwork();
-
+			
 			// 检查版本
 			setInterval(() => {
 				dispatch({

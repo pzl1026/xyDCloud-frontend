@@ -34,7 +34,9 @@ class CloudCreateContainer extends PureComponent {
     }
 
     openNewVersionUrl = () => {
-        ipcRenderer.send('open-version-url');
+        if (!this.props.versionDownloadUrl) return;
+        console.log(this.props.versionDownloadUrl, 'this.props.versionDownloadUrl')
+        ipcRenderer.send('open-version-url', this.props.versionDownloadUrl);
     }
 
     setStart = (e) => {
