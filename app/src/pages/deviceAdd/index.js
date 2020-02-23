@@ -1,7 +1,7 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import {Icon} from 'antd';
+import {Icon, message} from 'antd';
 import PageHeader from '@components/PageHeader';
 // import {groupArr} from '@helper/utils';
 import {routerRedux} from 'dva/router';
@@ -23,11 +23,21 @@ function PasswordModal(props) {
                     <span>密码：</span>
                     <input type="password" onChange={props.changePass}/>
                 </div>
-                <button className="btn1" onClick={props.loginDevice}>确认</button>
+                <button className="btn1" onClick={props.pingIp}>确认</button>
             </div>
         </div>
     );
 }
+
+function DownlistEmpty (props) {
+    return (
+        <div className="downlist-empty">
+            <img src={require('../../assets/empty.png')} alt=""/>
+            <span>当前无可用设备</span>
+        </div>
+    );
+}
+
 
 function mapStateToProps(state) {
     return {
@@ -61,6 +71,10 @@ class DeviceAddContainer extends PureComponent {
         });
     }
 
+    pingIp = () => {
+        ipcRenderer.send('emit-device-connect', this.state.ip);
+    }
+
     loginDevice = () => {
         const self =this;
         let o = {
@@ -70,6 +84,7 @@ class DeviceAddContainer extends PureComponent {
         o['is-pass'] = 1;
         o['pass'] = password;
         o['new-pass'] = password;
+
         this.props.dispatch({
             type: 'device/loginDevice',
             payload: {
@@ -102,6 +117,13 @@ class DeviceAddContainer extends PureComponent {
         ipcRenderer.on('complete-devices-search', (event, devicesIps) => {
             self.setState({searching: false});
             self.saveDevices(devicesIps);
+        });
+        ipcRenderer.on('ping-pass', (event, isAlive) => {
+            if (isAlive) {
+                self.loginDevice();
+            } else {
+                message.warning('设备异常,请重新搜索');
+            }
         });
     }
 
@@ -157,8 +179,9 @@ class DeviceAddContainer extends PureComponent {
                 <PageHeader
                     backTitle="添加设备"
                     back={this.toBack}
-                    rightText="提示：请使用计算机连接设备当前已连接的WLAN"
+                    rightText="提示：请确保计算机设备设置与nbox设备在同一wife网络环境下或直连nbox设备热点。"
                     isStr={true}></PageHeader>
+                {devices.length > 0 || searching ? 
                 <div className="page-container">
                     {searching
                         ? <div className="loading-container device-searching" style={{width: 'auto'}}>
@@ -179,7 +202,7 @@ class DeviceAddContainer extends PureComponent {
                                 )
                             })}
                         </ul>}
-                </div>
+                </div> : null}
                 {searching
                     ? null
                     : <div className="device-search">
@@ -190,8 +213,9 @@ class DeviceAddContainer extends PureComponent {
                     toggleModal={this.toggleModal} 
                     changeId={this.changeId} 
                     changePass={this.changePass}
-                    loginDevice={this.loginDevice}></PasswordModal>
+                    pingIp={this.pingIp}></PasswordModal>
                     : null}
+                <DownlistEmpty></DownlistEmpty>
             </Fragment>
         );
     }

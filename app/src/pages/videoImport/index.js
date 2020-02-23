@@ -21,7 +21,7 @@ function DownpathModal(props) {
                 </div>
                 <div className="downpath-btn">
                     <button className="btn1 downpath-cancel" onClick={() => props.toggleModal(false)}>取消</button>
-                    <button className="btn1 downpath-sure" onClick={props.downSure}>确认</button>
+                    <button className="btn1 downpath-sure" onClick={() => props.downSure(2)}>确认</button>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@ function VideoLi (props) {
     return (
         <div className="video-li">
             <div className="video-li-body">
-                <div className="video-li-img" onClick={() => props.toVideoPlay(item)}>
+                <div className="video-li-img" onClick={() => props.toVideoPlay(1, item)}>
                     <img src={`http://${props.ip}/media/disk0/REC_Folder/thumbnail/${item['thumbnail-name']}.jpg`} alt=""/>
                 </div>
                 <div className="video-li-info">
@@ -100,7 +100,9 @@ class VideoImportContainer extends PureComponent {
         start: 1,
         modalShow: false,
         localPath: '',
-        action: false
+        action: false,
+        pingType: 0,
+        video: {}
     }
 
     componentDidMount() {
@@ -121,11 +123,39 @@ class VideoImportContainer extends PureComponent {
                 pathname: '/device'
             }));
         });
+        ipcRenderer.on('ping-pass', (event, isAlive) => {
+            if (isAlive) {
+                if (this.state.pingType === 1) {
+                    this.toVideoPlay(this.state.video);
+                }
+                if (this.state.pingType === 2) {
+                    this.downSure();
+                }
+            } else {
+                message.warning('设备异常,请重新搜索');
+            }
+        });
+    }
+
+    pingIp = (pingType, video) => {
+        if (pingType === 1) {
+            this.setState({
+                video
+            });
+        }
+        this.setState({
+            pingType
+        });
+        ipcRenderer.send('emit-device-connect', this.state.ip);
     }
 
     componentWillUnmount() {
         clearInterval(this.getTimer);
         this.getTimer = null;
+        this.props.dispatch({
+            type: 'device/saveCurrentDeviceVideos',
+            payload:[]
+        });
     }
 
     toggleModal = (modalShow) => {
@@ -308,7 +338,7 @@ class VideoImportContainer extends PureComponent {
                                         ip={this.state.ip}
                                         item={item} 
                                         action={this.state.action}
-                                        toVideoPlay={this.toVideoPlay}
+                                        toVideoPlay={this.pingIp}
                                         changeDownloadVideos={this.changeDownloadVideos} 
                                         downloadVideos={this.state.downloadVideos}>
                                         </VideoLi>
@@ -323,7 +353,7 @@ class VideoImportContainer extends PureComponent {
                     localPath={this.state.localPath}
                     toggleModal={this.toggleModal}
                     openFolderDialog={this.openFolderDialog} 
-                    downSure={this.downSure}/>: 
+                    downSure={this.pingIp}/>: 
                 null}
             </Fragment>
         );

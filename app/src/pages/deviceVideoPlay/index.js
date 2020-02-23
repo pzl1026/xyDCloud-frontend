@@ -1,13 +1,13 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'dva';
 import withRouter from 'umi/withRouter';
-import {Row, Col} from 'antd';
+import {Row, Col, message} from 'antd';
 import PageHeader from '@components/PageHeader';
 import {routerRedux} from 'dva/router';
 import { Player , ControlBar, BigPlayButton  } from 'video-react';
 import "video-react/dist/video-react.css";
 import './index.scss';
-
+const { ipcRenderer } = window.require('electron');
 function mapStateToProps(state) {
     return {
         ...state.user,
@@ -46,13 +46,20 @@ class DeviceVideoPlay extends PureComponent {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-        })
+        });
     }
 
     changeVideoPlay (playVideo, index) {
-        this.setState({
-            playVideo,
-            activeSlide: index
+        ipcRenderer.send('emit-device-connect', this.state.ip);
+        ipcRenderer.on('ping-pass', (event, isAlive) => {
+            if (isAlive) {
+                this.setState({
+                    playVideo,
+                    activeSlide: index
+                });
+            } else {
+                message.warning('设备异常,请重新搜索');
+            }
         });
     }
 
