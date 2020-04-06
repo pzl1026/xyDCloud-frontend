@@ -6,6 +6,8 @@ import {message, Checkbox} from 'antd';
 import {queryData2Md5} from '@helper/utils';
 import './index.scss';
 
+const { ipcRenderer } = window.require('electron');
+
 function mapStateToProps(state) {
     return {
         ...state.user
@@ -104,6 +106,12 @@ class PhoneLoginContainer extends PureComponent {
         });
     }
 
+    openHandbook = (e) => {
+        e.stopPropagation();
+        ipcRenderer.send('open-handbook');
+        return false;
+    }
+
     render() {
         const {phone, sms_code, sendDisable, sendSec, isAgree} = this.state;
         return (
@@ -162,7 +170,9 @@ class PhoneLoginContainer extends PureComponent {
                 </div> */}
 
                 <div className="login-tip">
-                    <Checkbox onChange={this.changeHandbook}>我已阅读并同意《新阅用户使用手册》</Checkbox>
+                    <Checkbox onChange={this.changeHandbook}>我已阅读并同意《
+                    <span onClick={this.openHandbook} style={{color:'#4051f9'}}>新阅用户使用手册</span>
+                    》</Checkbox>
                 </div>
                 
             </Fragment>
